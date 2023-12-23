@@ -1,3 +1,5 @@
+#include "Property.h"
+
 class Player{
 
     public:
