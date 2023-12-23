@@ -1,5 +1,3 @@
-#include "Property.h"
-
 class Player{
 
     public:
@@ -7,7 +5,6 @@ class Player{
         Player();
 
         //Booleani
-        bool isMine(const Property& property);
         bool isLose();
         bool isBot();
 

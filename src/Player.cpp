@@ -35,10 +35,6 @@ bool Player::isBot(){
     return bot;
 }
 
-bool Player::isMine(const Property& property) const {
-    return (property.getOwner() == this);
-}
-
 bool Player::isLose(){
     if (fiorini < 0)
         return true; 
