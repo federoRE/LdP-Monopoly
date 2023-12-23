@@ -1,10 +1,10 @@
 #include "Player.h"
 
-Player::Player(){
+Player::Player(bool bot){
     position = 0;
     roll = 1;
     fiorini = 100;
-    bot = true;
+    this->bot = bot;
 }
 
 int Player::getPos(){

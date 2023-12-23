@@ -2,7 +2,7 @@ class Player{
 
     public:
         //Costruttori
-        Player();
+        Player(bool bot);
 
         //Booleani
         bool isLose();
