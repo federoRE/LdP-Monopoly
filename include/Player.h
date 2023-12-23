@@ -22,8 +22,8 @@ class Player{
         void incPos(int roll);
 
     private:
-        int position;
-        int roll;
-        int fiorini;
-        bool bot;
+        int position_;
+        int roll_;
+        int fiorini_;
+        bool bot_;
 };

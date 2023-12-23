@@ -1,6 +1,12 @@
 #include <string>
 #include "Player.h"
 
+/**
+ * @brief Property class
+ * 
+ * TODO: gestire nome casella ('H7' ecc)
+*/
+
 class Property
 {
 private:

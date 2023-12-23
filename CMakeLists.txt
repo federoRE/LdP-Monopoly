@@ -8,8 +8,20 @@ set(PROJECT_NAME LdP-Monopoly)
 project(${PROJECT_NAME} VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 
-set(SRC_FILES src/Book.cpp src/Date.cpp src/BookShelf.cpp)
-set(HEADER_FILES include/Book.h include/Date.h include/BookShelf.h)
+set(
+    SRC_FILES 
+    src/CircularArray.cpp 
+    src/Player.cpp 
+    src/Property.cpp
+    )
+
+set(
+    HEADER_FILES 
+    include/CircularArray.h 
+    include/Player.h 
+    include/Property.h
+    )
+
 SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
@@ -21,8 +33,9 @@ add_library(
     ${SRC_FILES} 
     ${HEADER_FILES}
     )
+# MAIN EXECUTABLE
 add_executable(
-    Books 
+    ${PROJECT_NAME} 
     src/main.cpp
     )
 target_link_libraries(
@@ -30,25 +43,34 @@ target_link_libraries(
     ${PROJECT_NAME}
     )
 
-# TESTING
+# TESTING EXECUTABLES
 add_executable(
-    book_test
-    src/testing/book_test.cpp
+    player_test
+    src/tests/book_test.cpp
     )
 add_executable(
-    library_test
-    src/testing/library_prof_test.cpp
+    property_test
+    src/tests/property_test.cpp
     )
-target_link_libraries(book_test ${PROJECT_NAME})
-target_link_libraries(library_test ${PROJECT_NAME})
+add_executable(
+    CircularArray_test
+    src/tests/CircularArray_test.cpp
+    )
+target_link_libraries(player_test ${PROJECT_NAME})
+target_link_libraries(property_test ${PROJECT_NAME})
+target_link_libraries(CircularArray_test ${PROJECT_NAME})
 enable_testing()
 
 add_test(
-    NAME book_test
-    COMMAND $<TARGET_FILE:book_test>
+    NAME player_test
+    COMMAND $<TARGET_FILE:player_test>
 )
 add_test(
-    NAME library_test
-    COMMAND $<TARGET_FILE:library_test>
+    NAME property_test
+    COMMAND $<TARGET_FILE:property_test>
+)
+add_test(
+    NAME CircularArray_test
+    COMMAND $<TARGET_FILE:CircularArray_test>
 )
 

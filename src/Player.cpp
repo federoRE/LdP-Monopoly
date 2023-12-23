@@ -1,45 +1,45 @@
 #include "Player.h"
 
 Player::Player(bool bot){
-    position = 0;
-    roll = 1;
-    fiorini = 100;
-    this->bot = bot;
+    position_ = 0;
+    roll_ = 1;
+    fiorini_ = 100;
+    this->bot_ = bot;
 }
 
 int Player::getPos(){
-    return position;
+    return position_;
 }
 
 int Player::getFiorini(){
-    return fiorini;
+    return fiorini_;
 }
 
 int Player::getRoll(){
-    return roll;
+    return roll_;
 }
 
 void Player::setPos(int position){
-    this->position = position;
+    this->position_ = position;
 }
 
 void Player::setFiorini(int fiorini){
-    this->fiorini = fiorini;
+    this->fiorini_ = fiorini;
 }
 
 void Player::setRoll(int roll){
-    this->roll = roll;
+    this->roll_ = roll;
 }
 
 bool Player::isBot(){
-    return bot;
+    return bot_;
 }
 
 bool Player::isLose(){
-    if (fiorini < 0)
+    if (fiorini_ < 0)
         return true; 
 }
 
 void Player::incPos(int roll){
-    position += roll;
+    position_ += roll;
 }
