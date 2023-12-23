@@ -50,11 +50,20 @@ add_executable(
     player_array_prop_test
     src/tests/player_array_prop_test.cpp
     )
-target_link_libraries(player_array_prop_test.cpp ${PROJECT_NAME})
+add_executable(
+    logger_test
+    src/tests/logger_test.cpp
+    )
+target_link_libraries(player_array_prop_test ${PROJECT_NAME})
+target_link_libraries(logger_test ${PROJECT_NAME})
 enable_testing()
 
+
 add_test(
-    NAME player_array_prop_test.cpp
+    NAME player_array_prop_test
     COMMAND $<TARGET_FILE:player_array_prop_test.cpp>
 )
-
+add_test(
+    NAME logger_test
+    COMMAND $<TARGET_FILE:logger_test.cpp>
+)
