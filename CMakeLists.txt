@@ -47,32 +47,14 @@ target_link_libraries(
 
 # TESTING EXECUTABLES
 add_executable(
-    player_test
-    src/tests/book_test.cpp
+    player_array_prop_test
+    src/tests/player_array_prop_test.cpp
     )
-add_executable(
-    property_test
-    src/tests/property_test.cpp
-    )
-add_executable(
-    CircularArray_test
-    src/tests/CircularArray_test.cpp
-    )
-target_link_libraries(player_test ${PROJECT_NAME})
-target_link_libraries(property_test ${PROJECT_NAME})
-target_link_libraries(CircularArray_test ${PROJECT_NAME})
+target_link_libraries(player_array_prop_test.cpp ${PROJECT_NAME})
 enable_testing()
 
 add_test(
-    NAME player_test
-    COMMAND $<TARGET_FILE:player_test>
-)
-add_test(
-    NAME property_test
-    COMMAND $<TARGET_FILE:property_test>
-)
-add_test(
-    NAME CircularArray_test
-    COMMAND $<TARGET_FILE:CircularArray_test>
+    NAME player_array_prop_test.cpp
+    COMMAND $<TARGET_FILE:player_array_prop_test.cpp>
 )
 

@@ -32,9 +32,13 @@ public:
      * @brief Construct a new Property object
      * @param prop_class Property's class value
      * @param land_value Property's land value
+     * @param house_value Property's house value
+     * @param hotel_value Property's hotel value
+     * @param house_rent Property's house rent
+     * @param hotel_rent Property's hotel rent
     */
     Property(
-        char* prop_class, 
+        char prop_class, 
         int land_value, 
         int house_value, 
         int hotel_value, 
