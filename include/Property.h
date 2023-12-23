@@ -18,6 +18,8 @@ private:
 
     int level_; // Property's level: 0 = land, 1 = house, 2 = hotel)
 
+    std::string cell_id_legenda_; // Property's cell id
+
 public:
     // Constructor
     /**
@@ -47,6 +49,10 @@ public:
 
     // Setters
     void setOwner(Player* owner);
+    void setLegenda(std::string cell_id_legenda);
 
+    // Getters
+    Player* getOwner() const;
+    std::string getLegenda() const;
 
 };
