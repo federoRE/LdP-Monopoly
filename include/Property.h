@@ -1,3 +1,6 @@
+#ifndef PROPERTY_H
+#define PROPERTY_H
+
 #include <string>
 #include "Player.h"
 
@@ -66,3 +69,5 @@ public:
     std::string getLegenda() const;
 
 };
+
+#endif // PROPERTY_H

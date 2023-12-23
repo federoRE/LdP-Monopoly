@@ -1,3 +1,6 @@
+#ifndef CIRCULAR_ARRAY_H
+#define CIRCULAR_ARRAY_H
+
 #include <string>
 #include <stdexcept>
 
@@ -53,3 +56,4 @@ CircularArray::~CircularArray()
 }
 */
 
+#endif // CIRCULAR_ARRAY_H

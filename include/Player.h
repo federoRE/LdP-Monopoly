@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 class Player{
 
     public:
@@ -27,3 +30,5 @@ class Player{
         int fiorini_;
         bool bot_;
 };
+
+#endif

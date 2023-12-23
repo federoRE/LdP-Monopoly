@@ -36,8 +36,7 @@ bool Player::isBot(){
 }
 
 bool Player::isLose(){
-    if (fiorini_ < 0)
-        return true; 
+    return fiorini_ < 0;
 }
 
 void Player::incPos(int roll){
