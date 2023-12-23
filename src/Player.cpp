@@ -5,6 +5,7 @@ Player::Player(){
     position = 0;
     roll = 1;
     fiorini = 0;
+    bot = true;
 }
 
 int Player::getPos(){
@@ -30,3 +31,17 @@ void Player::setFiorini(int fiorini){
 void Player::setRoll(int roll){
     this->roll = roll;
 }
+
+bool Player::isBot(){
+    return bot;
+}
+
+bool Player::isMine(const Property& property) const {
+    return (property.getOwner() == this);
+}
+
+bool Player::isLose(){
+    if (fiorini < 0)
+        return true; 
+}
+

@@ -5,7 +5,7 @@ class Player{
         Player();
 
         //Booleani
-        bool isMine();
+        bool isMine(const Property& property);
         bool isLose();
         bool isBot();
 
@@ -23,4 +23,5 @@ class Player{
         int position;
         int roll;
         int fiorini;
+        bool bot;
 };
