@@ -21,6 +21,9 @@ class Player{
         void setFiorini(int fiorini);
         void setRoll(int roll);
 
+        //Functions
+        void incPos(int roll);
+
     private:
         int position;
         int roll;

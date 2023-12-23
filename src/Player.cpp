@@ -3,7 +3,7 @@
 Player::Player(){
     position = 0;
     roll = 1;
-    fiorini = 0;
+    fiorini = 100;
     bot = true;
 }
 
@@ -44,3 +44,6 @@ bool Player::isLose(){
         return true; 
 }
 
+void Player::incPos(int roll){
+    position += roll;
+}
