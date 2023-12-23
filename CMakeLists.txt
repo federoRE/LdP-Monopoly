@@ -37,11 +37,11 @@ add_library(
     )
 # MAIN EXECUTABLE
 add_executable(
-    ${PROJECT_NAME} 
+    Monopoly
     src/main.cpp
     )
 target_link_libraries(
-    ${PROJECT_NAME}  
+    Monopoly 
     ${PROJECT_NAME}
     )
 
@@ -60,10 +60,10 @@ enable_testing()
 
 
 add_test(
-    NAME player_array_prop_test
-    COMMAND $<TARGET_FILE:player_array_prop_test.cpp>
+    NAME player_array_prop_test.cpp
+    COMMAND $<TARGET_FILE:player_array_prop_test>
 )
 add_test(
     NAME logger_test
-    COMMAND $<TARGET_FILE:logger_test.cpp>
+    COMMAND $<TARGET_FILE:logger_test>
 )
