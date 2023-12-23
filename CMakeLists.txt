@@ -13,6 +13,7 @@ set(
     src/CircularArray.cpp 
     src/Player.cpp 
     src/Property.cpp
+    src/Logger.cpp
     )
 
 set(
@@ -20,6 +21,7 @@ set(
     include/CircularArray.h 
     include/Player.h 
     include/Property.h
+    include/Logger.h
     )
 
 SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
@@ -39,7 +41,7 @@ add_executable(
     src/main.cpp
     )
 target_link_libraries(
-    Books 
+    ${PROJECT_NAME}  
     ${PROJECT_NAME}
     )
 
