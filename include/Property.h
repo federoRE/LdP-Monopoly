@@ -8,6 +8,7 @@
  * @brief Property class
  * 
  * TODO: gestire nome casella ('H7' ecc)
+ * TODO: gestire casella in corner
 */
 
 class Property
@@ -40,6 +41,15 @@ public:
      * @param house_rent Property's house rent
      * @param hotel_rent Property's hotel rent
     */
+    Property() : owner_(nullptr), level_(0) {
+        prop_class_ = ' ';
+        land_value_ = 0;
+        house_value_ = 0;
+        hotel_value_ = 0;
+        house_rent_ = 0;
+        hotel_rent_ = 0;
+    };
+
     Property(
         char prop_class, 
         int land_value, 

@@ -1,18 +1,12 @@
-#include "Player.h"
-#include "Property.h"
 #include "CircularArray.h"
 
 #include <iostream>
 
-int main(){
-    Player p1(false);
-    Player p2(true);
+int main(int argc, char* argv[]){
+    CircularArray<std::string> prop_array;
+    prop_array.push("ciao");
+    std::cout << prop_array.pop() << std::endl;
 
-    Property prop1('L', 20, 10, 10, 7, 14);
-    Property prop2('S', 10, 5, 5, 4, 8);
-    Property prop3('E', 6, 3, 3, 2, 4);
-
-    //CircularArray<Property, 3> prop_array;
 
     return 0;
 }

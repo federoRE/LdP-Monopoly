@@ -1,6 +1,8 @@
 #include "CircularArray.h"
+#include <stdexcept>
 
-void CircularArray::push(std::string value)
+template <class T>
+void CircularArray<T>::push(T value)
 {
     if (isFull())
     {
@@ -10,23 +12,26 @@ void CircularArray::push(std::string value)
     rear_ = (rear_ + 1) % SIZE;
 }
 
-std::string CircularArray::pop()
+template <class T>
+T CircularArray<T>::pop()
 {
     if (isEmpty())
     {
         throw std::runtime_error("Array vuoto!");
     }
-    std::string value = data_[front_];
+    T value = data_[front_];
     front_ = (front_ + 1) % SIZE;
     return value;
 }
 
-bool CircularArray::isFull() const
+template <class T>
+bool CircularArray<T>::isFull() const
 {
     return ((rear_ + 1) % SIZE == front_);
 }
 
-bool CircularArray::isEmpty() const
+template <class T>
+bool CircularArray<T>::isEmpty() const
 {
     return (front_ == rear_);
 }

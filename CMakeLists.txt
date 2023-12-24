@@ -6,11 +6,11 @@ cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME LdP-Monopoly)
 project(${PROJECT_NAME} VERSION 1.0)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(
     SRC_FILES 
-    src/CircularArray.cpp 
+    src/CircularArray.cpp
     src/Player.cpp 
     src/Property.cpp
     src/Logger.cpp
@@ -31,7 +31,7 @@ add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 include_directories(include src)
 
 add_library(
-    ${PROJECT_NAME}
+    monopoly_lib
     ${SRC_FILES} 
     ${HEADER_FILES}
     )
@@ -42,7 +42,7 @@ add_executable(
     )
 target_link_libraries(
     Monopoly 
-    ${PROJECT_NAME}
+    monopoly_lib
     )
 
 # TESTING EXECUTABLES
@@ -54,8 +54,8 @@ add_executable(
     logger_test
     src/tests/logger_test.cpp
     )
-target_link_libraries(player_array_prop_test ${PROJECT_NAME})
-target_link_libraries(logger_test ${PROJECT_NAME})
+target_link_libraries(player_array_prop_test monopoly_lib)
+target_link_libraries(logger_test monopoly_lib)
 enable_testing()
 
 
