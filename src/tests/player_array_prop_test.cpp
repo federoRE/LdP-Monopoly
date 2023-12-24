@@ -11,5 +11,16 @@ int main(int argc, char* argv[]){
     prop_array.push(prop2);
     std::cout << (prop_array.isEmpty() ? "true" : "false") << std::endl;
 
+    // Genero 24 elementi
+    // Test con modulo
+    if(25+8>28)
+    {
+        std::cout << "true" << std::endl;
+    }
+    else
+    {
+        std::cout << "false" << std::endl;
+    }
+
     return 0;
 }

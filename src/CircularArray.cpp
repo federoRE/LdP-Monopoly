@@ -2,6 +2,12 @@
 #include "CircularArray.h"
 
 template<class T>
+int CircularArray<T>::size() const
+{
+    return data_.size();
+}
+
+template<class T>
 void CircularArray<T>::push(T value)
 {
     data_.push_back(value);

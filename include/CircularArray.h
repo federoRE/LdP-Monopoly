@@ -3,6 +3,10 @@
 
 #include <vector>
 
+/**
+ * TODO: aggiungere override operatore []
+*/
+
 template<class T>
 class CircularArray
 {
@@ -17,6 +21,13 @@ public:
      * 
     */
     CircularArray() : front_(0), rear_(0) {};
+
+    /**
+     * @brief Get the size of the array
+     * @return Size of the array
+     * 
+    */
+    int size() const;
 
     /**
      * @brief Insert element in the array
