@@ -37,5 +37,3 @@ std::string Property::getLegenda() const
 {
     return cell_id_legenda_;
 }
-
-
