@@ -48,6 +48,4 @@ public:
 
 };
 
-//#include "CircularArray.cpp" // Rimedio per il linker (template)
-
 #endif // CIRCULAR_ARRAY_H
