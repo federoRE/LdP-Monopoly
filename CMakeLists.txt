@@ -54,8 +54,13 @@ add_executable(
     logger_test
     src/tests/logger_test.cpp
     )
+add_executable(
+    player_test
+    src/tests/player_test.cpp
+    )    
 target_link_libraries(player_array_prop_test monopoly_lib)
 target_link_libraries(logger_test monopoly_lib)
+target_link_libraries(player_test monopoly_lib)
 enable_testing()
 
 
@@ -66,4 +71,8 @@ add_test(
 add_test(
     NAME logger_test
     COMMAND $<TARGET_FILE:logger_test>
+)
+add_test(
+    NAME player_test
+    COMMAND $<TARGET_FILE:player_test>
 )
