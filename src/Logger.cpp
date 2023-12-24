@@ -9,15 +9,15 @@ void Logger::addLog(std::string log){
 }
 
 std::string Logger::remLog(){
-    std::string log = logs.front();
-    logs.pop();
+    std::string log = logs_.front();
+    logs_.pop();
     return log;
 }
 
 void Logger::saveFile(){
     std::ofstream file;
     file.open("log.txt");
-    while(!logs.empty()){
+    while(!logs_.empty()){
         file << remLog() << std::endl;
     }
     file.close();

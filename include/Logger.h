@@ -9,5 +9,5 @@ class Logger{
         void saveFile();
 
     private:
-        std::queue<std::string> logs;
+        std::queue<std::string> logs_;
 };
