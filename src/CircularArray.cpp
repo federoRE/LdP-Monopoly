@@ -1,8 +1,7 @@
 #include "CircularArray.h"
 #include <stdexcept>
 
-template <class T>
-void CircularArray<T>::push(T value)
+void CircularArray::push(Property value)
 {
     if (isFull())
     {
@@ -12,26 +11,24 @@ void CircularArray<T>::push(T value)
     rear_ = (rear_ + 1) % SIZE;
 }
 
-template <class T>
-T CircularArray<T>::pop()
+
+Property CircularArray::pop()
 {
     if (isEmpty())
     {
         throw std::runtime_error("Array vuoto!");
     }
-    T value = data_[front_];
+    Property value = data_[front_];
     front_ = (front_ + 1) % SIZE;
     return value;
 }
 
-template <class T>
-bool CircularArray<T>::isFull() const
+bool CircularArray::isFull() const
 {
     return ((rear_ + 1) % SIZE == front_);
 }
 
-template <class T>
-bool CircularArray<T>::isEmpty() const
+bool CircularArray::isEmpty() const
 {
     return (front_ == rear_);
 }

@@ -2,20 +2,20 @@
 #define CIRCULAR_ARRAY_H
 
 #include <stdexcept>
+#include "Property.h"
 
 const int SIZE = 28;
 
 /**
- * @brief Circular array
+ * @brief Circular Array class
  * 
- * @tparam T Type of the array
- * 
+ * TODO: passare da property a template
 */
-template <class T>
+
 class CircularArray
 {
 private:
-    T data_[SIZE];
+    Property data_[SIZE];
     int front_;
     int rear_;
 
@@ -24,21 +24,21 @@ public:
      * @brief Construct a new Circular Array object
      * 
     */
-    CircularArray() : front_(0), rear_(0) {}
+    CircularArray() : front_(0), rear_(0) {};
 
     /**
      * @brief Insert element in the array
      * @param value Element to insert
      * 
     */
-    void push(T value);
+    void push(Property value);
 
     /**
      * @brief Remove element from the array
      * @return Element removed
      * 
     */
-    T pop();
+    Property pop();
 
     /**
      * @brief Check if the array is full
