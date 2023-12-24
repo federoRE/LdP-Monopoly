@@ -4,7 +4,7 @@ Player::Player(bool bot){
     position_ = 0;
     roll_ = 1;
     fiorini_ = 100;
-    this->bot_ = bot;
+    bot_ = bot;
 }
 
 int Player::getPos(){
@@ -20,15 +20,15 @@ int Player::getRoll(){
 }
 
 void Player::setPos(int position){
-    this->position_ = position;
+    position_ = position;
 }
 
 void Player::setFiorini(int fiorini){
-    this->fiorini_ = fiorini;
+    fiorini_ = fiorini;
 }
 
 void Player::setRoll(int roll){
-    this->roll_ = roll;
+    roll_ = roll;
 }
 
 bool Player::isBot(){
