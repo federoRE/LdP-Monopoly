@@ -4,7 +4,8 @@
 #include <vector>
 
 /**
- * TODO: aggiungere override operatore []
+ * TODO: non si puo' usare push con dimensione fissata, perche' 
+ *      li mette in coda e non in testa
 */
 
 template<class T>
@@ -32,8 +33,6 @@ public:
     CircularArray(int size) : front_(0), rear_(0), size_(size) {
         data_.resize(size_);
     };
-
-    
 
     /**
      * @brief Get the size of the array
@@ -71,6 +70,26 @@ public:
     bool isEmpty() const;
 
     /**
+     * @brief Shuffle the elements in the array
+     * 
+     */
+    void shuffle();
+
+    /**
+     * @brief Get an iterator pointing to the first element of the array
+     * @return Iterator pointing to the first element
+     * 
+    */
+    typename std::vector<T>::iterator begin();
+
+    /**
+     * @brief Get an iterator pointing to the last element of the array
+     * @return Iterator pointing to the last element
+     * 
+    */
+    typename std::vector<T>::iterator end();
+
+    /**
      * @brief Get the element at the specified index
      * @param index Index of the element
      * @return Element at the specified index
@@ -86,6 +105,19 @@ public:
     */
     T operator[](int index) const;
 
-};
+    /**
+     * @brief Overload the assignment operator
+     * @param other The CircularArray object to assign from
+     * @return Reference to the assigned CircularArray object
+     */
+    CircularArray& operator=(const CircularArray& other);
+
+    /**
+     * @brief Move constructor for CircularArray
+     * @param other The CircularArray object to move from
+     */
+    CircularArray(CircularArray&& other) noexcept;
+
+    };
 
 #endif // CIRCULAR_ARRAY_H

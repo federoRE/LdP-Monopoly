@@ -8,6 +8,7 @@ void Logger::addLog(std::string log){
     logs_.push(log);
 }
 
+// integrabile in saveFile
 std::string Logger::remLog(){
     std::string log = logs_.front();
     logs_.pop();
@@ -18,7 +19,8 @@ void Logger::saveFile(){
     std::ofstream file;
     file.open("log.txt");
     while(!logs_.empty()){
-        file << remLog() << std::endl;
+        file << logs_.front() << std::endl; 
+        logs_.pop();
     }
     file.close();
 }

@@ -61,7 +61,14 @@ public:
         : 
         owner_(nullptr), 
         level_(0) 
-        {};
+        {
+            prop_class_ = prop_class;
+            land_value_ = land_value;
+            house_value_ = house_value;
+            hotel_value_ = hotel_value;
+            house_rent_ = house_rent;
+            hotel_rent_ = hotel_rent;
+        };
 
 
     bool isPropFree() const;
@@ -77,6 +84,14 @@ public:
     // Getters
     Player* getOwner() const;
     std::string getLegenda() const;
+    char getPropClass() const;
+    int getLandValue() const;
+    int getHouseValue() const;
+    int getHotelValue() const;
+    int getHouseRent() const;
+    int getHotelRent() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Property& property);
 
 };
 
