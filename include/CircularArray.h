@@ -1,21 +1,13 @@
 #ifndef CIRCULAR_ARRAY_H
 #define CIRCULAR_ARRAY_H
 
-#include <stdexcept>
-#include "Property.h"
+#include <vector>
 
-const int SIZE = 28;
-
-/**
- * @brief Circular Array class
- * 
- * TODO: passare da property a template
-*/
-
+template<class T>
 class CircularArray
 {
 private:
-    Property data_[SIZE];
+    std::vector<T> data_;
     int front_;
     int rear_;
 
@@ -31,14 +23,14 @@ public:
      * @param value Element to insert
      * 
     */
-    void push(Property value);
+    void push(T value);
 
     /**
      * @brief Remove element from the array
      * @return Element removed
      * 
     */
-    Property pop();
+    T pop();
 
     /**
      * @brief Check if the array is full
@@ -55,7 +47,5 @@ public:
     bool isEmpty() const;
 
 };
-
-
 
 #endif // CIRCULAR_ARRAY_H

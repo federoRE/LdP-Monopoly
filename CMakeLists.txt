@@ -14,6 +14,7 @@ set(
     src/Player.cpp 
     src/Property.cpp
     src/Logger.cpp
+    src/PropertyArray.cpp
     )
 
 set(
@@ -22,6 +23,7 @@ set(
     include/Player.h 
     include/Property.h
     include/Logger.h
+    include/PropertyArray.h
     )
 
 SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
