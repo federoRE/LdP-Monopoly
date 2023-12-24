@@ -5,7 +5,7 @@ Logger::Logger() {
 }
 
 void Logger::addLog(std::string log){
-    logs.push(log);
+    logs_.push(log);
 }
 
 std::string Logger::remLog(){
