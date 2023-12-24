@@ -38,3 +38,15 @@ bool CircularArray<T>::isEmpty() const
 {
     return front_ == rear_;
 }
+
+template<class T>
+T CircularArray<T>::get(int index) const
+{
+    return data_[index];
+}
+
+template<class T>
+T CircularArray<T>::operator[](int index) const
+{
+    return data_[index];
+}

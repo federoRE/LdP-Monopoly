@@ -14,13 +14,26 @@ private:
     std::vector<T> data_;
     int front_;
     int rear_;
+    int size_;
 
 public:
+
     /**
      * @brief Construct a new Circular Array object
      * 
-    */
-    CircularArray() : front_(0), rear_(0) {};
+     */
+    CircularArray() : front_(0), rear_(0), size_(0) {};
+    
+    /**
+     * @brief Construct a new Circular Array object with a fixed size
+     * 
+     * @param size The fixed size of the array
+     */
+    CircularArray(int size) : front_(0), rear_(0), size_(size) {
+        data_.resize(size_);
+    };
+
+    
 
     /**
      * @brief Get the size of the array
@@ -56,6 +69,22 @@ public:
      * 
     */
     bool isEmpty() const;
+
+    /**
+     * @brief Get the element at the specified index
+     * @param index Index of the element
+     * @return Element at the specified index
+     * 
+    */
+    T get(int index) const;
+
+    /**
+     * @brief Get the element at the specified index
+     * @param index Index of the element
+     * @return Element at the specified index
+     * 
+    */
+    T operator[](int index) const;
 
 };
 
