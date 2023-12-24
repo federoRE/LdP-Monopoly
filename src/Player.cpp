@@ -1,5 +1,12 @@
 #include "Player.h"
 
+Player::Player(){
+    position_ = 0;
+    roll_ = 1;
+    fiorini_ = 100;
+    bot_ = true;
+}
+
 Player::Player(bool bot){
     position_ = 0;
     roll_ = 1;
@@ -7,15 +14,15 @@ Player::Player(bool bot){
     bot_ = bot;
 }
 
-int Player::getPos(){
+int Player::getPos() const{
     return position_;
 }
 
-int Player::getFiorini(){
+int Player::getFiorini() const{
     return fiorini_;
 }
 
-int Player::getRoll(){
+int Player::getRoll() const{
     return roll_;
 }
 
@@ -41,4 +48,11 @@ bool Player::isLose(){
 
 void Player::incPos(int roll){
     position_ += roll;
+}
+
+std::ostream& operator<<(std::ostream& os, const Player& player) {
+    os << "Position: " << player.getPos() << ", ";
+    os << "Fiorini: " << player.getFiorini() << ", ";
+    os << "Roll: " << player.getRoll();
+    return os;
 }

@@ -1,35 +1,40 @@
-#include "CircularArray.h"
 #include <stdexcept>
+#include "CircularArray.h"
 
-void CircularArray::push(Property value)
+template<class T>
+int CircularArray<T>::size() const
 {
-    if (isFull())
-    {
-        throw std::runtime_error("Array pieno!");
-    }
-    data_[rear_] = value;
-    rear_ = (rear_ + 1) % SIZE;
+    return data_.size();
 }
 
+template<class T>
+void CircularArray<T>::push(T value)
+{
+    data_.push_back(value);
+    rear_ = (rear_ + 1) % data_.size();
+}
 
-Property CircularArray::pop()
+template<class T>
+T CircularArray<T>::pop()
 {
     if (isEmpty())
     {
-        throw std::runtime_error("Array vuoto!");
+        throw std::runtime_error("CircularArray is empty");
     }
-    Property value = data_[front_];
-    front_ = (front_ + 1) % SIZE;
+
+    T value = data_[front_];
+    front_ = (front_ + 1) % data_.size();
     return value;
 }
 
-bool CircularArray::isFull() const
+template<class T>
+bool CircularArray<T>::isFull() const
 {
-    return ((rear_ + 1) % SIZE == front_);
+    return (rear_ + 1) % data_.size() == front_;
 }
 
-bool CircularArray::isEmpty() const
+template<class T>
+bool CircularArray<T>::isEmpty() const
 {
-    return (front_ == rear_);
+    return front_ == rear_;
 }
-

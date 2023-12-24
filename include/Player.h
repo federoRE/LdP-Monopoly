@@ -1,10 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include <iostream>
 
 class Player{
 
     public:
         //Costruttori
+        Player();
         Player(bool bot);
 
         //Booleani
@@ -12,9 +14,9 @@ class Player{
         bool isBot();
 
         //Getter
-        int getPos();
-        int getFiorini();
-        int getRoll();
+        int getPos() const;
+        int getFiorini() const;
+        int getRoll() const;
 
         //Setter
         void setPos(int position);
@@ -23,6 +25,9 @@ class Player{
 
         //Functions
         void incPos(int roll);
+
+        //Operator
+        friend std::ostream& operator<<(std::ostream& os, const Player& player);
 
     private:
         int position_;
