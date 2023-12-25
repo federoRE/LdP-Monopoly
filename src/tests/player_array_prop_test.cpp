@@ -1,40 +1,125 @@
-#include "PropertyArray.h"
+#include "CircularArray.h"
 #include "Property.h"
 
 #include <iostream>
 
 int main(int argc, char* argv[]){
-    PropertyArray prop_array;
+    /////////////////////////////
+    // Test funzionamento di base
+    /////////////////////////////
 
-    prop_array.push(std::move(Property('L', 100, 50, 50, 10, 20)));
-    prop_array.push(std::move(Property('M', 200, 100, 100, 20, 40)));
-    prop_array.push(std::move(Property('H', 300, 150, 150, 30, 60)));
+    std::cout << "Test funzionamento di base" << std::endl;
 
-    std::cout << "Size: " << prop_array.size() << std::endl;
-    std::cout << "Is full: " << (prop_array.isFull()?"true" : "false") << std::endl;
+    CircularArray<Property> prop_array3(24);
+    // Economic
+    for(int i=0; i<8; i++){
+        prop_array3.push(std::move(Property('E', 6, 3, 3, 2, 4)));
+    }
+    // Standard
+    for(int i=0; i<10; i++){
+        prop_array3.push(Property('S', 10, 5, 5, 4, 8));
+    }
+    // Luxury
+    const int numIterations = 6;
+    for(int i=0; i<numIterations; i++){
+        prop_array3.push(Property('L', 20, 10, 10, 7, 14));
+    }
+    prop_array3.shuffle();
+    
 
-    for(int i=0; i<prop_array.size(); i++){
-        std::cout << "Property " << i << " class: " << prop_array[i].getPropClass() << std::endl;
+    std::cout << "inizio a comporre il tabellone" << std::endl;
+    CircularArray<Property> tabellone(28);
+
+    tabellone.push(std::move(Property('P', 0, 0, 0, 0, 0)));
+    for(int i=0; i<24; i++){
+        tabellone.push(std::move(prop_array3[i]));
+        if((i+1) % 6 == 0) {
+            tabellone.push(std::move(Property(' ', 0, 0, 0, 0, 0)));
+        }
     }
 
-    std::cout << "Shuffle" << std::endl;
+    std::cout << "Tabellone" << std::endl;
+    std::cout << "" << 
+        tabellone[14].getPropClass() << "\t" <<
+        tabellone[15].getPropClass() << "\t" <<
+        tabellone[16].getPropClass() << "\t" <<
+        tabellone[17].getPropClass() << "\t" <<
+        tabellone[18].getPropClass() << "\t" <<
+        tabellone[19].getPropClass() << "\t" <<
+        tabellone[20].getPropClass() << "\t" <<
+        tabellone[21].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[13].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[22].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[12].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[23].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[11].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[24].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[10].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[25].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[9].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[26].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" <<
+        tabellone[8].getPropClass() << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone[27].getPropClass() << "\t" <<
+    std::endl;
+    std::cout << "" << 
+        tabellone[7].getPropClass() << "\t" <<
+        tabellone[6].getPropClass() << "\t" <<
+        tabellone[5].getPropClass() << "\t" <<
+        tabellone[4].getPropClass() << "\t" <<
+        tabellone[3].getPropClass() << "\t" <<
+        tabellone[2].getPropClass() << "\t" <<
+        tabellone[1].getPropClass() << "\t" <<
+        tabellone[0].getPropClass() << "\t" <<
+    std::endl;
 
-    // Shuffle
-    prop_array.shuffle();
-    for(int i=0; i<prop_array.size(); i++){
-        std::cout << "Property " << i << " class: " << prop_array[i].getPropClass() << std::endl;
-    }
-
-    // Test con costruttore indice
-    PropertyArray prop_array2(3);
-    prop_array2.push(Property('L', 100, 50, 50, 10, 20));
-    prop_array2.push(Property('M', 200, 100, 100, 20, 40));
-    prop_array2.push(Property('H', 300, 150, 150, 30, 60));
-
-    std::cout << "Size: " << prop_array2.size() << std::endl;
-    for(int i=0; i<prop_array2.size(); i++){
-        std::cout << "Property " << i << " class: " << prop_array2[i].getPropClass() << std::endl;
-    }
 
     return 0;
 }

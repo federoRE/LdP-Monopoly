@@ -3,7 +3,8 @@
 ## CircularArray
 
 ### CircularArray
-Genera un oggetto CircularArray vuoto di tipo generico. 
+Genera un oggetto CircularArray vuoto di tipo generico. Lasciato li per comodita', ma e'
+preferibile non usarlo.
 
 ### CircularArray(int size)
 Genera un oggetto CircularArray di T elementi, inizializzati tutti tramite

@@ -10,12 +10,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(
     SRC_FILES 
-    src/CircularArray.cpp
+    src/CircularArray.hpp
     src/Player.cpp 
     src/Property.cpp
     src/Logger.cpp
     src/Game.cpp
-    src/PropertyArray.cpp
     )
 
 set(
@@ -25,7 +24,6 @@ set(
     include/Property.h
     include/Logger.h
     include/Game.h
-    include/PropertyArray.h
     )
 
 SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
