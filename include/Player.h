@@ -23,7 +23,7 @@ class Player{
         void setPos(int position);
         void setFiorini(int fiorini);
         void setRoll(int roll);
-        std::string setName(std::string name);
+        void setName(std::string name);
 
         //Functions
         void incPos(int roll);

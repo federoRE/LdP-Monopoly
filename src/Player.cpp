@@ -51,7 +51,7 @@ void Player::setRoll(int roll){
     roll_ = roll;
 }
 
-std::string Player::setName(std::string name){
+void Player::setName(std::string name){
     name_ = name;
 }
 

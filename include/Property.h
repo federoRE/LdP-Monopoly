@@ -15,7 +15,7 @@ class Property
 {
 private:
     // Property's status
-    char prop_class_; // Low, Medium, High value
+    char prop_class_; // L, S or E
     Player* owner_; // Owner of the property
 
     // Property's value
