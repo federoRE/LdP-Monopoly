@@ -104,6 +104,15 @@ public:
     T operator[](int index) const;
 
     /**
+     * Swaps the elements at the specified indices.
+     *
+     * @param index1 The index of the first element to swap.
+     * @param index2 The index of the second element to swap.
+     * @throws std::out_of_range if either index is out of bounds.
+     */
+    void swap(int index1, int index2);
+
+    /**
      * @brief Overload the assignment operator
      * @param other The CircularArray object to assign from
      * @return Reference to the assigned CircularArray object

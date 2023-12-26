@@ -69,6 +69,7 @@ int main(int argc, char* argv[]){
     cell_ids[25] = "E8";
     cell_ids[26] = "F8";
     cell_ids[27] = "G8";
+    constexpr const char* coordinates = "H8H7H6H5H4H3H2H1G1F1E1D1C1B1A1A2A3A4A5A6A7A8B8C8D8E8F8G8";
 
     for(int i=0; i<28; i++){
         tabellone[i].setLegenda(cell_ids[i]);
@@ -168,5 +169,12 @@ int main(int argc, char* argv[]){
         "|" << tabellone[1].getPropClass() << "|" << "\t" <<
         "|" << tabellone[0].getPropClass() << "|" << "\t" <<
     std::endl;
+
+    CircularArray<Player> players(4);
+    players.push(Player(false));
+    players.push(Player());
+    players.push(Player());
+    players.push(Player());
+
     return 0;
 }

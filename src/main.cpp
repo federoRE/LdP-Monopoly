@@ -1,4 +1,9 @@
+#include <iostream>
+#include <string>
+#include "Game.h"
 
 int main(void){
-    return 0; //commento
+    Game game = Game(false);
+    game.play();
+    return 0; 
 }

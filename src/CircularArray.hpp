@@ -139,6 +139,19 @@ CircularArray<T>::CircularArray(const CircularArray& other)
     rear_ = other.rear_;
 }
 
+template<class T>
+void CircularArray<T>::swap(int index1, int index2)
+{
+    if (index1 < 0 || index1 >= size_ || index2 < 0 || index2 >= size_)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+
+    T temp = data_[index1];
+    data_[index1] = data_[index2];
+    data_[index2] = temp;
+}
+
 
 
 #endif // CIRCULAR_ARRAY_HPP

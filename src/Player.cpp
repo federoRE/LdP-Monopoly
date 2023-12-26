@@ -8,6 +8,7 @@ Player::Player(){
     roll_ = 1;
     fiorini_ = 100;
     bot_ = true;
+    isLose_ = false;
 }
 
 Player::Player(bool bot){
@@ -15,6 +16,7 @@ Player::Player(bool bot){
     roll_ = 1;
     fiorini_ = 100;
     bot_ = bot;
+    isLose_ = false;
 }
 
 
@@ -36,6 +38,10 @@ std::string Player::getName() const{
     return name_;
 }
 
+bool Player::getIsLose() const{
+    return isLose_;
+}
+
 
 // Setter
 
@@ -55,15 +61,15 @@ void Player::setName(std::string name){
     name_ = name;
 }
 
+void Player::setIsLose(bool isLose){
+    isLose_ = isLose;
+}
+
 
 // Functions
 
-bool Player::isBot(){
+bool Player::isBot() const{
     return bot_;
-}
-
-bool Player::isLose(){
-    return fiorini_ < 0;
 }
 
 void Player::incPos(int roll){
@@ -76,6 +82,6 @@ void Player::incPos(int roll){
 std::ostream& operator<<(std::ostream& os, const Player& player) {
     os << "Position: " << player.getPos() << ", ";
     os << "Fiorini: " << player.getFiorini() << ", ";
-    os << "Roll: " << player.getRoll();
+    os << "Last roll: " << player.getRoll();
     return os;
 }
