@@ -170,11 +170,17 @@ int main(int argc, char* argv[]){
         "|" << tabellone[0].getPropClass() << "|" << "\t" <<
     std::endl;
 
-    CircularArray<Player> players(4);
-    players.push(Player(false));
-    players.push(Player());
-    players.push(Player());
-    players.push(Player());
+    Player *players = new Player[4];
+    players[0] = Player();
+    players[1] = Player();
+    players[2] = Player();
+    players[3] = Player();
+    players[0].setName("Player 1");
+    players[1].setName("Player 2");
+    players[2].setName("Player 3");
+    players[3].setName("Player 4");
+
+    std::cout << "Player 1: " << players[0].getName() << std::endl;
 
     return 0;
 }

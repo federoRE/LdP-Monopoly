@@ -82,3 +82,24 @@ std::ostream& operator<<(std::ostream& os, const Property& property)
 
     return os;
 }
+
+Property& Property::operator=(const Property& other)
+{
+    if (this != &other)
+    {
+        owner_ = other.owner_;
+        cell_id_legenda_ = other.cell_id_legenda_;
+        prop_class_ = other.prop_class_;
+        land_value_ = other.land_value_;
+        house_value_ = other.house_value_;
+        hotel_value_ = other.hotel_value_;
+        house_rent_ = other.house_rent_;
+        hotel_rent_ = other.hotel_rent_;
+    }
+    return *this;
+}
+
+bool Property::operator==(const Property& other) const
+{
+    return (cell_id_legenda_ == other.cell_id_legenda_);
+}

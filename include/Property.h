@@ -48,6 +48,7 @@ public:
         hotel_value_ = 0;
         house_rent_ = 0;
         hotel_rent_ = 0;
+        cell_id_legenda_ = " ";
     };
 
     Property(
@@ -68,6 +69,7 @@ public:
             hotel_value_ = hotel_value;
             house_rent_ = house_rent;
             hotel_rent_ = hotel_rent;
+            cell_id_legenda_ = " ";
         };
 
 
@@ -93,6 +95,13 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Property& property);
 
+    Property& operator=(const Property& other);
+    bool operator==(const Property& other) const;
+    bool operator!=(const Property& other) const;
+    bool operator<(const Property& other) const;
+    bool operator>(const Property& other) const;
+    bool operator<=(const Property& other) const;
+    bool operator>=(const Property& other) const;
 };
 
 #endif // PROPERTY_H

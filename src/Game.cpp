@@ -2,32 +2,30 @@
 #include <iostream>
 
 Game::Game(bool isBotGame){
-    players_ = CircularArray<Player>(4);
-    no_turns_ = 0;
+    no_turns_ = 0;  
+    players_ = CircularArray<Player>(4);  
 
     if(isBotGame){
         no_max_turns_ = 100;
-        players_[0] = Player();
-        players_[1] = Player();
-        players_[2] = Player();
-        players_[3] = Player();
+        players_.push(Player());
+        players_.push(Player());
+        players_.push(Player());
+        players_.push(Player());
     }else{
         no_max_turns_ = -1;
-        players_[0] = Player(false);
-        players_[1] = Player();
-        players_[2] = Player();
-        players_[3] = Player();
+        players_.push(Player(false));
+        players_.push(Player());
+        players_.push(Player());
+        players_.push(Player());
     }
+
+    players_[0].setName("Fabrizio");
+    players_[1].setName("Valentino");
+    players_[2].setName("Andrea");
+    players_[3].setName("Fresco di zona");
 
     // tabellone assegnato ma non ancora inizializzato
-    tabellone_ = CircularArray<Property>(28);
-
-    cell_ids = new std::string[28];
-    for(int i = 0; i < 28; i++){
-        cell_ids[i] = COORDS.substr(i * 2, 2);
-    }
-
-    logger_ = Logger();
+    //logger_ = Logger();
 
     CircularArray<Property> ciotolina(24);
     // Economic
@@ -46,11 +44,21 @@ Game::Game(bool isBotGame){
     ciotolina.shuffle();
 
     tabellone_.push(Property('P', 0, 0, 0, 0, 0));
+    ciotolina.shuffle();
     for(int i=0; i<24; i++){
-        ciotolina.push(ciotolina[i]);
+        tabellone_.push(ciotolina[i]);
         if((i+1) % 6 == 0) {
             tabellone_.push(Property(' ', 0, 0, 0, 0, 0));
         }
+    }
+
+    // Mappa le coordinate
+    cell_ids = new std::string[28];
+    for(int i = 0; i < 28; i++){
+        cell_ids[i] = COORDS.substr(i * 2, 2);
+    }
+    for(int i = 0; i < 28; i++){
+        tabellone_[i].setLegenda(cell_ids[i]);
     }
 }
 
@@ -59,22 +67,25 @@ bool Game::isEOG(){
     int numPlayers = players_.size();
     int numLosePlayers = 0;
 
-    while (numLosePlayers < numPlayers - 1) {
-        numLosePlayers = 0;
 
-        for (int i = 0; i < numPlayers; i++) {
-            if (players_[i].getIsLose()) {
-                numLosePlayers++;
-            }
+    for (int i = 0; i < numPlayers; i++) {
+        if (players_[i].getIsLose()) {
+            numLosePlayers++;
         }
     }
 
-    return (numLosePlayers == numPlayers - 1);
+    if(no_max_turns_ == -1){
+        return (numLosePlayers == numPlayers - 1);
+    }
+    else{
+        return (numLosePlayers == numPlayers - 1) || (no_turns_ == no_max_turns_);
+    }
 }
 
 int Game::rollDice(){
     return (rand() % NO_DICE*6) + 1;    
 }
+
 void Game::move(){
     
 }
@@ -82,23 +93,35 @@ void Game::payFees(){
 
 }
 
-void Game::play(){
-    std::cout << "Inizio partita" << std::endl;
-    std::cout << "Inserisci il nome del giocatore umano: ";
-    std::string name;
-    std::cin >> name;
-    players_[0].setName(name);
-    std::cout << "Benvenuto " << players_[0].getName() << std::endl;
-    std::cout << "Inserisci il numero di giocatori bot: ";
-    int numBot;
-    std::cin >> numBot;
-    for(int i=1; i<=numBot; i++){
-        players_[i].setName("Bot" + std::to_string(i));
-        std::cout << "Benvenuto " << players_[i].getName() << std::endl;
+void Game::orderPlayers(){
+    bool sorted = false;
+    while (!sorted) {
+        sorted = true;
+        for (int i = 0; i < players_.size() - 1; i++) {
+            int dice1 = rollDice();
+            int dice2 = rollDice();
+            if (dice1 == dice2) {
+                sorted = false;
+                continue;
+            }
+            if (dice1 < dice2) {
+                players_.swap(i, i + 1);
+                sorted = false;
+            }
+        }
     }
-    std::cout << "Inserisci il numero di turni massimi: ";
-    std::cin >> no_max_turns_;
-    std::cout << "Inizio partita" << std::endl;
+}
+
+// da qua comincia la traccia del segfault
+void Game::play(){
+    while(!isEOG()){
+        for(int i = 0; i < 4; i++){
+            if(!players_[i].getIsLose()){
+                std::cout << "Turno del giocatore " << players_[i].getName() << std::endl;
+                //players_[i].play(tabellone_, cell_ids);
+            }
+        }
+        no_turns_++;
+    }
     
-    return;
 }

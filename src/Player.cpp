@@ -85,3 +85,17 @@ std::ostream& operator<<(std::ostream& os, const Player& player) {
     os << "Last roll: " << player.getRoll();
     return os;
 }
+
+
+Player& Player::operator=(const Player& other) {
+    if (this != &other) {
+        position_ = other.position_;
+        roll_ = other.roll_;
+        fiorini_ = other.fiorini_;
+        bot_ = other.bot_;
+        isLose_ = other.isLose_;
+        name_ = other.name_;
+    }
+    return *this;
+}
+

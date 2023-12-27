@@ -4,10 +4,8 @@
 #include <iterator>
 
 /**
- * TODO: non si puo' usare push con dimensione fissata, perche' 
- *      li mette in coda e non in testa
- * TODO: gestione fine array non corretta, il check fallisce con
- *     l'ultimo oggetto
+ * TODO: controllo pop() su array vuoto/cast improprio
+ * TODO: rivedere distruttore, se attivato causa segmentation fault
 */
 
 template<class T>
@@ -104,6 +102,14 @@ public:
     T operator[](int index) const;
 
     /**
+     * @brief Overload the subscript operator to access elements by index
+     * @param index The index of the element to access
+     * @return Reference to the element at the specified index
+     * @throws std::out_of_range if the index is out of bounds
+     */
+    T& operator[](int index);
+
+    /**
      * Swaps the elements at the specified indices.
      *
      * @param index1 The index of the first element to swap.
@@ -135,7 +141,8 @@ public:
      * @brief Destructor for CircularArray
      */
 
-    ~CircularArray();
+    // CAUSA SEGMENTATION FAULT
+    //~CircularArray();
 };
 
 #include "CircularArray.hpp"

@@ -1,6 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 
+
+/**
+ * TODO: capire come gestire la dimensione variabile del 
+ *         tabellone (28 caselle) e del numero di giocatori (4)
+*/
+
 #include "Player.h"
 #include "Property.h"
 #include "CircularArray.h"
@@ -21,14 +27,16 @@ class Game{
         bool isEOG();
 
         //Functions
-        void play();
         static int rollDice();
         void move();
         void payFees();
+        void orderPlayers();
+
+        void play();
 
     private:
-        CircularArray<Player> players_;
-        CircularArray<Property> tabellone_;
+        CircularArray<Player> players_{4};
+        CircularArray<Property> tabellone_{28};
         Logger logger_;
         int no_max_turns_; // -1 se non c'e' limite di turni
         int no_turns_;

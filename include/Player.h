@@ -34,6 +34,7 @@ class Player{
 
         //Operator
         friend std::ostream& operator<<(std::ostream& os, const Player& player);
+        Player& operator=(const Player& other);
 
     private:
         int position_;

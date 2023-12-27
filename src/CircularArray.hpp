@@ -17,7 +17,7 @@ void CircularArray<T>::push(T value)
 {
     if (
         (front_ == 0 && rear_ == size_ - 1) || 
-        ((rear_ +1) % (size_ == front_))
+        ((rear_ +1) % size_ == front_)
     )
     {
         return;
@@ -42,12 +42,14 @@ void CircularArray<T>::push(T value)
     return;
 }
 
+
+// da rivedere i parsing e casting
 template<class T>
 T CircularArray<T>::pop()
 {
     if (isEmpty())
     {
-        return nullptr;
+        return T(); // Return a default-constructed object of type T
     }
 
     T value = data_[front_];
@@ -103,6 +105,13 @@ T CircularArray<T>::operator[](int index) const
 }
 
 template<class T>
+T& CircularArray<T>::operator[](int index)
+{
+    return data_[index % size_];
+}
+
+
+template<class T>
 CircularArray<T>& CircularArray<T>::operator=(const CircularArray& other)
 {
     if (this != &other)
@@ -125,11 +134,13 @@ CircularArray<T>::CircularArray(CircularArray&& other) noexcept
     other.rear_ = 0;
 }
 
+/*
 template<class T>
 CircularArray<T>::~CircularArray()
 {
     delete[] data_;
 }
+*/
 
 template<class T>
 CircularArray<T>::CircularArray(const CircularArray& other)
@@ -147,7 +158,7 @@ void CircularArray<T>::swap(int index1, int index2)
         throw std::out_of_range("Index out of range");
     }
 
-    T temp = data_[index1];
+    T temp(data_[index1]); // Use copy constructor to create a new instance of T
     data_[index1] = data_[index2];
     data_[index2] = temp;
 }
