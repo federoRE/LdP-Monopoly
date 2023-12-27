@@ -94,12 +94,13 @@ public:
     T get(int index) const;
 
     /**
-     * @brief Get the element at the specified index
-     * @param index Index of the element
-     * @return Element at the specified index
-     * 
-    */
-    T operator[](int index) const;
+     * Swaps the elements at the specified indices.
+     *
+     * @param index1 The index of the first element to swap.
+     * @param index2 The index of the second element to swap.
+     * @throws std::out_of_range if either index is out of bounds.
+     */
+    void swap(int index1, int index2);
 
     /**
      * @brief Overload the subscript operator to access elements by index
@@ -108,15 +109,6 @@ public:
      * @throws std::out_of_range if the index is out of bounds
      */
     T& operator[](int index);
-
-    /**
-     * Swaps the elements at the specified indices.
-     *
-     * @param index1 The index of the first element to swap.
-     * @param index2 The index of the second element to swap.
-     * @throws std::out_of_range if either index is out of bounds.
-     */
-    void swap(int index1, int index2);
 
     /**
      * @brief Overload the assignment operator
@@ -140,9 +132,7 @@ public:
     /**
      * @brief Destructor for CircularArray
      */
-
-    // CAUSA SEGMENTATION FAULT
-    //~CircularArray();
+    ~CircularArray();
 };
 
 #include "CircularArray.hpp"

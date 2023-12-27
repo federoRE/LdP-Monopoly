@@ -5,12 +5,12 @@ Game::Game(bool isBotGame){
     no_turns_ = 0;  
     players_ = CircularArray<Player>(4);  
 
+    
     if(isBotGame){
-        no_max_turns_ = 100;
-        players_.push(Player());
-        players_.push(Player());
-        players_.push(Player());
-        players_.push(Player());
+        no_max_turns_ = 10;
+        for(int i = 0; i < 4; i++){
+            players_.push(std::move(Player()));
+        }
     }else{
         no_max_turns_ = -1;
         players_.push(Player(false));
@@ -23,6 +23,7 @@ Game::Game(bool isBotGame){
     players_[1].setName("Valentino");
     players_[2].setName("Andrea");
     players_[3].setName("Fresco di zona");
+    
 
     // tabellone assegnato ma non ancora inizializzato
     //logger_ = Logger();
@@ -114,11 +115,17 @@ void Game::orderPlayers(){
 
 // da qua comincia la traccia del segfault
 void Game::play(){
-    while(!isEOG()){
+    while( no_turns_ < no_max_turns_){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
-                std::cout << "Turno del giocatore " << players_[i].getName() << std::endl;
+                // std::cout << "Turno del giocatore " << players_[i].getName() << std::endl;
                 //players_[i].play(tabellone_, cell_ids);
+                int dice = rollDice();
+                std::cout << "Il giocatore " << players_[i].getName() << " in posizione " << players_[i].getPos()+1 << std::endl;
+                std::cout << "Il giocatore " << players_[i].getName() << " ha fatto " << dice << std::endl;
+                players_[i] += dice;
+                std::cout << "Il giocatore " << players_[i].getName() << " si trova ora in posizione " << players_[i].getPos()+1 << std::endl;
+
             }
         }
         no_turns_++;

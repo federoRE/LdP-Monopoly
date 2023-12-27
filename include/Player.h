@@ -33,8 +33,15 @@ class Player{
         void incPos(int roll);
 
         //Operator
-        friend std::ostream& operator<<(std::ostream& os, const Player& player);
         Player& operator=(const Player& other);
+        Player(const Player& other);
+        Player(Player&& other);
+        Player& operator+(int roll);
+        Player& operator-(int roll);
+        Player& operator+=(int roll);
+        Player& operator-=(int roll);
+        friend std::ostream& operator<<(std::ostream& os, const Player& player);
+        ~Player();
 
     private:
         int position_;
@@ -44,5 +51,6 @@ class Player{
         bool isLose_;
         std::string name_;
 };
+
 
 #endif

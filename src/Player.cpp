@@ -99,3 +99,51 @@ Player& Player::operator=(const Player& other) {
     return *this;
 }
 
+Player::Player(const Player& other) {
+    position_ = other.position_;
+    roll_ = other.roll_;
+    fiorini_ = other.fiorini_;
+    bot_ = other.bot_;
+    isLose_ = other.isLose_;
+    name_ = other.name_;
+}
+
+Player::Player(Player&& other) {
+    position_ = other.position_;
+    roll_ = other.roll_;
+    fiorini_ = other.fiorini_;
+    bot_ = other.bot_;
+    isLose_ = other.isLose_;
+    name_ = other.name_;
+}
+
+Player& Player::operator+(int roll) {
+    this->position_ = (position_ + roll)%28;
+    this->roll_ = roll;
+    return *this;
+}
+
+Player& Player::operator-(int roll) {
+    this->position_ -= (position_ - roll)%28;
+    this->roll_ = roll;
+    return *this;
+}
+
+Player& Player::operator+=(int roll) {
+    this->position_ += roll;
+    this->position_ %= 28;
+    this->roll_ = roll;
+    return *this;
+}
+
+Player& Player::operator-=(int roll) {
+    this->position_ -= roll;
+    this->position_ %= 28;
+    this->roll_ = roll;
+    return *this;
+}
+
+
+Player::~Player() {
+    //std::cout << "Player destroyed" << std::endl;
+}

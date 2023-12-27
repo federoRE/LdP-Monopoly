@@ -103,3 +103,8 @@ bool Property::operator==(const Property& other) const
 {
     return (cell_id_legenda_ == other.cell_id_legenda_);
 }
+
+Property::~Property()
+{
+    // std::cout << "Property destroyed" << std::endl;
+}

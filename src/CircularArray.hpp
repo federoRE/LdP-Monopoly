@@ -99,9 +99,16 @@ T CircularArray<T>::get(int index) const
 }
 
 template<class T>
-T CircularArray<T>::operator[](int index) const
+void CircularArray<T>::swap(int index1, int index2)
 {
-    return data_[index%size_];
+    if (index1 < 0 || index1 >= size_ || index2 < 0 || index2 >= size_)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+
+    T temp(data_[index1]); // Use copy constructor to create a new instance of T
+    data_[index1] = data_[index2];
+    data_[index2] = temp;
 }
 
 template<class T>
@@ -123,6 +130,13 @@ CircularArray<T>& CircularArray<T>::operator=(const CircularArray& other)
     return *this;
 }
 
+template<class T>
+CircularArray<T>::CircularArray(const CircularArray& other)
+{
+    data_ = other.data_;
+    front_ = other.front_;
+    rear_ = other.rear_;
+}
 
 template<class T>
 CircularArray<T>::CircularArray(CircularArray&& other) noexcept
@@ -134,35 +148,12 @@ CircularArray<T>::CircularArray(CircularArray&& other) noexcept
     other.rear_ = 0;
 }
 
-/*
+
 template<class T>
 CircularArray<T>::~CircularArray()
 {
     delete[] data_;
 }
-*/
-
-template<class T>
-CircularArray<T>::CircularArray(const CircularArray& other)
-{
-    data_ = other.data_;
-    front_ = other.front_;
-    rear_ = other.rear_;
-}
-
-template<class T>
-void CircularArray<T>::swap(int index1, int index2)
-{
-    if (index1 < 0 || index1 >= size_ || index2 < 0 || index2 >= size_)
-    {
-        throw std::out_of_range("Index out of range");
-    }
-
-    T temp(data_[index1]); // Use copy constructor to create a new instance of T
-    data_[index1] = data_[index2];
-    data_[index2] = temp;
-}
-
 
 
 #endif // CIRCULAR_ARRAY_HPP

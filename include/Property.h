@@ -2,6 +2,8 @@
 #define PROPERTY_H
 
 #include <string>
+#include <iostream>
+
 #include "Player.h"
 
 /**
@@ -92,8 +94,8 @@ public:
     int getHotelValue() const;
     int getHouseRent() const;
     int getHotelRent() const;
-
-    friend std::ostream& operator<<(std::ostream& os, const Property& property);
+    int getLevel() const;
+    ~Property();
 
     Property& operator=(const Property& other);
     bool operator==(const Property& other) const;
@@ -102,6 +104,7 @@ public:
     bool operator>(const Property& other) const;
     bool operator<=(const Property& other) const;
     bool operator>=(const Property& other) const;
+    friend std::ostream& operator<<(std::ostream& os, const Property& property);
 };
 
 #endif // PROPERTY_H

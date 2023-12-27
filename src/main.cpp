@@ -7,7 +7,7 @@ int main(void){
     game.orderPlayers();
     game.play();
 
-    std::cout << "Game over" << std::endl;
+    std::cout << "Game over:" << std::endl;
 
     //il segfault viene riportato qui, dopo la fine del gioco
     // mancanza distruttore??
