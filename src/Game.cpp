@@ -84,11 +84,19 @@ int Game::rollDice(){
 }
 
 void Game::move(){
- 
+    
 }
 
-void Game::payFees(){
-    
+void Game::payFees(Player& payer, Player& payee, int amount){
+    int newFiorini;
+    if (payer.getFiorini() >= amount) {
+        newFiorini = payer.getFiorini() - amount;
+        payer.setFiorini(newFiorini);
+        newFiorini = payee.getFiorini() + amount;
+        payee.setFiorini(newFiorini);
+    } else {
+        payer.setIsLose(true);
+    }
 }
 
 void Game::orderPlayers(){

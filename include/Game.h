@@ -38,7 +38,7 @@ class Game{
         //Functions
         static int rollDice();
         void move();
-        void payFees();
+        void payFees(Player& payer, Player& payee, int amount);
         void orderPlayers();
 
         void play();
