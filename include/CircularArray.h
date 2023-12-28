@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <random>
 
+
 template<class T>
 class CircularArray
 {

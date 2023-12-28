@@ -15,6 +15,8 @@
 #include <string>
 #include <random>
 #include <unistd.h>
+#include <algorithm> // for std::sort
+#include <chrono> // for std::chrono::system_clock
 
 const int NO_DICE = 2;
 const int NO_PLAYERS = 4;

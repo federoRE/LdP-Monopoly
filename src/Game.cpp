@@ -1,6 +1,12 @@
 #include "Game.h"
 #include <iostream>
 
+/**
+ * TODO: da rivedere il metodo di pagamento
+ * TODO: implementare il logger
+ * TODO: implementare la logica di gestione della costruzione
+*/
+
 Game::Game(bool isBotGame){
     no_turns_ = 0;
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
@@ -103,23 +109,26 @@ void Game::payFees(int payer, Player* payee, int amount){
     }
 }
 
+
 void Game::orderPlayers(){
-    bool sorted = false;
-    while (!sorted) {
-        sorted = true;
-        for (int i = 0; i < players_.size() - 1; i++) {
-            usleep(10000);
-            int dice1 = rollDice();
-            int dice2 = rollDice();
-            if (dice1 == dice2) {
-                sorted = false;
-                continue;
+    for(int i = 0; i < NO_PLAYERS - 1; i++){
+        for(int j = 0; j < NO_PLAYERS - i - 1; j++){
+            int d1, d2 = 0;
+            d1 = rollDice();
+            d2 = rollDice();
+
+            while(d1 == d2){
+                d1 = rollDice();
+                usleep(500000);
+                d2 = rollDice();
             }
-            if (dice1 > dice2) {
-                players_.swap(i, i + 1);
-                players_[i].setRoll(dice2);
-                players_[i + 1].setRoll(dice1);
-                sorted = false;
+            players_[j].setRoll(d1);
+            players_[j+1].setRoll(d2);
+            if(players_[j].getRoll() < players_[j+1].getRoll()){
+                // Swap players
+                Player temp = players_[j];
+                players_[j] = players_[j+1];
+                players_[j+1] = temp;
             }
         }
     }
@@ -132,11 +141,27 @@ void Game::play(){
             players_[i].getRoll() << std::endl;
     }
 
+    for(int i=3; i>0; i--){
+        std::cout << "Inizio il gioco in " << i << std::endl;
+        usleep(1000000);
+    }
+
     while( !isEOG()){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
+
+                /**
+                 * Se il giocatore attuale non ha perso, allora gioca
+                 * le mosse. Qui si entra indipendentemente dal fatto
+                 * che sia un bot o meno.
+                */
+
                 int index_tmp = players_[i].getPos(); //posizione prima del tiro (22)
-                players_[i] += rollDice(); //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
+                int rd_val = rollDice(); 
+                players_[i] += rd_val; //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
+                std::cout <<  //////// LOG
+                    "- Giocatore " << i << " ha tirato i dadi ottenendo un valore di " <<
+                    rd_val << std::endl;
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
@@ -150,22 +175,15 @@ void Game::play(){
                         std::endl;
                 }
 
+                int pos_tmp = players_[i].getPos();
                 if(!players_[i].isBot())
                 {
-
-                    //se il giocatore non e' un bot
-                    int pos_tmp = players_[i].getPos();
+                    // INIZIO HUMAN
+                    
                     std::cout << "Sei in posizione " <<
                         tabellone_[pos_tmp].getLegenda() << ". ";
                     if(tabellone_[pos_tmp].isPropFree())
                     {
-                        std::cout << "Owner: " << 
-                            (tabellone_[pos_tmp].getOwner() ? 
-                            tabellone_[pos_tmp].getOwner()->getName() : "None") << 
-                            std::endl;
-                        std::cout << "isEdge: " << 
-                            (tabellone_[pos_tmp].isEdge() ? "true" : "false") << 
-                            std::endl;
                         //se la proprieta' e' libera
                         std::cout << "Il terreno costa: " << 
                         tabellone_[pos_tmp].getLandValue() <<
@@ -179,14 +197,17 @@ void Game::play(){
                         if(input[0] == 'b')
                         {
                             //compera
-                            if(players_[i].getFiorini() >= tabellone_[players_[i].getPos()].getLandValue())
+                            if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
                             {
-                                tabellone_[players_[i].getPos()].setOwner(&players_[i]);
-                                players_[i].setFiorini(players_[i].getFiorini() - tabellone_[players_[i].getPos()].getLandValue());
-                                std::cout << "- Giocatore " << i << 
+                                tabellone_[pos_tmp].setOwner(&players_[i]);
+                                players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
+                                std::cout << "- Giocatore " << i << //////// LOG
                                     " ha acquistato il terreno " <<
                                     tabellone_[players_[i].getPos()].getLegenda() <<
                                     std::endl;
+                                std::cout << "Giocatore " << i << 
+                                    " ha " << players_[i].getFiorini() << 
+                                    " fiorini" << std::endl;
                             }
                             else
                             {
@@ -196,8 +217,43 @@ void Game::play(){
                     }
                     else{
                         //se la proprieta' e' gia' di qualcuno o non e' acquistabile
-                        std::cout << "Il terrenon non e' acquistabile" << std::endl;
+                        std::cout << "Il terreno non e' acquistabile" << std::endl;
                     }
+
+                    // FINE HUMAN
+                }
+                else
+                {
+                    // INIZIO BOT
+                    if(tabellone_[pos_tmp].isPropFree())
+                    {
+                        if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
+                        {
+                            std::cout << "[BOT] Coppo il terreno " << 
+                            tabellone_[pos_tmp].getLegenda() << 
+                            std::endl;
+                            tabellone_[pos_tmp].setOwner(&players_[i]);
+                            players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
+                            std::cout << "- Giocatore " << i << //////// LOG
+                                " ha acquistato il terreno " <<
+                                tabellone_[players_[i].getPos()].getLegenda() <<
+                                std::endl;
+                        }
+                        
+                    }
+                    else if(tabellone_[pos_tmp].getOwner() != &players_[i])
+                    {
+                        std::cout << "[BOT] Pago il terreno " << 
+                        tabellone_[pos_tmp].getLegenda() << 
+                        std::endl;
+                        std::cout << "- Giocatore " << i << //////// LOG
+                            " ha pagato " << tabellone_[pos_tmp].getLandValue() <<
+                            tabellone_[players_[i].getPos()].getLegenda() <<
+                            std::endl;
+                        payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
+                    }
+
+                    // FINE BOT
                 }
             }
         }
