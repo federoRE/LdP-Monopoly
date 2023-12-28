@@ -4,7 +4,6 @@
 Game::Game(bool isBotGame){
     no_turns_ = 0;
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
-    players_ = CircularArray<Player>(NO_PLAYERS);  
 
     players_.push(Player(isBotGame));
     for(int i=0; i<NO_PLAYERS-1; i++){
@@ -40,7 +39,6 @@ Game::Game(bool isBotGame){
     ciotolina.shuffle();
 
     tabellone_.push(Property('P', 0, 0, 0, 0, 0));
-    ciotolina.shuffle();
     for(int i=0; i<24; i++){
         tabellone_.push(ciotolina[i]);
         if((i+1) % 6 == 0) {
@@ -116,12 +114,22 @@ void Game::play(){
     while( !isEOG()){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
-                // std::cout << "Turno del giocatore " << players_[i].getName() << std::endl;
-                //players_[i].play(tabellone_, cell_ids);
-                int dice = rollDice();
-                players_[i] += dice;
+                int index_tmp = players_[i].getPos(); //posizione prima del tiro (22)
+                players_[i] += rollDice(); //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
+                if(players_[i] < index_tmp){
+                    //significa che e' passato dal via
+                    players_[i].setFiorini(players_[i].getFiorini() + 20);
+                    
+                }
+                else{
+                    //significa che non e' passato dal via
+                    std::cout << 
+                        "Il giocatore " << players_[i].getName() << 
+                        " si trova in " << players_[i].getPos() << 
+                        std::endl;
+                }
+
             }
-            std::cout << "ho finito con il giocatore " << players_[i].getName() << std::endl;
         }
         no_turns_++;
     }

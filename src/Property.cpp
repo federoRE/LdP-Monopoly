@@ -68,6 +68,11 @@ int Property::getHotelRent() const
     return hotel_rent_;
 }
 
+int Property::getLevel() const
+{
+    return level_;
+}
+
 std::ostream& operator<<(std::ostream& os, const Property& property)
 {
     os << "Property Details:" << std::endl;
@@ -104,7 +109,17 @@ bool Property::operator==(const Property& other) const
     return (cell_id_legenda_ == other.cell_id_legenda_);
 }
 
+bool Property::operator!=(const Property& other) const
+{
+    return !(*this == other);
+}
+
+bool Property::operator<(const Property& other) const
+{
+    return (cell_id_legenda_ < other.cell_id_legenda_);
+}
+
 Property::~Property()
 {
-    std::cout << "Property destroyed" << std::endl;
+    delete owner_;
 }
