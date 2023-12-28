@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <random>
+#include <algorithm>
 
 #include "CircularArray.h"
 
