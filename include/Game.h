@@ -13,6 +13,8 @@
 #include "Logger.h"
 
 #include <string>
+#include <random>
+#include <unistd.h>
 
 const int NO_DICE = 2;
 const int NO_PLAYERS = 4;

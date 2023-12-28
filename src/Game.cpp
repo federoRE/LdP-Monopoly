@@ -80,7 +80,11 @@ bool Game::isEOG(){
 }
 
 int Game::rollDice(){
-    return (rand() % (NO_DICE*6)) + 1;    
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,6); 
+    int rdn = dist6(rng);
+    return rdn;    
 }
 
 void Game::move(){
@@ -104,16 +108,17 @@ void Game::orderPlayers(){
     while (!sorted) {
         sorted = true;
         for (int i = 0; i < players_.size() - 1; i++) {
+            usleep(10000);
             int dice1 = rollDice();
             int dice2 = rollDice();
             if (dice1 == dice2) {
                 sorted = false;
                 continue;
             }
-            if (dice1 < dice2) {
+            if (dice1 > dice2) {
                 players_.swap(i, i + 1);
-                players_[i].setRoll(dice1);
-                players_[i + 1].setRoll(dice2);
+                players_[i].setRoll(dice2);
+                players_[i + 1].setRoll(dice1);
                 sorted = false;
             }
         }
