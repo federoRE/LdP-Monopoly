@@ -86,10 +86,11 @@ int Game::rollDice(){
 }
 
 void Game::move(){
-    
+ 
 }
-void Game::payFees(){
 
+void Game::payFees(){
+    
 }
 
 void Game::orderPlayers(){
