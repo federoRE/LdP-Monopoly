@@ -2,7 +2,7 @@
 
 bool Property::isPropFree() const
 {
-    return (owner_ == nullptr);
+    return (owner_ == nullptr) && !(isEdge_);
 }
 
 bool Property::isUpgradeable() const
@@ -26,6 +26,11 @@ void Property::setOwner(Player* owner)
 void Property::setLegenda(std::string cell_id_legenda)
 {
     cell_id_legenda_ = cell_id_legenda;
+}
+
+void Property::setEdge()
+{
+    isEdge_ = true;
 }
 
 Player* Property::getOwner() const
@@ -73,6 +78,11 @@ int Property::getLevel() const
     return level_;
 }
 
+bool Property::isEdge() const
+{
+    return isEdge_;
+}
+
 std::ostream& operator<<(std::ostream& os, const Property& property)
 {
     os << "Property Details:" << std::endl;
@@ -100,6 +110,8 @@ Property& Property::operator=(const Property& other)
         hotel_value_ = other.hotel_value_;
         house_rent_ = other.house_rent_;
         hotel_rent_ = other.hotel_rent_;
+        level_ = other.level_;
+        isEdge_ = other.isEdge_;
     }
     return *this;
 }

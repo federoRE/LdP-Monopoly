@@ -29,6 +29,7 @@ private:
     int hotel_rent_;
 
     int level_; // Property's level: 0 = land, 1 = house, 2 = hotel)
+    bool isEdge_; // Property's edge: true = edge, false = not edge
 
     std::string cell_id_legenda_; // Property's cell id
 
@@ -51,6 +52,8 @@ public:
         house_rent_ = 0;
         hotel_rent_ = 0;
         cell_id_legenda_ = " ";
+        owner_ = nullptr;
+        isEdge_ = false;
     };
 
     Property(
@@ -72,8 +75,23 @@ public:
             house_rent_ = house_rent;
             hotel_rent_ = hotel_rent;
             cell_id_legenda_ = " ";
+            owner_ = nullptr;
+            isEdge_ = false;
         };
 
+    /**
+     * @brief Construct a new Property object for edges
+     * @param prop_class Property's class value ('P' or ' ')
+    */
+    Property(char prop_class) : owner_(nullptr), isEdge_(true), prop_class_(prop_class)
+        {
+            land_value_ = 0;
+            house_value_ = 0;
+            hotel_value_ = 0;
+            house_rent_ = 0;
+            hotel_rent_ = 0;
+            cell_id_legenda_ = " ";
+        };
 
     bool isPropFree() const;
 
@@ -84,6 +102,7 @@ public:
     // Setters
     void setOwner(Player* owner);
     void setLegenda(std::string cell_id_legenda);
+    void setEdge();
 
     // Getters
     Player* getOwner() const;
@@ -95,6 +114,7 @@ public:
     int getHouseRent() const;
     int getHotelRent() const;
     int getLevel() const;
+    bool isEdge() const;
     ~Property();
 
     Property& operator=(const Property& other);

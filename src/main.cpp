@@ -6,7 +6,7 @@ int main(void){
     std::cout << 
         "Benvenuto. Sto preparando il gioco."
         << std::endl;
-    Game game = Game(true);
+    Game game = Game(false);
 
     game.orderPlayers();
     game.play();
