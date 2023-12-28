@@ -80,7 +80,7 @@ bool Game::isEOG(){
 }
 
 int Game::rollDice(){
-    return (rand() % NO_DICE*6) + 1;    
+    return (rand() % (NO_DICE*6)) + 1;    
 }
 
 void Game::move(){
@@ -104,6 +104,8 @@ void Game::orderPlayers(){
             }
             if (dice1 < dice2) {
                 players_.swap(i, i + 1);
+                players_[i].setRoll(dice1);
+                players_[i + 1].setRoll(dice2);
                 sorted = false;
             }
         }
@@ -111,6 +113,12 @@ void Game::orderPlayers(){
 }
 
 void Game::play(){
+    for(int i=0; i<NO_PLAYERS; i++){
+        std::cout << "Il giocatore " << i+1 << 
+            " ha tirato i dadi ottenendo un valore di " << 
+            players_[i].getRoll() << std::endl;
+    }
+
     while( !isEOG()){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
@@ -119,13 +127,13 @@ void Game::play(){
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
-                    
+
                 }
                 else{
                     //significa che non e' passato dal via
                     std::cout << 
                         "Il giocatore " << players_[i].getName() << 
-                        " si trova in " << players_[i].getPos() << 
+                        " si trova in " << tabellone_[players_[i].getPos()].getLegenda() << 
                         std::endl;
                 }
 
