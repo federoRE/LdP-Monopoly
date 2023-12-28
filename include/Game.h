@@ -44,8 +44,8 @@ class Game{
         void play();
 
     private:
-        CircularArray<Player> players_{4};
-        CircularArray<Property> tabellone_{28};
+        CircularArray<Player> players_{NO_PLAYERS};
+        CircularArray<Property> tabellone_{NO_CELLS};
         Logger logger_;
         int no_max_turns_; // -1 se non c'e' limite di turni
         int no_turns_;

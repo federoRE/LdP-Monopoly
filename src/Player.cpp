@@ -143,7 +143,11 @@ Player& Player::operator-=(int roll) {
     return *this;
 }
 
-
-Player::~Player() {
-    std::cout << "Player destroyed" << std::endl;
+bool Player::operator<=(const int pos) const {
+    return position_ <= pos;
 }
+
+bool Player::operator<(const int pos) const {
+    return position_ < pos;
+}
+

@@ -3,7 +3,6 @@
 
 /**
  * TODO: controllo pop() su array vuoto/cast improprio
- * TODO: rivedere distruttore, se attivato causa segmentation fault
 */
 
 #include <algorithm>

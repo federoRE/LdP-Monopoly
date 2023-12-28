@@ -36,12 +36,42 @@ class Player{
         Player& operator=(const Player& other);
         Player(const Player& other);
         Player(Player&& other);
+        /**
+         * @brief Overload of operator +
+         * @param roll The roll to add to the player's position
+         * @return The player's position after the roll
+        */
         Player& operator+(int roll);
+
+        /**
+         * @brief Overload of operator -
+         * @param roll The roll to subtract to the player's position
+         * @return The player's position after the roll
+        */
         Player& operator-(int roll);
+
+        /**
+         * @brief Overload of operator +=
+         * @param roll The roll to add to the player's position
+         * @return The player's position after the roll
+        */
         Player& operator+=(int roll);
+
+        /**
+         * @brief Overload of operator -=
+         * @param roll The roll to subtract to the player's position
+         * @return The player's position after the roll
+        */
         Player& operator-=(int roll);
+        
+        /**
+         * @brief Overload of operator <=
+         * @param pos The position to compare to
+         * @return True if the player's position is less than or equal to the specified position
+        */
+        bool operator<=(const int pos) const;
+        bool operator<(const int pos) const;
         friend std::ostream& operator<<(std::ostream& os, const Player& player);
-        ~Player();
 
     private:
         int position_;
