@@ -1,12 +1,13 @@
 #ifndef CIRCULAR_ARRAY_H
 #define CIRCULAR_ARRAY_H
 
-#include <iterator>
-
 /**
  * TODO: controllo pop() su array vuoto/cast improprio
  * TODO: rivedere distruttore, se attivato causa segmentation fault
 */
+
+#include <algorithm>
+#include <random>
 
 template<class T>
 class CircularArray

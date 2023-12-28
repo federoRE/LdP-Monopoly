@@ -106,5 +106,5 @@ bool Property::operator==(const Property& other) const
 
 Property::~Property()
 {
-    // std::cout << "Property destroyed" << std::endl;
+    std::cout << "Property destroyed" << std::endl;
 }

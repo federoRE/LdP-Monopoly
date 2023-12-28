@@ -2,22 +2,16 @@
 #include <iostream>
 
 Game::Game(bool isBotGame){
-    no_turns_ = 0;  
-    players_ = CircularArray<Player>(4);  
+    no_turns_ = 0;
+    no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
+    players_ = CircularArray<Player>(NO_PLAYERS);  
 
-    
-    if(isBotGame){
-        no_max_turns_ = 10;
-        for(int i = 0; i < 4; i++){
-            players_.push(std::move(Player()));
-        }
-    }else{
-        no_max_turns_ = -1;
-        players_.push(Player(false));
-        players_.push(Player());
-        players_.push(Player());
+    players_.push(Player(isBotGame));
+    for(int i=0; i<NO_PLAYERS-1; i++){
         players_.push(Player());
     }
+
+    std::cout << "Ho creato i player" << std::endl;
 
     players_[0].setName("Fabrizio");
     players_[1].setName("Valentino");
@@ -42,6 +36,7 @@ Game::Game(bool isBotGame){
     for(int i=0; i<numIterations; i++){
         ciotolina.push(Property('L', 20, 10, 10, 7, 14));
     }
+    std::cout << "Ho preparato la ciotolina" << std::endl;
     ciotolina.shuffle();
 
     tabellone_.push(Property('P', 0, 0, 0, 0, 0));
@@ -53,6 +48,8 @@ Game::Game(bool isBotGame){
         }
     }
 
+    std::cout << "Ho preparato il tabellone" << std::endl;
+
     // Mappa le coordinate
     cell_ids = new std::string[28];
     for(int i = 0; i < 28; i++){
@@ -61,6 +58,7 @@ Game::Game(bool isBotGame){
     for(int i = 0; i < 28; i++){
         tabellone_[i].setLegenda(cell_ids[i]);
     }
+    std::cout << "Ho mappato le coordinate" << std::endl;
 }
 
 bool Game::isEOG(){
@@ -113,20 +111,16 @@ void Game::orderPlayers(){
     }
 }
 
-// da qua comincia la traccia del segfault
 void Game::play(){
-    while( no_turns_ < no_max_turns_){
+    while( !isEOG()){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
                 // std::cout << "Turno del giocatore " << players_[i].getName() << std::endl;
                 //players_[i].play(tabellone_, cell_ids);
                 int dice = rollDice();
-                std::cout << "Il giocatore " << players_[i].getName() << " in posizione " << players_[i].getPos()+1 << std::endl;
-                std::cout << "Il giocatore " << players_[i].getName() << " ha fatto " << dice << std::endl;
                 players_[i] += dice;
-                std::cout << "Il giocatore " << players_[i].getName() << " si trova ora in posizione " << players_[i].getPos()+1 << std::endl;
-
             }
+            std::cout << "ho finito con il giocatore " << players_[i].getName() << std::endl;
         }
         no_turns_++;
     }

@@ -19,6 +19,7 @@ void CircularArray<T>::push(T value)
     if (
         (front_ == 0 && rear_ == size_ - 1) || 
         ((rear_ +1) % size_ == front_)
+        // se la coda e' piena
     )
     {
         return;
@@ -88,9 +89,10 @@ bool CircularArray<T>::isEmpty() const
 template<class T>
 void CircularArray<T>::shuffle()
 {
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(data_, data_ + size_, g);
+    // usato solamente dal Property
+    auto rd = std::random_device {};
+    auto rng = std::default_random_engine { rd() };
+    std::shuffle(data_, data_ + size_, rng);
 }
 
 template<class T>

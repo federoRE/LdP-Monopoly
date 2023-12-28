@@ -145,5 +145,5 @@ Player& Player::operator-=(int roll) {
 
 
 Player::~Player() {
-    //std::cout << "Player destroyed" << std::endl;
+    std::cout << "Player destroyed" << std::endl;
 }
