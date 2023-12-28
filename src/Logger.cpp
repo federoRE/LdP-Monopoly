@@ -1,10 +1,12 @@
 #include "Logger.h"
+#include <iostream>
 #include <fstream>
 
 Logger::Logger() {
 }
 
 void Logger::addLog(std::string log){
+    std::cout<<log<<std::endl;
     logs_.push(log);
 }
 

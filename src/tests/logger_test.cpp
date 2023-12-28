@@ -5,9 +5,9 @@ using namespace std;
 
 int main(void){
     Logger logger = Logger();
-    logger.addLog("Riga uno");
-    logger.addLog("Riga due");
-    logger.addLog("Riga tre");
+    logger.addLog("Riga wibgdauywbgd");
+    logger.addLog("Riga dawdwadaw");
+    logger.addLog("Riga trwwwwwwwe");
     logger.saveFile();
     return 0;
 }
