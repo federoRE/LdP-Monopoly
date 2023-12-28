@@ -87,15 +87,15 @@ void Game::move(){
     
 }
 
-void Game::payFees(Player& payer, Player& payee, int amount){
+void Game::payFees(int payer, Player* payee, int amount){
     int newFiorini;
-    if (payer.getFiorini() >= amount) {
-        newFiorini = payer.getFiorini() - amount;
-        payer.setFiorini(newFiorini);
-        newFiorini = payee.getFiorini() + amount;
-        payee.setFiorini(newFiorini);
+    if (players_[payer].getFiorini() >= amount) {
+        newFiorini = players_[payer].getFiorini() - amount;
+        players_[payer].setFiorini(newFiorini);
+        newFiorini = payee->getFiorini() + amount;
+        payee->setFiorini(newFiorini);
     } else {
-        payer.setIsLose(true);
+        players_[payer].setIsLose(true);
     }
 }
 
