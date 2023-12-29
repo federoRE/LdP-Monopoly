@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <algorithm>
 
 /**
  * TODO: da rivedere il metodo di pagamento
@@ -9,13 +10,14 @@
 
 Game::Game(bool isBotGame){
     no_turns_ = 0;
+    isBotGame_ = isBotGame;
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
 
     players_.push(Player(isBotGame));
-    players_[0].setName("Fabrizio");
-    players_[1].setName("Valentino");
-    players_[2].setName("Andrea");
-    players_[3].setName("Fresco di zona");
+    players_[0].setName("humano");
+    players_[1].setName("Bot1");
+    players_[2].setName("Bot2");
+    players_[3].setName("Bot3");
     
 
     // tabellone assegnato ma non ancora inizializzato
@@ -103,6 +105,7 @@ void Game::payFees(int payer, Player* payee, int amount){
     else 
     {
         players_[payer].setIsLose(true);
+        std::cout << "- Il giocatore " << payer+1 << " e' stato eliminato" << std::endl;
     }
 }
 
@@ -122,30 +125,42 @@ void Game::payFees(int payer, int payee, int amount)
     }
 }
 
+void Game::orderPlayers() {
+    for (int i = 0; i < NO_PLAYERS - 1; i++) {
+        for (int j = 0; j < NO_PLAYERS - i - 1; j++) {
+            int d1 = rollDice();
+            int d2 = rollDice();
 
-void Game::orderPlayers(){
-    for(int i = 0; i < NO_PLAYERS - 1; i++){
-        for(int j = 0; j < NO_PLAYERS - i - 1; j++){
-            int d1, d2 = 0;
-            d1 = rollDice();
-            d2 = rollDice();
-
-            while(d1 == d2){
-                d1 = rollDice();
-                usleep(500000);
+            // Controlla e risolvi le duplicazioni
+            while (d1 == d2) {
                 d2 = rollDice();
             }
-            players_[j].setRoll(d1);
-            players_[j+1].setRoll(d2);
-            if(players_[j].getRoll() < players_[j+1].getRoll()){
+
+            bool duplicate = false;
+            for (int k = 0; k <= j; k++) {
+                if (players_[k].getRoll() == d1 || players_[k].getRoll() == d2) {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate) {
+                continue; // Se ci sono duplicati, ricomincia il ciclo interno
+            }
+
+            players_[j].setRoll(std::max(d1, d2));
+            players_[j + 1].setRoll(std::min(d1, d2));
+
+            if (players_[j].getRoll() < players_[j + 1].getRoll()) {
                 // Swap players
-                Player temp = players_[j];
-                players_[j] = players_[j+1];
-                players_[j+1] = temp;
+                std::swap(players_[j], players_[j + 1]);
             }
         }
     }
+
 }
+
+
 
 void Game::play(){
     for(int i=0; i<NO_PLAYERS; i++){
@@ -173,19 +188,18 @@ void Game::play(){
                 int rd_val = rollDice(); 
                 players_[i] += rd_val; //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
                 std::cout <<  //////// LOG
-                    "- Giocatore " << i << " ha tirato i dadi ottenendo un valore di " <<
+                    "- Giocatore " << i+1 << " ha tirato i dadi ottenendo un valore di " <<
                     rd_val << std::endl;
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
+                    std::cout << "- Giocatore " << i+1 << 
+                            " ha passato dal via e ha ricevuto 20 fiorini" 
+                        << std::endl;
 
                 }
                 else{
                     //significa che non e' passato dal via
-                    std::cout << 
-                        "Il giocatore " << players_[i].getName() << 
-                        " si trova in " << tabellone_[players_[i].getPos()].getLegenda() << 
-                        std::endl;
                 }
 
                 int pos_tmp = players_[i].getPos();
@@ -214,13 +228,10 @@ void Game::play(){
                             {
                                 tabellone_[pos_tmp].setOwner(&players_[i]);
                                 players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                                std::cout << "- Giocatore " << i << //////// LOG
+                                std::cout << "- Giocatore " << i+1 << //////// LOG
                                     " ha acquistato il terreno " <<
                                     tabellone_[players_[i].getPos()].getLegenda() <<
                                     std::endl;
-                                std::cout << "Giocatore " << i << 
-                                    " ha " << players_[i].getFiorini() << 
-                                    " fiorini" << std::endl;
                             }
                             else
                             {
@@ -242,12 +253,9 @@ void Game::play(){
                     {
                         if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
                         {
-                            std::cout << "[BOT] Coppo il terreno " << 
-                            tabellone_[pos_tmp].getLegenda() << 
-                            std::endl;
                             tabellone_[pos_tmp].setOwner(&players_[i]);
                             players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                            std::cout << "- Giocatore " << i << //////// LOG
+                            std::cout << "- Giocatore " << i+1 << //////// LOG
                                 " ha acquistato il terreno " <<
                                 tabellone_[players_[i].getPos()].getLegenda() <<
                                 std::endl;
@@ -259,16 +267,13 @@ void Game::play(){
                             !(tabellone_[pos_tmp].isEdge())
                         )
                     {
-                        std::cout << "[BOT] Pago il terreno " << 
-                        tabellone_[pos_tmp].getLegenda() << 
-                        std::endl;
-                        std::cout << "- Giocatore " << i << //////// LOG
+                        std::cout << "- Giocatore " << i+1 << //////// LOG
                             " ha pagato " << 
                             tabellone_[players_[i].getPos()].getLegenda() <<
                             std::endl;
                         auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
-                        payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
-                        //payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
+                        //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
+                        payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
                     }
 
                     // FINE BOT
@@ -278,6 +283,34 @@ void Game::play(){
 
 
         no_turns_++;
+    }
+    // FINE GIOCO
+
+    // Stampa il vincitore 
+    int playersInGame = 0;
+    for(int i = 0; i < NO_PLAYERS; i++)
+    {
+        if(!players_[i].getIsLose())
+        {
+            playersInGame++;
+        }
+    }
+
+    if(playersInGame > 1)
+    {
+        std::cout << "Il gioco e' finito in parita'" << std::endl;
+    }
+    else
+    {
+        for(int i = 0; i < NO_PLAYERS; i++)
+        {
+            if(!players_[i].getIsLose())
+            {
+                std::cout << "Il vincitore e' " << players_[i].getName() <<
+                            "(Giocatore "<< i+1 <<")" <<
+                 std::endl;
+            }
+        }
     }
     
 }

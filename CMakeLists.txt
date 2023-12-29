@@ -26,7 +26,7 @@ set(
     include/Game.h
     )
 
-#SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
+SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 

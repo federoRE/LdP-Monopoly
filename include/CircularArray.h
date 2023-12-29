@@ -136,7 +136,7 @@ private:
      * @throws std::out_of_range if the index is out of bounds
     */
     T& operator[](int index);
-
+    
     /**
      * @brief Destructor for CircularArray
      */

@@ -21,7 +21,7 @@
 const int NO_DICE = 2;
 const int NO_PLAYERS = 4;
 const int NO_CELLS = 28;
-const int NO_TURNS_BOT = 10;
+const int NO_TURNS_BOT = 100;
 const int NO_TURNS_HB = -1; // human-bot turns
 const std::string COORDS = "H8H7H6H5H4H3H2H1G1F1E1D1C1B1A1A2A3A4A5A6A7A8B8C8D8E8F8G8";
 
@@ -62,6 +62,7 @@ class Game{
         int no_max_turns_; // -1 se non c'e' limite di turni
         int no_turns_;
         std::string *cell_ids;
+        bool isBotGame_;
 };
 
 #endif

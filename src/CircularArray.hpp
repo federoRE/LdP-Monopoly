@@ -116,8 +116,9 @@ T* CircularArray<T>::get() const
 template<class T>
 T* CircularArray<T>::get(int index) const
 {
-    return data_[index%data_.size()];
+    return &data_[index % size_];
 }
+
 
 template<class T>
 T& CircularArray<T>::operator[](int index)
@@ -156,6 +157,7 @@ CircularArray<T>::CircularArray(CircularArray&& other) noexcept
     other.front_ = 0;
     other.rear_ = 0;
 }
+
 
 
 template<class T>
