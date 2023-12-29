@@ -12,12 +12,6 @@ Game::Game(bool isBotGame){
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
 
     players_.push(Player(isBotGame));
-    for(int i=0; i<NO_PLAYERS-1; i++){
-        players_.push(Player());
-    }
-
-    std::cout << "Ho creato i player" << std::endl;
-
     players_[0].setName("Fabrizio");
     players_[1].setName("Valentino");
     players_[2].setName("Andrea");
@@ -99,12 +93,31 @@ void Game::move(){
 
 void Game::payFees(int payer, Player* payee, int amount){
     int newFiorini;
-    if (players_[payer].getFiorini() >= amount) {
+    if (players_[payer].getFiorini() >= amount) 
+    {
         newFiorini = players_[payer].getFiorini() - amount;
         players_[payer].setFiorini(newFiorini);
         newFiorini = payee->getFiorini() + amount;
         payee->setFiorini(newFiorini);
-    } else {
+    } 
+    else 
+    {
+        players_[payer].setIsLose(true);
+    }
+}
+
+void Game::payFees(int payer, int payee, int amount)
+{
+    int newFiorini;
+    if (players_[payer].getFiorini() >= amount) 
+    {
+        newFiorini = players_[payer].getFiorini() - amount;
+        players_[payer].setFiorini(newFiorini);
+        newFiorini = players_[payee].getFiorini() + amount;
+        players_[payee].setFiorini(newFiorini);
+    } 
+    else 
+    {
         players_[payer].setIsLose(true);
     }
 }
@@ -241,16 +254,21 @@ void Game::play(){
                         }
                         
                     }
-                    else if(tabellone_[pos_tmp].getOwner() != &players_[i])
+                    else if(
+                        (tabellone_[pos_tmp].getOwner() != &players_[i]) && 
+                            !(tabellone_[pos_tmp].isEdge())
+                        )
                     {
                         std::cout << "[BOT] Pago il terreno " << 
                         tabellone_[pos_tmp].getLegenda() << 
                         std::endl;
                         std::cout << "- Giocatore " << i << //////// LOG
-                            " ha pagato " << tabellone_[pos_tmp].getLandValue() <<
+                            " ha pagato " << 
                             tabellone_[players_[i].getPos()].getLegenda() <<
                             std::endl;
-                        payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
+                        auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
+                        payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
+                        //payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
                     }
 
                     // FINE BOT

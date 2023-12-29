@@ -5,6 +5,23 @@ bool Property::isPropFree() const
     return (owner_ == nullptr) && !(isEdge_);
 }
 
+bool Property::isPropOwned() const
+{
+    return (owner_ != nullptr);
+}
+
+bool Property::isPropOwnedBy(Player* player) const
+{
+    return (owner_ == player);
+}
+
+/*
+bool Property::isPropOwnedBy(int player_id) const
+{
+    return (owner_ != nullptr) && (owner_->getId() == player_id);
+}
+*/
+
 bool Property::isUpgradeable() const
 {
     return (level_ < 2);
@@ -129,9 +146,4 @@ bool Property::operator!=(const Property& other) const
 bool Property::operator<(const Property& other) const
 {
     return (cell_id_legenda_ < other.cell_id_legenda_);
-}
-
-Property::~Property()
-{
-    delete owner_;
 }

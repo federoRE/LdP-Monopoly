@@ -2,8 +2,6 @@
 #define CIRCULAR_ARRAY_HPP
 
 #include <stdexcept>
-#include <random>
-#include <algorithm>
 
 #include "CircularArray.h"
 
@@ -77,7 +75,8 @@ T CircularArray<T>::pop()
 template<class T>
 bool CircularArray<T>::isFull() const
 {
-    return !isEmpty();
+    return (front_ == 0 && rear_ == size_ - 1) || 
+        ((rear_ +1) % size_ == front_);
 }
 
 template<class T>
@@ -92,13 +91,7 @@ void CircularArray<T>::shuffle()
     // usato solamente dal Property
     auto rd = std::random_device {};
     auto rng = std::default_random_engine { rd() };
-    std::shuffle(data_, data_ + size_, rng);
-}
-
-template<class T>
-T CircularArray<T>::get(int index) const
-{
-    return data_[index%data_.size()];
+    std::shuffle(data_.get(), data_.get() + size_, rng);
 }
 
 template<class T>
@@ -115,9 +108,22 @@ void CircularArray<T>::swap(int index1, int index2)
 }
 
 template<class T>
+T* CircularArray<T>::get() const
+{
+    return data_.get();
+}
+
+template<class T>
+T* CircularArray<T>::get(int index) const
+{
+    return data_[index%data_.size()];
+}
+
+template<class T>
 T& CircularArray<T>::operator[](int index)
 {
-    return data_[index % size_];
+    int realIndex = (front_ + index) % size_;
+    return data_[realIndex];
 }
 
 
@@ -155,7 +161,7 @@ CircularArray<T>::CircularArray(CircularArray&& other) noexcept
 template<class T>
 CircularArray<T>::~CircularArray()
 {
-    delete[] data_;
+    data_.reset();
 }
 
 

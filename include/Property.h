@@ -94,6 +94,9 @@ public:
         };
 
     bool isPropFree() const;
+    bool isPropOwned() const;
+    bool isPropOwnedBy(Player* player) const;
+    //bool isPropOwnedBy(int player_id) const;
 
     bool isUpgradeable() const;
 
@@ -115,7 +118,6 @@ public:
     int getHotelRent() const;
     int getLevel() const;
     bool isEdge() const;
-    ~Property();
 
     Property& operator=(const Property& other);
     bool operator==(const Property& other) const;

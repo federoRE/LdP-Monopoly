@@ -8,42 +8,44 @@
 #include <algorithm>
 #include <random>
 
+#include <memory>
+
 
 template<class T>
 class CircularArray
 {
 private:
-    T *data_;
+    std::shared_ptr<T[]> data_;
     int front_;
     int rear_;
     int size_;
 
-public:
+    public:
 
-    /**
-     * @brief Construct a new Circular Array object
-     * 
-     */
-    CircularArray() : 
-        front_(-1), 
-        rear_(-1), 
-        size_(28) 
-        {
-            data_ = new T[size_];
-        };
-    
-    /**
-     * @brief Construct a new Circular Array object with a fixed size
-     * 
-     * @param size The fixed size of the array
-     */
-    CircularArray(int size) : 
-        front_(-1), 
-        rear_(-1), 
-        size_(size) 
-        {
-            data_ = new T[size_];
-        };
+        /**
+         * @brief Construct a new Circular Array object
+         * 
+         */
+        CircularArray() : 
+            front_(-1), 
+            rear_(-1), 
+            size_(1) 
+            {
+                data_ = std::shared_ptr<T[]>(new T[size_]);
+            };
+            
+            /**
+             * @brief Construct a new Circular Array object with a fixed size
+             * 
+             * @param size The fixed size of the array
+             */
+            CircularArray(int size) : 
+                front_(-1), 
+                rear_(-1), 
+                size_(size) 
+                {
+                    data_ = std::shared_ptr<T[]>(new T[size_]);
+                };
 
     /**
      * @brief Get the size of the array
@@ -87,14 +89,6 @@ public:
     void shuffle();
 
     /**
-     * @brief Get the element at the specified index
-     * @param index Index of the element
-     * @return Element at the specified index
-     * 
-    */
-    T get(int index) const;
-
-    /**
      * Swaps the elements at the specified indices.
      *
      * @param index1 The index of the first element to swap.
@@ -104,12 +98,17 @@ public:
     void swap(int index1, int index2);
 
     /**
-     * @brief Overload the subscript operator to access elements by index
-     * @param index The index of the element to access
-     * @return Reference to the element at the specified index
-     * @throws std::out_of_range if the index is out of bounds
-     */
-    T& operator[](int index);
+     * @brief Get the raw pointer to the array
+     * @return Raw pointer to the array
+    */
+    T* get() const;
+
+    /**
+     * @brief Get the element at the specified index
+     * @param index Index of the element
+     * @return Element at the specified index
+    */
+    T* get(int index) const;
 
     /**
      * @brief Overload the assignment operator
@@ -129,6 +128,14 @@ public:
      * @param other The CircularArray object to move from
      */
     CircularArray(CircularArray&& other) noexcept;
+
+    /**
+     * @brief Overload the subscript operator
+     * @param index The index of the element to access
+     * @return Reference to the element at the specified index
+     * @throws std::out_of_range if the index is out of bounds
+    */
+    T& operator[](int index);
 
     /**
      * @brief Destructor for CircularArray

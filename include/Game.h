@@ -43,6 +43,14 @@ class Game{
         static int rollDice();
         void move();
         void payFees(int payer, Player* payee, int amount);
+
+        /**
+         * @brief Pay fees to another player
+         * @param payer The player who pays
+         * @param payee The player who receives the money
+         * @param amount The amount of money to pay
+        */
+        void payFees(int payer, int payee, int amount);
         void orderPlayers();
 
         void play();

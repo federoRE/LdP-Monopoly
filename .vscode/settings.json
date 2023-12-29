@@ -47,6 +47,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "fstream": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp"
     }
 }
