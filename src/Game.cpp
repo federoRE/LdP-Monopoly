@@ -93,7 +93,25 @@ void Game::move(){
     
 }
 
-void Game::payFees(int payer, Player* payee, int pos){
+void Game::payFees(int payer, Player* payee, int amount){
+    int newFiorini;
+
+    if (players_[payer].getFiorini() >= amount) 
+    {
+        newFiorini = players_[payer].getFiorini() - amount;
+        players_[payer].setFiorini(newFiorini);
+        newFiorini = payee->getFiorini() + amount;
+        payee->setFiorini(newFiorini);
+    } 
+    else 
+    {
+        players_[payer].setIsLose(true);
+        std::cout << "- Il giocatore " << payer+1 << " e' stato eliminato" << std::endl;
+    }
+}
+
+void Game::payFees(int payer, int payee, int pos)
+{
     int newFiorini;
     int amount;
     int level;
@@ -112,24 +130,7 @@ void Game::payFees(int payer, Player* payee, int pos){
         amount = tabellone_[pos].getHotelRent();
         break;
     }
-
-    if (players_[payer].getFiorini() >= amount) 
-    {
-        newFiorini = players_[payer].getFiorini() - amount;
-        players_[payer].setFiorini(newFiorini);
-        newFiorini = payee->getFiorini() + amount;
-        payee->setFiorini(newFiorini);
-    } 
-    else 
-    {
-        players_[payer].setIsLose(true);
-        std::cout << "- Il giocatore " << payer+1 << " e' stato eliminato" << std::endl;
-    }
-}
-
-void Game::payFees(int payer, int payee, int amount)
-{
-    int newFiorini;
+    
     if (players_[payer].getFiorini() >= amount) 
     {
         newFiorini = players_[payer].getFiorini() - amount;

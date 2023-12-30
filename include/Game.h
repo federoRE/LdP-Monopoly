@@ -50,7 +50,7 @@ class Game{
          * @param payee The player who receives the money
          * @param amount The amount of money to pay
         */
-        void payFees(int payer, int payee, int amount);
+        void payFees(int payer, int payee, int pos);
         void orderPlayers();
 
         void play();
