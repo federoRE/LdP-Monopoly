@@ -32,6 +32,7 @@ public:
 
     //Functions
     void incPos(int roll);
+    bool equals(const Player& other) const;
 
     //Operator
     Player& operator=(const Player& other);

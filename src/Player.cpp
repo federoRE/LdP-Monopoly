@@ -76,6 +76,10 @@ void Player::incPos(int roll){
     position_ += roll;
 }
 
+bool Player::equals(const Player& other) const{
+    return this == &other;
+}
+
 
 // Operator
 

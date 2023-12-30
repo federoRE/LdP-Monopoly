@@ -300,7 +300,7 @@ void Game::play(){
                         //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
                         int j = 0;
                         for (int i = 0; i < NO_PLAYERS; i++){
-                            if (players_[i] == tabellone_[pos_tmp].getOwner())
+                            if (players_[i].equals(tabellone_[pos_tmp].getOwner()))
                                 j = i;
                         }
                         payFees(i, tabellone_[pos_tmp].getOwner(), pos_tmp);
