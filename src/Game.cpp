@@ -12,6 +12,7 @@ Game::Game(bool isBotGame){
     no_turns_ = 0;
     isBotGame_ = isBotGame;
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
+    logger_ = Logger();
 
     players_.push(Player(isBotGame));
     players_[0].setName("humano");
@@ -21,7 +22,6 @@ Game::Game(bool isBotGame){
     
 
     // tabellone assegnato ma non ancora inizializzato
-    //logger_ = Logger();
 
     CircularArray<Property> ciotolina(24);
     // Economic
@@ -115,32 +115,38 @@ void Game::payFees(int payer, int payee, int pos)
     int newFiorini;
     int amount;
     int level;
+    std::string log = "";
 
     level = tabellone_[pos].getLevel();
 
-    switch (level)
-    {
-    case 0:
-        amount = 0;
-        break;
-    case 1:
-        amount = tabellone_[pos].getHouseRent();
-        break;
-    case 2:
-        amount = tabellone_[pos].getHotelRent();
-        break;
-    }
-    
     if (players_[payer].getFiorini() >= amount) 
     {
+        switch (level)
+        {
+        case 0:
+            amount = 0;
+            break;
+        case 1:
+            amount = tabellone_[pos].getHouseRent();
+            break;
+        case 2:
+            amount = tabellone_[pos].getHotelRent();
+            break;
+        }
+
         newFiorini = players_[payer].getFiorini() - amount;
         players_[payer].setFiorini(newFiorini);
         newFiorini = players_[payee].getFiorini() + amount;
         players_[payee].setFiorini(newFiorini);
+        log = "Giocatore " + std::to_string(payer) + " ha pagato " 
+            + std::to_string(amount) + " fiorini a giocatore " + std::to_string(payee) + " per pernottamento nella casella "
+            + tabellone_[pos].getLegenda();
+        logger_.addLog(log);
     } 
     else 
     {
         players_[payer].setIsLose(true);
+        log = "Giocatore " + std::to_string(payer) + " è stato eliminato";
     }
 }
 
@@ -292,7 +298,7 @@ void Game::play(){
                             std::endl;
                         auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
                         //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
-                        payFees(i, tabellone_[pos_tmp].getOwner(), tabellone_[pos_tmp].getLandValue());
+                        payFees(i, tabellone_[pos_tmp].getOwner(), pos_tmp);
                     }
 
                     // FINE BOT
