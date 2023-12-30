@@ -147,6 +147,7 @@ void Game::payFees(int payer, int payee, int pos)
     {
         players_[payer].setIsLose(true);
         log = "Giocatore " + std::to_string(payer) + " è stato eliminato";
+        logger_.addLog(log);
     }
 }
 
@@ -303,7 +304,7 @@ void Game::play(){
                             if (players_[i].equals(tabellone_[pos_tmp].getOwner()))
                                 j = i;
                         }
-                        payFees(i, tabellone_[pos_tmp].getOwner(), pos_tmp);
+                        payFees(i, j, pos_tmp);
                     }
 
                     // FINE BOT
