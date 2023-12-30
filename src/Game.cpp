@@ -303,7 +303,7 @@ void Game::play(){
                             if (players_[i].equals(tabellone_[pos_tmp].getOwner()))
                                 j = i;
                         }
-                        payFees(i, tabellone_[pos_tmp].getOwner(), pos_tmp);
+                        payFees(i, j, pos_tmp);
                     }
 
                     // FINE BOT
