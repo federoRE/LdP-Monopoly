@@ -298,6 +298,11 @@ void Game::play(){
                             std::endl;
                         auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
                         //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
+                        int j = 0;
+                        for (int i = 0; i < NO_PLAYERS; i++){
+                            if (players_[i] == tabellone_[pos_tmp].getOwner())
+                                j = i;
+                        }
                         payFees(i, tabellone_[pos_tmp].getOwner(), pos_tmp);
                     }
 
