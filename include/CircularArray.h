@@ -1,10 +1,6 @@
 #ifndef CIRCULAR_ARRAY_H
 #define CIRCULAR_ARRAY_H
 
-/**
- * TODO: controllo pop() su array vuoto/cast improprio
-*/
-
 #include <algorithm>
 #include <random>
 
@@ -15,37 +11,37 @@ template<class T>
 class CircularArray
 {
 private:
-    std::shared_ptr<T[]> data_;
-    int front_;
-    int rear_;
-    int size_;
+    std::shared_ptr<T[]> data_; // Pointer to the data stores
+    int front_; // Index of the front element
+    int rear_; // Index of the rear element
+    int size_; // Size of the array
 
-    public:
+public:
 
-        /**
-         * @brief Construct a new Circular Array object
-         * 
-         */
-        CircularArray() : 
-            front_(-1), 
-            rear_(-1), 
-            size_(1) 
-            {
-                data_ = std::shared_ptr<T[]>(new T[size_]);
-            };
-            
-            /**
-             * @brief Construct a new Circular Array object with a fixed size
-             * 
-             * @param size The fixed size of the array
-             */
-            CircularArray(int size) : 
-                front_(-1), 
-                rear_(-1), 
-                size_(size) 
-                {
-                    data_ = std::shared_ptr<T[]>(new T[size_]);
-                };
+    /**
+     * @brief Construct a new Circular Array object
+     * 
+     */
+    CircularArray() : 
+        front_(-1), 
+        rear_(-1), 
+        size_(1) 
+        {
+            data_ = std::shared_ptr<T[]>(new T[size_]);
+        };
+        
+    /**
+     * @brief Construct a new Circular Array object with a fixed size
+     * 
+     * @param size The fixed size of the array
+     */
+    CircularArray(int size) : 
+        front_(-1), 
+        rear_(-1), 
+        size_(size) 
+        {
+            data_ = std::shared_ptr<T[]>(new T[size_]);
+        };
 
     /**
      * @brief Get the size of the array
@@ -111,6 +107,14 @@ private:
     T* get(int index) const;
 
     /**
+     * @brief Overload the subscript operator
+     * @param index The index of the element to access
+     * @return Reference to the element at the specified index
+     * @throws std::out_of_range if the index is out of bounds
+    */
+    T& operator[](int index);
+
+    /**
      * @brief Overload the assignment operator
      * @param other The CircularArray object to assign from
      * @return Reference to the assigned CircularArray object
@@ -128,14 +132,6 @@ private:
      * @param other The CircularArray object to move from
      */
     CircularArray(CircularArray&& other) noexcept;
-
-    /**
-     * @brief Overload the subscript operator
-     * @param index The index of the element to access
-     * @return Reference to the element at the specified index
-     * @throws std::out_of_range if the index is out of bounds
-    */
-    T& operator[](int index);
     
     /**
      * @brief Destructor for CircularArray

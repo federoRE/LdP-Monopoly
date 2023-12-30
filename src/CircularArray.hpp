@@ -1,8 +1,6 @@
 #ifndef CIRCULAR_ARRAY_HPP
 #define CIRCULAR_ARRAY_HPP
 
-#include <stdexcept>
-
 #include "CircularArray.h"
 
 template<class T>
@@ -49,7 +47,7 @@ T CircularArray<T>::pop()
 {
     if (isEmpty())
     {
-        return T(); // Return a default-constructed object of type T
+        return T(); // return default value of T
     }
 
     T value = data_[front_];
