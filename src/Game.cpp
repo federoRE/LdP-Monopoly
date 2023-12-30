@@ -93,8 +93,26 @@ void Game::move(){
     
 }
 
-void Game::payFees(int payer, Player* payee, int amount){
+void Game::payFees(int payer, Player* payee, int pos){
     int newFiorini;
+    int amount;
+    int level;
+
+    level = tabellone_[pos].getLevel();
+
+    switch (level)
+    {
+    case 0:
+        amount = 0;
+        break;
+    case 1:
+        amount = tabellone_[pos].getHouseRent();
+        break;
+    case 2:
+        amount = tabellone_[pos].getHotelRent();
+        break;
+    }
+
     if (players_[payer].getFiorini() >= amount) 
     {
         newFiorini = players_[payer].getFiorini() - amount;
