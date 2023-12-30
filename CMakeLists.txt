@@ -53,28 +53,29 @@ add_executable(
     src/tests/player_array_prop_test.cpp
     )
 add_executable(
-    logger_test
-    src/tests/logger_test.cpp
-    )
-add_executable(
     player_test
     src/tests/player_test.cpp
-    )    
+    )
+add_executable(
+    circulararray_test
+    src/tests/circulararray_test.cpp
+    )
+
 target_link_libraries(player_array_prop_test monopoly_lib)
-target_link_libraries(logger_test monopoly_lib)
 target_link_libraries(player_test monopoly_lib)
+target_link_libraries(circulararray_test monopoly_lib)
 enable_testing()
 
 
 add_test(
-    NAME player_array_prop_test.cpp
+    NAME player_array_prop_test
     COMMAND $<TARGET_FILE:player_array_prop_test>
-)
-add_test(
-    NAME logger_test
-    COMMAND $<TARGET_FILE:logger_test>
 )
 add_test(
     NAME player_test
     COMMAND $<TARGET_FILE:player_test>
+)
+add_test(
+    NAME circulararray_test
+    COMMAND $<TARGET_FILE:circulararray_test>
 )
