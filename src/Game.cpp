@@ -103,7 +103,7 @@ void Game::move(){
     
 }
 
-void Game::payFees(int payer, Player* payee, int amount){
+/*void Game::payFees(int payer, Player* payee, int amount){
     int newFiorini;
 
     if (players_[payer].getFiorini() >= amount) 
@@ -118,7 +118,7 @@ void Game::payFees(int payer, Player* payee, int amount){
         players_[payer].setIsLose(true);
         std::cout << "- Il giocatore " << payer+1 << " e' stato eliminato" << std::endl;
     }
-}
+}*/
 
 void Game::payFees(int payer, int payee, int pos)
 {
@@ -159,6 +159,29 @@ void Game::payFees(int payer, int payee, int pos)
         log = "Giocatore " + std::to_string(payer) + " è stato eliminato";
         logger_.addLog(log);
     }
+}
+
+int Game::payLand(int payer, int pos){
+    int level = tabellone_[pos].getLevel();
+    int amount;
+
+    switch (level)
+    {
+        case 0:
+            amount = tabellone_[pos].getHouseValue();
+            break;
+        case 1:
+            amount = tabellone_[pos].getHotelValue();
+            break;
+    }
+
+    if (players_[payer].getFiorini() >= amount)
+    {
+        tabellone_[pos].upgrade();
+        players_[payer].setFiorini(players_[payer].getFiorini() - amount);
+        return tabellone_[pos].getLevel();
+    }
+    return -1;
 }
 
 void Game::orderPlayers() {
@@ -288,7 +311,8 @@ void Game::play(){
                     if(tabellone_[pos_tmp].isPropFree()) //Non e' edge e non e' acquistata
                     {
                         //Solo il 25% delle volte
-                        if(randomChance()){
+                        if(randomChance())
+                        {
                             if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
                             {
                                 tabellone_[pos_tmp].setOwner(&players_[i]);
@@ -299,11 +323,36 @@ void Game::play(){
                                     std::endl;
                             }
                         }
-                        else if(
-                            (tabellone_[pos_tmp].getOwner() != &players_[i]) && 
-                                !(tabellone_[pos_tmp].isEdge())
-                            )
+                    }
+                    //Se e' lui Owner della casella
+                    else if (tabellone_[pos_tmp].getOwner() == &players_[i]){
+                        if (tabellone_[pos_tmp].isUpgradeable())
                         {
+                            //Solo il 25% delle volte
+                            if(randomChance()){
+                                int payment = payLand(i, pos_tmp);
+                                if (payment != -1)
+                                {
+                                    std::string log = "";
+                                    if (payment == 1)
+                                    {
+                                        log = "Giocatore " + std::to_string(i) + " ha costruito una casa sul terreno " 
+                                        + tabellone_[pos_tmp].getLegenda();
+                                        logger_.addLog(log);
+                                    }
+                                    if (payment == 2)
+                                    {
+                                        log = "Giocatore " + std::to_string(i) + " ha migliorato una casa in albergo sul terreno " 
+                                        + tabellone_[pos_tmp].getLegenda();
+                                        logger_.addLog(log);
+                                    }
+                                }
+                            }
+                        } 
+                    }
+
+                    else if((tabellone_[pos_tmp].getOwner() != &players_[i]) && 
+                            !(tabellone_[pos_tmp].isEdge())){
                             std::cout << "- Giocatore " << i+1 << //////// LOG
                                 " ha pagato " << 
                                 tabellone_[players_[i].getPos()].getLegenda() <<
@@ -316,7 +365,6 @@ void Game::play(){
                                     j = k;
                             }
                             payFees(i, j, pos_tmp);
-                        }
                     }
                     // FINE BOT
                 }

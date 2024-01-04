@@ -42,8 +42,7 @@ class Game{
         //Functions
         static int rollDice();
         void move();
-        void payFees(int payer, Player* payee, int amount);
-        bool randomChance();
+        //void payFees(int payer, Player* payee, int amount);
 
         /**
          * @brief Pay fees to another player
@@ -51,9 +50,10 @@ class Game{
          * @param payee The player who receives the money
          * @param amount The amount of money to pay
         */
+        bool randomChance();
         void payFees(int payer, int payee, int pos);
         void orderPlayers();
-
+        int payLand(int payer, int pos);
         void play();
 
     private:
