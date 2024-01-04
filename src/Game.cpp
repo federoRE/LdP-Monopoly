@@ -81,6 +81,16 @@ bool Game::isEOG(){
     }
 }
 
+bool Game::randomChance()
+{
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    //Genera un numero compreso tra 0 e 3
+    int randomNumber = std::rand() % 4;
+    if (randomNumber == 0)
+        return true;
+    return false;
+}
+
 int Game::rollDice(){
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -275,38 +285,39 @@ void Game::play(){
                 else
                 {
                     // INIZIO BOT
-                    if(tabellone_[pos_tmp].isPropFree())
+                    if(tabellone_[pos_tmp].isPropFree()) //Non e' edge e non e' acquistata
                     {
-                        if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
+                        //Solo il 25% delle volte
+                        if(randomChance()){
+                            if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
+                            {
+                                tabellone_[pos_tmp].setOwner(&players_[i]);
+                                players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
+                                std::cout << "- Giocatore " << i+1 << //////// LOG
+                                    " ha acquistato il terreno " <<
+                                    tabellone_[players_[i].getPos()].getLegenda() <<
+                                    std::endl;
+                            }
+                        }
+                        else if(
+                            (tabellone_[pos_tmp].getOwner() != &players_[i]) && 
+                                !(tabellone_[pos_tmp].isEdge())
+                            )
                         {
-                            tabellone_[pos_tmp].setOwner(&players_[i]);
-                            players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
                             std::cout << "- Giocatore " << i+1 << //////// LOG
-                                " ha acquistato il terreno " <<
+                                " ha pagato " << 
                                 tabellone_[players_[i].getPos()].getLegenda() <<
                                 std::endl;
+                            auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
+                            //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
+                            int j = -1;
+                            for (int k = 0; k < NO_PLAYERS; k++){
+                                if (players_[k].equals(*tabellone_[pos_tmp].getOwner()))
+                                    j = k;
+                            }
+                            payFees(i, j, pos_tmp);
                         }
-                        
                     }
-                    else if(
-                        (tabellone_[pos_tmp].getOwner() != &players_[i]) && 
-                            !(tabellone_[pos_tmp].isEdge())
-                        )
-                    {
-                        std::cout << "- Giocatore " << i+1 << //////// LOG
-                            " ha pagato " << 
-                            tabellone_[players_[i].getPos()].getLegenda() <<
-                            std::endl;
-                        auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
-                        //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
-                        int j = -1;
-                        for (int k = 0; k < NO_PLAYERS; k++){
-                            if (players_[k].equals(*tabellone_[pos_tmp].getOwner()))
-                                j = k;
-                        }
-                        payFees(i, j, pos_tmp);
-                    }
-
                     // FINE BOT
                 }
             }

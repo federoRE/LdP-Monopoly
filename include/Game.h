@@ -43,6 +43,7 @@ class Game{
         static int rollDice();
         void move();
         void payFees(int payer, Player* payee, int amount);
+        bool randomChance();
 
         /**
          * @brief Pay fees to another player
