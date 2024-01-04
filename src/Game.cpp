@@ -83,12 +83,14 @@ bool Game::isEOG(){
 
 bool Game::randomChance()
 {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    //Genera un numero compreso tra 0 e 3
-    int randomNumber = std::rand() % 4;
-    if (randomNumber == 0)
-        return true;
-    return false;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> dist(0, 3);
+    int randomNumber = dist(gen);
+
+    // Ritorna vero al 25%
+    return (randomNumber == 0);
 }
 
 int Game::rollDice(){
@@ -148,15 +150,15 @@ void Game::payFees(int payer, int payee, int pos)
         players_[payer].setFiorini(newFiorini);
         newFiorini = players_[payee].getFiorini() + amount;
         players_[payee].setFiorini(newFiorini);
-        log = "Giocatore " + std::to_string(payer) + " ha pagato " 
-            + std::to_string(amount) + " fiorini a giocatore " + std::to_string(payee) + " per pernottamento nella casella "
+        log = "Giocatore " + std::to_string(payer+1) + " ha pagato " 
+            + std::to_string(amount) + " fiorini a giocatore " + std::to_string(payee+1) + " per pernottamento nella casella "
             + tabellone_[pos].getLegenda();
         logger_.addLog(log);
     } 
     else 
     {
         players_[payer].setIsLose(true);
-        log = "Giocatore " + std::to_string(payer) + " è stato eliminato";
+        log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
         logger_.addLog(log);
     }
 }
@@ -336,13 +338,13 @@ void Game::play(){
                                     std::string log = "";
                                     if (payment == 1)
                                     {
-                                        log = "Giocatore " + std::to_string(i) + " ha costruito una casa sul terreno " 
+                                        log = "Giocatore " + std::to_string(i+1) + " ha costruito una casa sul terreno " 
                                         + tabellone_[pos_tmp].getLegenda();
                                         logger_.addLog(log);
                                     }
                                     if (payment == 2)
                                     {
-                                        log = "Giocatore " + std::to_string(i) + " ha migliorato una casa in albergo sul terreno " 
+                                        log = "Giocatore " + std::to_string(i+1) + " ha migliorato una casa in albergo sul terreno " 
                                         + tabellone_[pos_tmp].getLegenda();
                                         logger_.addLog(log);
                                     }
