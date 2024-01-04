@@ -97,8 +97,9 @@ int Game::rollDice(){
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(1,6); 
-    int rdn = dist6(rng);
-    return rdn;    
+    int first_roll = dist6(rng);
+    int second_roll = dist6(rng);
+    return first_roll + second_roll;
 }
 
 void Game::move(){
