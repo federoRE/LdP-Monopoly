@@ -164,5 +164,16 @@ CircularArray<T>::~CircularArray()
     data_.reset();
 }
 
+template<class T>
+T* CircularArray<T>::begin()
+{
+    return &data_[front_];
+}
+
+template<class T>
+T* CircularArray<T>::end()
+{
+    return &data_[rear_];
+}
 
 #endif // CIRCULAR_ARRAY_HPP
