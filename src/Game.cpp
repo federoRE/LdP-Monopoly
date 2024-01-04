@@ -389,22 +389,20 @@ void Game::play(){
         }
     }
 
-    if(playersInGame > 1 && no_turns_ == -1)
-    {
-        std::cout << "Il gioco e' finito in parita'" << std::endl;
-    }
-    else
+    if((playersInGame == 1))
     {
         for(int i = 0; i < NO_PLAYERS; i++)
         {
             if(!players_[i].getIsLose())
             {
-                std::cout << "Il vincitore e' " << players_[i].getName() <<
-                            "(Giocatore "<< i+1 <<")" <<
-                 std::endl;
+                std::string log = "";
+                log = "Giocatore " + std::to_string(i+1) + " ha vinto la partita";
+                logger_.addLog(log);
             }
         }
     }
+
+    // TODO Vittoria in ex-equo
 
     if(playersInGame > 1 && no_turns_ != -1){
         int winner = -1;
