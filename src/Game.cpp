@@ -388,7 +388,7 @@ void Game::play(){
         }
     }
 
-    if(playersInGame > 1)
+    if(playersInGame > 1 && no_turns_ == -1)
     {
         std::cout << "Il gioco e' finito in parita'" << std::endl;
     }
@@ -404,5 +404,16 @@ void Game::play(){
             }
         }
     }
-    
+
+    if(playersInGame > 1 && no_turns_ != -1){
+        int winner = -1;
+        int max = -1;
+        for(int i = 0; i < NO_PLAYERS; i++){
+            if (players_[i].getFiorini() > max)
+                winner = i;
+        }
+        std::string log = "";
+        log = "Giocatore " + std::to_string(winner+1) + " ha vinto la partita";
+        logger_.addLog(log);
+    }
 }
