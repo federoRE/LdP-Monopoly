@@ -76,13 +76,8 @@ void Player::incPos(int roll){
     position_ += roll;
 }
 
-bool Player::equals(const Player& other) const{
-    return position_ == other.position_ && 
-            roll_ == other.roll_ && 
-            fiorini_ == other.fiorini_ && 
-            bot_ == other.bot_ && 
-            isLose_ == other.isLose_ && 
-            name_ == other.name_;
+bool Player::equals(const Player& other) const {
+    return this == &other;
 }
 
 
