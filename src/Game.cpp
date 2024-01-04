@@ -408,8 +408,10 @@ void Game::play(){
         int winner = -1;
         int max = -1;
         for(int i = 0; i < NO_PLAYERS; i++){
-            if (players_[i].getFiorini() > max)
+            if (players_[i].getFiorini() > max){
+                max = players_[i].getFiorini();
                 winner = i;
+            }
         }
         std::string log = "";
         log = "Giocatore " + std::to_string(winner+1) + " ha vinto la partita";
