@@ -102,10 +102,9 @@ bool Game::randomChance()
 int Game::rollDice(){
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,6); 
-    int first_roll = dist6(rng);
-    int second_roll = dist6(rng);
-    return first_roll + second_roll;
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,12); 
+    int roll = dist6(rng);
+    return roll;
 }
 
 void Game::move(){
