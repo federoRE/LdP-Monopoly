@@ -21,6 +21,7 @@ public:
     int getRoll() const;
     std::string getName() const;
     bool getIsLose() const;
+    int getId() const;
     bool isBot() const;
 
     //Setter
@@ -28,6 +29,7 @@ public:
     void setFiorini(int fiorini);
     void setRoll(int roll);
     void setName(std::string name);
+    void setId(int id);
     void setIsLose(bool isLose);
 
     //Functions
@@ -82,6 +84,7 @@ private:
     bool bot_;
     bool isLose_;
     std::string name_;
+    int id_;
 };
 
 

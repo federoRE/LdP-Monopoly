@@ -15,6 +15,7 @@
 #include <string>
 #include <random>
 #include <unistd.h>
+#include <set>
 #include <algorithm> // for std::sort
 #include <chrono> // for std::chrono::system_clock
 
@@ -41,18 +42,10 @@ class Game{
         bool isEOG();
         //void payFees(int payer, Player* payee, int amount);
 
-        /**
-         * @brief Pay fees to another player
-         * @param payer The player who pays
-         * @param payee The player who receives the money
-         * @param amount The amount of money to pay
-        */
-        void payFees(int payer, int payee, int pos);
         void orderPlayers();
-        int payLand(int payer, int pos);
         void play();
 
-        void printBoard();
+        
 
     private:
         CircularArray<Player> players_{NO_PLAYERS};
@@ -63,9 +56,32 @@ class Game{
         std::string *cell_ids;
         bool isBotGame_;
 
+        /**
+         * @brief Determine if bot should buy a property
+        */
         bool randomChance();
+
+        /**
+         * @brief Roll the dice
+         * @return The sum of the dice
+        */
         static int rollDice();
-        static bool comparePlayers(Player& p1, Player& p2);
+
+        /**
+         * @brief Print the properties of the players
+        */
+        void printProps();
+        void printBoard();
+        int payLand(int payer, int pos);
+
+        /**
+         * @brief Pay fees to another player
+         * @param payer The player who pays
+         * @param payee The player who receives the money
+         * @param amount The amount of money to pay
+        */
+        void payFees(int payer, int payee, int pos);
+
 };
 
 #endif

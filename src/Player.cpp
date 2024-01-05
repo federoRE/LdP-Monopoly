@@ -9,6 +9,7 @@ Player::Player(){
     fiorini_ = 100;
     bot_ = true;
     isLose_ = false;
+    id_ = -1;
 }
 
 Player::Player(bool bot){
@@ -17,6 +18,7 @@ Player::Player(bool bot){
     fiorini_ = 100;
     bot_ = bot;
     isLose_ = false;
+    id_ = -1;
 }
 
 
@@ -42,6 +44,10 @@ bool Player::getIsLose() const{
     return isLose_;
 }
 
+int Player::getId() const{
+    return id_;
+}
+
 
 // Setter
 
@@ -59,6 +65,10 @@ void Player::setRoll(int roll){
 
 void Player::setName(std::string name){
     name_ = name;
+}
+
+void Player::setId(int id){
+    id_ = id;
 }
 
 void Player::setIsLose(bool isLose){

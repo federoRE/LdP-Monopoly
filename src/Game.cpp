@@ -169,7 +169,7 @@ int Game::rollDice(){
 
 void Game::orderPlayers() {
     std::cout << "Ordino i giocatori" << std::endl;
-    std::vector<int> vtmp;
+    std::set<int> rolls; // Use a set to store unique rolls
 
     for(int i=0; i<NO_PLAYERS; i++){
         int roll = 0;
@@ -177,18 +177,21 @@ void Game::orderPlayers() {
         do{
             roll = rollDice();
 
-            for(int j=0; j<vtmp.size() && vtmp.size() > 0; j++){
-                if(vtmp[j] == roll){
-                    isok = false;
-                    break;
-                }
+            if (rolls.count(roll) > 0) {
+                isok = false;
+            }
+            else{
+                isok = true;
             }
         }
-        while(!isok && i<NO_PLAYERS-1);
-        vtmp.push_back(roll);
+        while(!isok && i<NO_PLAYERS);
+        rolls.insert(roll); // Insert the unique roll into the set
     }
-    for(int i=0; i<NO_PLAYERS; i++){
-        players_[i].setRoll(vtmp[i]);
+
+    int index = 0;
+    for (const auto& roll : rolls) {
+        players_[index].setRoll(roll);
+        index++;
     }
 
     for (int i = 0; i < NO_PLAYERS - 1; i++) {
@@ -198,6 +201,10 @@ void Game::orderPlayers() {
                 players_.swap(j, j + 1);
             }
         }
+    }
+
+    for(int i=0; i<NO_PLAYERS; i++){
+        players_[i].setId(i+1);
     }
 }
 
@@ -228,7 +235,7 @@ void Game::play(){
                 int rd_val = rollDice(); 
                 players_[i] += rd_val; //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
                 std::cout <<  //////// LOG
-                    "- Giocatore " << i+1 << " ha tirato i dadi ottenendo un valore di " <<
+                    "- Giocatore " << players_[i].getId() << " ha tirato i dadi ottenendo un valore di " <<
                     rd_val << std::endl;
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
@@ -248,36 +255,95 @@ void Game::play(){
                         tabellone_[pos_tmp].getLegenda() << ". ";
                     if(tabellone_[pos_tmp].isPropFree())
                     {
-                        // INIZIO PROPRITA' LIBERA
+                        // INIZIO PROPRIETA' LIBERA
                         std::cout << "Il terreno costa: " << 
                         tabellone_[pos_tmp].getLandValue() <<
                         " fiorini(" << tabellone_[players_[i].getPos()].getPropClass() <<
-                        "). Vuoi comprarlo?" << std::endl <<
-                        "Per comprare scrivi b, per passare scrivi p: ";
-                    
-                        std::string input= "";
-                        std::cin >> input;
+                        ")." << std::endl;
 
-                        if(input[0] == 'b')
-                        {
-                            //compera
-                            if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
+                        std::cout <<
+                            "[GAME] Lista comandi: " << std::endl <<
+                            " - b: compra il terreno" << std::endl <<
+                            " - p: passa il turno" << std::endl <<
+                            " - show: mostra il tabellone" << std::endl <<
+                            " - prop: mostra le caselle possedute dai giocatori" <<
+                        std::endl;
+                        std::string input= "";
+                        bool isAlredyBought = false;
+                        do{
+                            std::cout << "Inserisci comando: ";
+                            std::cin >> input;
+                            if(input[0] == 'b')
                             {
-                                tabellone_[pos_tmp].setOwner(&players_[i]);
-                                players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                                std::cout << "- Giocatore " << i+1 << //////// LOG
-                                    " ha acquistato il terreno " <<
-                                    tabellone_[players_[i].getPos()].getLegenda() <<
-                                    std::endl;
+                                if(isAlredyBought)
+                                {
+                                    std::cout << "Hai gia' acquistato il terreno" << std::endl;
+                                    continue;
+                                }
+                                else
+                                {
+                                    isAlredyBought = true;
+                                    //compera
+                                    if(players_[i].getFiorini() >= tabellone_[pos_tmp].getLandValue())
+                                    {
+                                        tabellone_[pos_tmp].setOwner(&players_[i]);
+                                        players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
+                                        std::cout << "- Giocatore " << i+1 << //////// LOG
+                                            " ha acquistato il terreno " <<
+                                            tabellone_[players_[i].getPos()].getLegenda() <<
+                                            std::endl;
+                                    }
+                                    else
+                                    {
+                                        std::cout << "Non hai abbastanza fiorini" << std::endl;
+                                    }
+                                }
+                            }
+                            else if(input == "show") 
+                            {
+                                printBoard();
+                                printProps();
+                                std::cout << "Fiorini" << std::endl;
+                                for(int i=0; i<NO_PLAYERS; i++)
+                                {
+                                    std::cout << "Giocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
+                                }
+                            }
+                            else if(input == "gscotty")
+                            {
+                                std::cout << "Hai attivato la modalita' God Scotty" << std::endl;
+                                players_[i].setFiorini(players_[i].getFiorini() + 1000);
+                                for(int i=0;i<28;i++){
+                                    if(!tabellone_[i].isEdge())
+                                    {
+                                        tabellone_[i].setOwner(&players_[0]);
+                                        tabellone_[i].upgrade();
+                                        tabellone_[i].upgrade();
+                                    }
+                                }
+                                printBoard();
+                            }
+                            else if(input == "help")
+                            {
+                                std::cout <<
+                                    "[GAME] Lista comandi: " << std::endl <<
+                                    (isAlredyBought ? "" : " - b: compra il terreno") << std::endl <<
+                                    " - p: passa il turno" << std::endl <<
+                                    " - show: mostra il tabellone" << std::endl <<
+                                    " - prop: mostra le caselle possedute dai giocatori" <<
+                                std::endl;
+                            }
+                            else if(input == "prop")
+                            {
+                                printProps();
                             }
                             else
                             {
-                                std::cout << "Non hai abbastanza fiorini" << std::endl;
+                                std::cout << "Comando non riconosciuto" << std::endl;
                             }
                         }
-                        else if(input == "show") 
-                            // 
-                            printBoard();
+                        while(input != "end" && input != "p");
+
 
                         // FINE PROPRIETA' LIBERA
                     }
@@ -285,6 +351,129 @@ void Game::play(){
                         // INIZIO PROPRIETA' NON LIBERA
 
                         //se la proprieta' e' gia' di qualcuno o non e' acquistabile
+                        if(tabellone_[pos_tmp].getOwner() == &players_[i])
+                        {
+                            //se e' gia' di lui
+                            if(tabellone_[pos_tmp].isUpgradeable())
+                            {
+                                //se e' migliorabile
+                                std::cout << "Il terreno e' migliorabile" << std::endl;
+                                std::cout << "Il terreno costa: " << 
+                                tabellone_[pos_tmp].getHouseValue() <<
+                                " fiorini(" << tabellone_[players_[i].getPos()].getPropClass() <<
+                                ")." << std::endl;
+
+                                std::cout <<
+                                    "[GAME] Lista comandi: " << std::endl <<
+                                    " - p: passa il turno" << std::endl <<
+                                    " - show: mostra il tabellone" << std::endl <<
+                                    " - prop: mostra le caselle possedute dai giocatori" << std::endl <<
+                                    " - up: upgrade casella" <<
+                                std::endl;
+                                std::string input= "";
+                                bool isAlredyBought = false;
+                                do{
+                                    std::cout << "Inserisci comando: ";
+                                    std::cin >> input;
+                                    if(input == "up")
+                                    {
+                                        if(isAlredyBought)
+                                        {
+                                            std::cout << "Hai gia' acquistato il terreno" << std::endl;
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            isAlredyBought = true;
+                                            //compera
+                                            if(players_[i].getFiorini() >= tabellone_[pos_tmp].getHouseValue())
+                                            {
+                                                int payment = payLand(i, pos_tmp);
+                                                if (payment != -1)
+                                                {
+                                                    std::string log = "";
+                                                    if (payment == 1)
+                                                    {
+                                                        log = "Giocatore " + std::to_string(i+1) + " ha costruito una casa sul terreno " 
+                                                        + tabellone_[pos_tmp].getLegenda();
+                                                        logger_.addLog(log);
+                                                    }
+                                                    if (payment == 2)
+                                                    {
+                                                        log = "Giocatore " + std::to_string(i+1) + " ha migliorato una casa in albergo sul terreno " 
+                                                        + tabellone_[pos_tmp].getLegenda();
+                                                        logger_.addLog(log);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                std::cout << "Non hai abbastanza fiorini" << std::endl;
+                                            }
+                                        }
+                                    }
+                                    else if(input == "show") 
+                                    {
+                                        printBoard();
+                                        printProps();
+                                        std::cout << "Fiorini" << std::endl;
+                                        for(int i=0; i<NO_PLAYERS; i++)
+                                        {
+                                            std::cout << "Giocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
+                                        }
+                                    }
+                                    else if(input == "gscotty")
+                                    {
+                                        std::cout << "Hai attivato la modalita' God Scotty" << std::endl;
+                                        players_[i].setFiorini(players_[i].getFiorini() + 1000);
+                                        for(int i=0;i<28;i++){
+                                            if(!tabellone_[i].isEdge())
+                                            {
+                                                tabellone_[i].setOwner(&players_[0]);
+                                                tabellone_[i].upgrade();
+                                                tabellone_[i].upgrade();
+                                            }
+                                        }
+                                        printBoard();
+                                    }
+                                    else if(input == "help")
+                                    {
+                                        std::cout <<
+                                            "[GAME] Lista comandi: " << std::endl <<
+                                            (isAlredyBought ? "" : " - b: compra il terreno") << std::endl <<
+                                            " - p: passa il turno" << std::endl <<
+                                            " - show: mostra il tabellone" << std::endl <<
+                                            " - prop: mostra le caselle possedute dai giocatori" <<
+                                        std::endl;
+                                    }
+                                    else if(input == "prop")
+                                    {
+                                        printProps();
+                                    }
+                                    else if(input == "help") 
+                                    {
+                                        std::cout <<
+                                            "[GAME] Lista comandi: " << std::endl <<
+                                            " - p: passa il turno" << std::endl <<
+                                            " - show: mostra il tabellone" << std::endl <<
+                                            " - prop: mostra le caselle possedute dai giocatori" << std::endl <<
+                                            (isAlredyBought ? "" : " - up: upgrade casella") <<
+                                        std::endl;
+                                    }
+                                    else
+                                    {
+                                        std::cout << "Comando non riconosciuto" << std::endl;
+                                    }
+                                }
+                                while(input != "end" && input != "p");
+                            }
+                            else
+                            {
+                                std::cout << "Il terreno non e' migliorabile" << std::endl;
+                            }
+                        }
+
+                        
                         std::cout << "Il terreno non e' acquistabile" << std::endl;
 
                         // FINE PROPRIETA' NON LIBERA
@@ -340,11 +529,11 @@ void Game::play(){
 
                     else if((tabellone_[pos_tmp].getOwner() != &players_[i]) && 
                             !(tabellone_[pos_tmp].isEdge())){
-                            std::cout << "- Giocatore " << i+1 << //////// LOG
+                            std::cout << "- Giocatore " << players_[i].getId() << //////// LOG
                                 " ha pagato " << 
                                 tabellone_[players_[i].getPos()].getLegenda() <<
                                 std::endl;
-                            auto owner_id = tabellone_[pos_tmp].getOwner()->getPos();
+                            int owner_id = tabellone_[pos_tmp].getOwner()->getPos();
                             //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
                             int j = -1;
                             for (int k = 0; k < NO_PLAYERS; k++){
@@ -427,84 +616,208 @@ void Game::printBoard(){
     std::endl;
     std::cout << "--------------------------------------------------------------------------------"
     << std::endl;
-    std::cout << "A" << 
-        "\t" << "|" << tabellone_[14].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[15].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[16].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[17].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[18].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[19].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[20].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[21].getPropClass() << "|" << "\t" <<
-    std::endl;
+    std::cout << "A" << "\t";
+    for(int i=14; i<22; i++){
+        std::cout << "|" << tabellone_[i].getPropClass();
+        std::cout << ((tabellone_[i].getLevel() == 1) ? "*" : "");
+        std::cout << ((tabellone_[i].getLevel() == 2) ? "^" : "");
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == i){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t";
+    }
+    std::cout << std::endl;
     std::cout << "B" <<
-        "\t" << "|" << tabellone_[13].getPropClass() << "|" << "\t" << " " <<
+        "\t" << 
+        "|" << tabellone_[13].getPropClass();
+        if(tabellone_[13].getLevel() == 1) std::cout << "*";
+        if(tabellone_[13].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 13){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << 
+        "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[22].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[22].getPropClass(); 
+        if(tabellone_[22].getLevel() == 1) std::cout << "*";
+        if(tabellone_[22].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 22){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
     std::cout << "C" <<
-        "\t" << "|" << tabellone_[12].getPropClass() << "|" << "\t" << " " <<
+        "\t" << 
+        "|" << tabellone_[12].getPropClass();
+        if(tabellone_[12].getLevel() == 1) std::cout << "*";
+        if(tabellone_[12].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 12){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[23].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[23].getPropClass();
+        if(tabellone_[23].getLevel() == 1) std::cout << "*";
+        if(tabellone_[23].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 23){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
     std::cout << "D" <<
-        "\t" << "|" << tabellone_[11].getPropClass() << "|" << "\t" << " " <<
+        "\t" << 
+        "|" << tabellone_[11].getPropClass();
+        if(tabellone_[11].getLevel() == 1) std::cout << "*";
+        if(tabellone_[11].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 11){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[24].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[24].getPropClass();
+        if(tabellone_[24].getLevel() == 1) std::cout << "*";
+        if(tabellone_[24].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 24){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
     std::cout << "E" <<
-        "\t" << "|" << tabellone_[10].getPropClass() << "|" << "\t" << " " <<
+        "\t" << 
+        "|" << tabellone_[10].getPropClass();
+        if(tabellone_[10].getLevel() == 1) std::cout << "*";
+        if(tabellone_[10].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 10){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[25].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[25].getPropClass();
+        if(tabellone_[25].getLevel() == 1) std::cout << "*";
+        if(tabellone_[25].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 25){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
     std::cout << "F" <<
-        "\t" << "|" << tabellone_[9].getPropClass() << "|" << "\t" << " " <<
+        "\t" << "|" << tabellone_[9].getPropClass();
+        if(tabellone_[9].getLevel() == 1) std::cout << "*";
+        if(tabellone_[9].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 9){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[26].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[26].getPropClass();
+        if(tabellone_[26].getLevel() == 1) std::cout << "*";
+        if(tabellone_[26].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 26){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
     std::cout << "G" <<
-        "\t" << "|" << tabellone_[8].getPropClass() << "|" << "\t" << " " <<
+        "\t" << "|" << tabellone_[8].getPropClass();
+        if(tabellone_[8].getLevel() == 1) std::cout << "*";
+        if(tabellone_[8].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 8){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" << " " <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
         "\t" <<
-        "|" << tabellone_[27].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[27].getPropClass();
+        if(tabellone_[27].getLevel() == 1) std::cout << "*";
+        if(tabellone_[27].getLevel() == 2) std::cout << "^";
+        for(int j=0; j<NO_PLAYERS; j++){
+            if(players_[j].getPos() == 27){
+                std::cout << players_[j].getId();
+            }
+        }
+        std::cout << "|" << "\t" <<
     std::endl;
-    std::cout << "H" << 
-        "\t" << "|" << tabellone_[7].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[6].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[5].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[4].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[3].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[2].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[1].getPropClass() << "|" << "\t" <<
-        "|" << tabellone_[0].getPropClass() << "|" << "\t" <<
-    std::endl;
+    std::cout << "H" << "\t";
+        for(int i=7; i>=0; i--){
+            std::cout << "|" << tabellone_[i].getPropClass();
+            std::cout << ((tabellone_[i].getLevel() == 1) ? "*" : "");
+            std::cout << ((tabellone_[i].getLevel() == 2) ? "^" : "");
+            for(int j=0; j<NO_PLAYERS; j++){
+                if(players_[j].getPos() == i){
+                    std::cout << players_[j].getId();
+                }
+            }
+            std::cout << "|" << "\t";
+        }
+    std::cout << std::endl;
+}
+
+void Game::printProps()
+{
+    std::cout << "Caselle possedute dai giocatori: " << std::endl;
+    for(int i=0; i<NO_PLAYERS; i++)
+    {
+        std::cout << "Giocatore " << i+1 << ": ";
+        for(int j=0; j<28; j++)
+        {
+            if(tabellone_[j].getOwner() == &players_[i])
+            {
+                std::cout << tabellone_[j].getLegenda() << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
 }
