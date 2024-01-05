@@ -420,10 +420,11 @@ void Game::play(){
             logger_.addLog(log);
         }
         else{
+            log += "I giocatori ";
             for (int winner : vincitori) {
-                log += "Giocatore " + std::to_string(winner + 1);
+                log += std::to_string(winner + 1) + " ";
             }
-            log += " hanno vinto in ex-equo";
+            log += "hanno vinto in ex-equo";
             logger_.addLog(log);
         }
     }
