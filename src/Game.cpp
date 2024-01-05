@@ -197,7 +197,7 @@ void Game::orderPlayers() {
     std::sort(players_.begin(), players_.end(), 
     [](Player& p1, Player& p2) 
     {
-        int d1, d2;
+        int d1, d2 = 0;
         do {
             d1 = rollDice();
             d2 = rollDice();
@@ -209,6 +209,7 @@ void Game::orderPlayers() {
         return d1 > d2;
     }
     );
+    std::cout << "dopo sort 1" << std::endl;
 
     std::sort(players_.begin(), players_.end(), 
     [](Player& p1, Player& p2) 
@@ -216,6 +217,7 @@ void Game::orderPlayers() {
         return p1.getRoll() > p2.getRoll();
     }
     );
+    std::cout << "dopo sort 2" << std::endl;
 }
 
 
@@ -256,9 +258,6 @@ void Game::play(){
                         << std::endl;
 
                 }
-                else{
-                    //significa che non e' passato dal via
-                }
 
                 int pos_tmp = players_[i].getPos();
                 if(!players_[i].isBot())
@@ -269,7 +268,7 @@ void Game::play(){
                         tabellone_[pos_tmp].getLegenda() << ". ";
                     if(tabellone_[pos_tmp].isPropFree())
                     {
-                        //se la proprieta' e' libera
+                        // INIZIO PROPRITA' LIBERA
                         std::cout << "Il terreno costa: " << 
                         tabellone_[pos_tmp].getLandValue() <<
                         " fiorini(" << tabellone_[players_[i].getPos()].getPropClass() <<
@@ -296,10 +295,19 @@ void Game::play(){
                                 std::cout << "Non hai abbastanza fiorini" << std::endl;
                             }
                         }
+                        else if(input == "show") 
+                            // 
+                            printBoard();
+
+                        // FINE PROPRIETA' LIBERA
                     }
                     else{
+                        // INIZIO PROPRIETA' NON LIBERA
+
                         //se la proprieta' e' gia' di qualcuno o non e' acquistabile
                         std::cout << "Il terreno non e' acquistabile" << std::endl;
+
+                        // FINE PROPRIETA' NON LIBERA
                     }
 
                     // FINE HUMAN
@@ -428,5 +436,193 @@ void Game::play(){
             logger_.addLog(log);
         }
     }
-        logger_.saveFile();
+    logger_.saveFile();
+}
+
+void Game::printBoard(){
+    std::cout << "" <<
+        "\t" << "A" << "\t" << "B" << "\t" << "C" << "\t" << "D" << "\t" << "E" << "\t" << "F" << "\t" << "G" << "\t" << "H" << "\t" <<
+    std::endl;
+    std::cout << "--------------------------------------------------------------------------------"
+    << std::endl;
+    std::cout << "A" << 
+        "\t" << "|" << tabellone_[14].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[15].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[16].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[17].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[18].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[19].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[20].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[21].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "B" <<
+        "\t" << "|" << tabellone_[13].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[22].getPropClass() << "\t" <<
+        "|" << tabellone_[22].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "C" <<
+        "\t" << "|" << tabellone_[12].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[23].getPropClass() << "\t" <<
+        "|" << tabellone_[23].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "D" <<
+        "\t" << "|" << tabellone_[11].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[24].getPropClass() << "\t" <<
+        "|" << tabellone_[24].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "E" <<
+        "\t" << "|" << tabellone_[10].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[25].getPropClass() << "\t" <<
+        "|" << tabellone_[25].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "F" <<
+        "\t" << "|" << tabellone_[9].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[26].getPropClass() << "\t" <<
+        "|" << tabellone_[26].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "G" <<
+        "\t" << "|" << tabellone_[8].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[27].getPropClass() << "\t" <<
+        "|" << tabellone_[27].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "H" << 
+        "\t" << "|" << tabellone_[7].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[6].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[5].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[4].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[3].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[2].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[1].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[0].getPropClass() << "|" << "\t" <<
+    std::endl;
+}
+
+void Game::printBoard(){
+    std::cout << "" <<
+        "\t" << "A" << "\t" << "B" << "\t" << "C" << "\t" << "D" << "\t" << "E" << "\t" << "F" << "\t" << "G" << "\t" << "H" << "\t" <<
+    std::endl;
+    std::cout << "--------------------------------------------------------------------------------"
+    << std::endl;
+    std::cout << "A" << 
+        "\t" << "|" << tabellone_[14].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[15].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[16].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[17].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[18].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[19].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[20].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[21].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "B" <<
+        "\t" << "|" << tabellone_[13].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[22].getPropClass() << "\t" <<
+        "|" << tabellone_[22].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "C" <<
+        "\t" << "|" << tabellone_[12].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[23].getPropClass() << "\t" <<
+        "|" << tabellone_[23].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "D" <<
+        "\t" << "|" << tabellone_[11].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[24].getPropClass() << "\t" <<
+        "|" << tabellone_[24].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "E" <<
+        "\t" << "|" << tabellone_[10].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[25].getPropClass() << "\t" <<
+        "|" << tabellone_[25].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "F" <<
+        "\t" << "|" << tabellone_[9].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[26].getPropClass() << "\t" <<
+        "|" << tabellone_[26].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "G" <<
+        "\t" << "|" << tabellone_[8].getPropClass() << "|" << "\t" << " " <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        "\t" <<
+        tabellone_[27].getPropClass() << "\t" <<
+        "|" << tabellone_[27].getPropClass() << "|" << "\t" <<
+    std::endl;
+    std::cout << "H" << 
+        "\t" << "|" << tabellone_[7].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[6].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[5].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[4].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[3].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[2].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[1].getPropClass() << "|" << "\t" <<
+        "|" << tabellone_[0].getPropClass() << "|" << "\t" <<
+    std::endl;
 }
