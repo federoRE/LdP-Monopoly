@@ -14,6 +14,12 @@ Game::Game(bool isBotGame){
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
     logger_ = Logger();
 
+    // giocatori assegnati ma non ancora inizializzati
+    players_.push(Player(isBotGame));
+    for(int i=0; i<3; i++){
+        players_.push(Player(true));
+    }
+
     players_.push(Player(isBotGame));
     players_[0].setName("humano");
     players_[1].setName("Bot1");
@@ -96,10 +102,9 @@ bool Game::randomChance()
 int Game::rollDice(){
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,6); 
-    int first_roll = dist6(rng);
-    int second_roll = dist6(rng);
-    return first_roll + second_roll;
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,12); 
+    int roll = dist6(rng);
+    return roll;
 }
 
 void Game::move(){
@@ -188,38 +193,29 @@ int Game::payLand(int payer, int pos){
 }
 
 void Game::orderPlayers() {
-    for (int i = 0; i < NO_PLAYERS - 1; i++) {
-        for (int j = 0; j < NO_PLAYERS - i - 1; j++) {
-            int d1 = rollDice();
-            int d2 = rollDice();
-
-            // Controlla e risolvi le duplicazioni
-            while (d1 == d2) {
-                d2 = rollDice();
-            }
-
-            bool duplicate = false;
-            for (int k = 0; k <= j; k++) {
-                if (players_[k].getRoll() == d1 || players_[k].getRoll() == d2) {
-                    duplicate = true;
-                    break;
-                }
-            }
-
-            if (duplicate) {
-                continue; // Se ci sono duplicati, ricomincia il ciclo interno
-            }
-
-            players_[j].setRoll(std::max(d1, d2));
-            players_[j + 1].setRoll(std::min(d1, d2));
-
-            if (players_[j].getRoll() < players_[j + 1].getRoll()) {
-                // Swap players
-                std::swap(players_[j], players_[j + 1]);
-            }
-        }
+    std::cout << "Ordino i giocatori" << std::endl;
+    std::sort(players_.begin(), players_.end(), 
+    [](Player& p1, Player& p2) 
+    {
+        int d1, d2;
+        do {
+            d1 = rollDice();
+            d2 = rollDice();
+        } while (d1 == d2);
+        
+        p1.setRoll(d1 > d2 ? d1 : d2);
+        p2.setRoll(d1 > d2 ? d2 : d1);
+        
+        return d1 > d2;
     }
+    );
 
+    std::sort(players_.begin(), players_.end(), 
+    [](Player& p1, Player& p2) 
+    {
+        return p1.getRoll() > p2.getRoll();
+    }
+    );
 }
 
 
