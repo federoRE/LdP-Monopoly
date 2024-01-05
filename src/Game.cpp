@@ -428,4 +428,5 @@ void Game::play(){
             logger_.addLog(log);
         }
     }
+        logger_.saveFile();
 }
