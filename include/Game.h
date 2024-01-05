@@ -56,6 +56,8 @@ class Game{
         int payLand(int payer, int pos);
         void play();
 
+        void printBoard();
+
     private:
         CircularArray<Player> players_{NO_PLAYERS};
         CircularArray<Property> tabellone_{NO_CELLS};
