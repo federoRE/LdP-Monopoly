@@ -197,14 +197,18 @@ void Game::orderPlayers() {
     std::sort(players_.begin(), players_.end(), 
     [](Player& p1, Player& p2) 
     {
+        std::cout << "dopo sort 11" << std::endl;
         int d1, d2 = 0;
         do {
             d1 = rollDice();
             d2 = rollDice();
         } while (d1 == d2);
+        std::cout << "dopo sort 12" << std::endl;
         
         p1.setRoll(d1 > d2 ? d1 : d2);
+        std::cout << "dopo sort 13" << std::endl;
         p2.setRoll(d1 > d2 ? d2 : d1);
+        std::cout << "dopo sort 14" << std::endl;
         
         return d1 > d2;
     }
