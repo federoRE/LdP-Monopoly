@@ -66,6 +66,7 @@ Game::Game(bool isBotGame)
         tabellone_[i].setLegenda(cell_ids[i]);
     }
     std::cout << "Ho mappato le coordinate" << std::endl;
+    
 }
 
 bool Game::isEOG(){
@@ -90,44 +91,12 @@ bool Game::isEOG(){
 
 bool Game::randomChance()
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
-    std::uniform_int_distribution<int> dist(0, 3);
-    int randomNumber = dist(gen);
+    static std::uniform_int_distribution<int> dist(0, 3);
+    int randomNumber = dist(rng);
 
     // Ritorna vero al 25%
     return (randomNumber == 0);
 }
-
-int Game::rollDice(){
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,12); 
-    int roll = dist6(rng);
-    return roll;
-}
-
-void Game::move(){
-    
-}
-
-/*void Game::payFees(int payer, Player* payee, int amount){
-    int newFiorini;
-
-    if (players_[payer].getFiorini() >= amount) 
-    {
-        newFiorini = players_[payer].getFiorini() - amount;
-        players_[payer].setFiorini(newFiorini);
-        newFiorini = payee->getFiorini() + amount;
-        payee->setFiorini(newFiorini);
-    } 
-    else 
-    {
-        players_[payer].setIsLose(true);
-        std::cout << "- Il giocatore " << payer+1 << " e' stato eliminato" << std::endl;
-    }
-}*/
 
 void Game::payFees(int payer, int payee, int pos)
 {
@@ -193,44 +162,44 @@ int Game::payLand(int payer, int pos){
     return -1;
 }
 
+int Game::rollDice(){
+    static std::uniform_int_distribution<int> uid(1,12); 
+    return uid(rng);
+}
 
 void Game::orderPlayers() {
     std::cout << "Ordino i giocatori" << std::endl;
+    std::vector<int> vtmp;
 
+    for(int i=0; i<NO_PLAYERS; i++){
+        int roll = 0;
+        bool isok = true;
+        do{
+            roll = rollDice();
 
-    // Inizio, fine, condizione(lambda)
-    std::sort(players_.begin(), players_.end(), 
-    [](Player& p1, Player& p2) 
-    {
-        std::cout << "dopo sort 11" << std::endl;
-        int d1, d2 = 0;
-        do {
-            d1 = rollDice();
-            d2 = rollDice();
-        } while (d1 == d2);
-        std::cout << "dopo sort 12" << std::endl;
-        
-        p1.setRoll(d1 > d2 ? d1 : d2);
-        std::cout << "dopo sort 13" << std::endl;
-        p2.setRoll(d1 > d2 ? d2 : d1);
-        std::cout << "dopo sort 14" << std::endl;
-
-        // SEGFAULT HERE!
-        
-        return d1 > d2;
+            for(int j=0; j<vtmp.size() && vtmp.size() > 0; j++){
+                if(vtmp[j] == roll){
+                    isok = false;
+                    break;
+                }
+            }
+        }
+        while(!isok && i<NO_PLAYERS-1);
+        vtmp.push_back(roll);
     }
-    );
-    std::cout << "dopo sort 1" << std::endl;
-
-    std::sort(players_.begin(), players_.end(), 
-    [](Player& p1, Player& p2) 
-    {
-        return p1.getRoll() > p2.getRoll();
+    for(int i=0; i<NO_PLAYERS; i++){
+        players_[i].setRoll(vtmp[i]);
     }
-    );
-    std::cout << "dopo sort 2" << std::endl;
+
+    for (int i = 0; i < NO_PLAYERS - 1; i++) {
+        for (int j = 0; j < NO_PLAYERS - i - 1; j++) {
+            if (players_[j].getRoll() < players_[j + 1].getRoll()) {
+                // Swap players
+                players_.swap(j, j + 1);
+            }
+        }
+    }
 }
-
 
 //TODO: implementeare la sezione player umano
 void Game::play(){

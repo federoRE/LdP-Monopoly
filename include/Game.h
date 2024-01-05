@@ -18,6 +18,9 @@
 #include <algorithm> // for std::sort
 #include <chrono> // for std::chrono::system_clock
 
+static std::random_device dev;
+static std::mt19937 rng{dev()};
+
 const int NO_DICE = 2;
 const int NO_PLAYERS = 4;
 const int NO_CELLS = 28;
@@ -32,21 +35,10 @@ class Game{
 
         /**
          * @brief Construct a new Game object
-        */
-        Game();
-
-        /**
-         * @brief Construct a new Game object
          * @param isBotGame Booleano che indica se il gioco e' solo bot
         */
         Game(bool isBotGame);
-
-        //Booleani
         bool isEOG();
-
-        //Functions
-        static int rollDice();
-        void move();
         //void payFees(int payer, Player* payee, int amount);
 
         /**
@@ -55,7 +47,6 @@ class Game{
          * @param payee The player who receives the money
          * @param amount The amount of money to pay
         */
-        bool randomChance();
         void payFees(int payer, int payee, int pos);
         void orderPlayers();
         int payLand(int payer, int pos);
@@ -71,6 +62,10 @@ class Game{
         int no_turns_;
         std::string *cell_ids;
         bool isBotGame_;
+
+        bool randomChance();
+        static int rollDice();
+        static bool comparePlayers(Player& p1, Player& p2);
 };
 
 #endif

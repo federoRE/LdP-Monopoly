@@ -93,7 +93,6 @@ public:
      */
     void swap(int index1, int index2);
 
-
     /**
      * @brief Get the raw pointer to the array
      * @return Raw pointer to the array
