@@ -32,6 +32,11 @@ class Game{
 
         /**
          * @brief Construct a new Game object
+        */
+        Game();
+
+        /**
+         * @brief Construct a new Game object
          * @param isBotGame Booleano che indica se il gioco e' solo bot
         */
         Game(bool isBotGame);

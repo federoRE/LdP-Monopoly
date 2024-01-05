@@ -8,7 +8,8 @@
  * TODO: implementare la logica di gestione della costruzione
 */
 
-Game::Game(bool isBotGame){
+Game::Game(bool isBotGame)
+{
     no_turns_ = 0;
     isBotGame_ = isBotGame;
     no_max_turns_ = (isBotGame ? NO_TURNS_BOT : NO_TURNS_HB);  
@@ -193,9 +194,9 @@ int Game::payLand(int payer, int pos){
 }
 
 
-// SEGFAULT HERE!
 void Game::orderPlayers() {
     std::cout << "Ordino i giocatori" << std::endl;
+
 
     // Inizio, fine, condizione(lambda)
     std::sort(players_.begin(), players_.end(), 
@@ -213,6 +214,8 @@ void Game::orderPlayers() {
         std::cout << "dopo sort 13" << std::endl;
         p2.setRoll(d1 > d2 ? d2 : d1);
         std::cout << "dopo sort 14" << std::endl;
+
+        // SEGFAULT HERE!
         
         return d1 > d2;
     }
@@ -449,7 +452,7 @@ void Game::play(){
 
 void Game::printBoard(){
     std::cout << "" <<
-        "\t" << "A" << "\t" << "B" << "\t" << "C" << "\t" << "D" << "\t" << "E" << "\t" << "F" << "\t" << "G" << "\t" << "H" << "\t" <<
+        "\t" << " 1" << "\t" << " 2" << "\t" << " 3" << "\t" << " 4" << "\t" << " 5" << "\t" << " 6" << "\t" << " 7" << "\t" << " 8" << "\t" <<
     std::endl;
     std::cout << "--------------------------------------------------------------------------------"
     << std::endl;
@@ -471,7 +474,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[22].getPropClass() << "\t" <<
         "|" << tabellone_[22].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "C" <<
@@ -482,7 +484,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[23].getPropClass() << "\t" <<
         "|" << tabellone_[23].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "D" <<
@@ -493,7 +494,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[24].getPropClass() << "\t" <<
         "|" << tabellone_[24].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "E" <<
@@ -504,7 +504,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[25].getPropClass() << "\t" <<
         "|" << tabellone_[25].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "F" <<
@@ -515,7 +514,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[26].getPropClass() << "\t" <<
         "|" << tabellone_[26].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "G" <<
@@ -526,7 +524,6 @@ void Game::printBoard(){
         "\t" <<
         "\t" <<
         "\t" <<
-        tabellone_[27].getPropClass() << "\t" <<
         "|" << tabellone_[27].getPropClass() << "|" << "\t" <<
     std::endl;
     std::cout << "H" << 
