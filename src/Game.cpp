@@ -232,7 +232,7 @@ void Game::orderPlayers() {
 }
 
 
-
+//TODO: implementeare la sezione player umano
 void Game::play(){
     for(int i=0; i<NO_PLAYERS; i++){
         std::cout << "Il giocatore " << i+1 << 
@@ -450,6 +450,8 @@ void Game::play(){
     logger_.saveFile();
 }
 
+
+// TODO: inserire info secondarie, come player,case,hotel 
 void Game::printBoard(){
     std::cout << "" <<
         "\t" << " 1" << "\t" << " 2" << "\t" << " 3" << "\t" << " 4" << "\t" << " 5" << "\t" << " 6" << "\t" << " 7" << "\t" << " 8" << "\t" <<
