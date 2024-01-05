@@ -402,19 +402,33 @@ void Game::play(){
         }
     }
 
-    // TODO Vittoria in ex-equo
 
     if(playersInGame > 1 && no_turns_ != -1){
-        int winner = -1;
-        int max = -1;
-        for(int i = 0; i < NO_PLAYERS; i++){
-            if (players_[i].getFiorini() > max){
-                max = players_[i].getFiorini();
-                winner = i;
+        std::vector<int> vincitori;
+        int maxFiorini = -1;
+        for(int i = 0; i < NO_PLAYERS; i++)
+        {
+            if (!players_[i].getIsLose() && players_[i].getFiorini() >= maxFiorini) 
+            {
+                if (players_[i].getFiorini() > maxFiorini) 
+                {
+                    vincitori.clear();
+                    maxFiorini = players_[i].getFiorini();
+                }
+                vincitori.push_back(i);
             }
         }
         std::string log = "";
-        log = "Giocatore " + std::to_string(winner+1) + " ha vinto la partita";
-        logger_.addLog(log);
+        if (vincitori.size() == 1){
+            log = "Giocatore " + std::to_string(vincitori[0] + 1) + " ha vinto la partita";
+            logger_.addLog(log);
+        }
+        else{
+            for (int winner : vincitori) {
+                log += "Giocatore " + std::to_string(winner + 1);
+            }
+            log += " hanno vinto in ex-equo";
+            logger_.addLog(log);
+        }
     }
 }
