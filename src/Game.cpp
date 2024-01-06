@@ -107,9 +107,7 @@ void Game::payFees(int payer, int payee, int pos)
 
     level = tabellone_[pos].getLevel();
 
-    if (players_[payer].getFiorini() >= amount) 
-    {
-        switch (level)
+    switch (level)
         {
         case 0:
             amount = 0;
@@ -122,6 +120,8 @@ void Game::payFees(int payer, int payee, int pos)
             break;
         }
 
+    if (players_[payer].getFiorini() >= amount) 
+    {
         newFiorini = players_[payer].getFiorini() - amount;
         players_[payer].setFiorini(newFiorini);
         newFiorini = players_[payee].getFiorini() + amount;
@@ -211,9 +211,11 @@ void Game::orderPlayers() {
 //TODO: implementeare la sezione player umano
 void Game::play(){
     for(int i=0; i<NO_PLAYERS; i++){
-        std::cout << "Il giocatore " << i+1 << 
-            " ha tirato i dadi ottenendo un valore di " << 
-            players_[i].getRoll() << std::endl;
+        std::string log = "";
+        log = "Giocatore " + std::to_string(i+1) + 
+            " ha tirato i dadi ottenendo un valore di " + 
+            std::to_string(players_[i].getRoll());
+        logger_.addLog(log);
     }
 
     for(int i=3; i>0; i--){
@@ -221,7 +223,7 @@ void Game::play(){
         usleep(1000000);
     }
 
-    while( !isEOG()){
+    while(!isEOG()){
         for(int i = 0; i < 4; i++){
             if(!players_[i].getIsLose()){
 
@@ -234,16 +236,18 @@ void Game::play(){
                 int index_tmp = players_[i].getPos(); //posizione prima del tiro (22)
                 int rd_val = rollDice(); 
                 players_[i] += rd_val; //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
-                std::cout <<  //////// LOG
-                    "- Giocatore " << players_[i].getId() << " ha tirato i dadi ottenendo un valore di " <<
-                    rd_val << std::endl;
+                std::string log = "";
+                log = "Giocatore " + std::to_string(i+1) + 
+                    " ha tirato i dadi ottenendo un valore di " + 
+                    std::to_string(rd_val);
+                logger_.addLog(log);
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
-                    std::cout << "- Giocatore " << i+1 << 
-                            " ha passato dal via e ha ricevuto 20 fiorini" 
-                        << std::endl;
-
+                    std::string log = "";
+                    log = "Giocatore " + std::to_string(i+1) + 
+                            " è passato dal via e ha ritirato 20 fiorini";
+                    logger_.addLog(log);
                 }
 
                 int pos_tmp = players_[i].getPos();
@@ -288,10 +292,10 @@ void Game::play(){
                                     {
                                         tabellone_[pos_tmp].setOwner(&players_[i]);
                                         players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                                        std::cout << "- Giocatore " << i+1 << //////// LOG
-                                            " ha acquistato il terreno " <<
-                                            tabellone_[players_[i].getPos()].getLegenda() <<
-                                            std::endl;
+                                        log = "Giocatore " + std::to_string(i+1) +
+                                            " ha acquistato il terreno " +
+                                            tabellone_[players_[i].getPos()].getLegenda();
+                                        logger_.addLog(log);
                                     }
                                     else
                                     {
@@ -493,10 +497,10 @@ void Game::play(){
                             {
                                 tabellone_[pos_tmp].setOwner(&players_[i]);
                                 players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                                std::cout << "- Giocatore " << i+1 << //////// LOG
-                                    " ha acquistato il terreno " <<
-                                    tabellone_[players_[i].getPos()].getLegenda() <<
-                                    std::endl;
+                                log = "Giocatore " + std::to_string(i+1) +
+                                            " ha acquistato il terreno " +
+                                            tabellone_[players_[i].getPos()].getLegenda();
+                                        logger_.addLog(log);
                             }
                         }
                     }
@@ -529,10 +533,6 @@ void Game::play(){
 
                     else if((tabellone_[pos_tmp].getOwner() != &players_[i]) && 
                             !(tabellone_[pos_tmp].isEdge())){
-                            std::cout << "- Giocatore " << players_[i].getId() << //////// LOG
-                                " ha pagato " << 
-                                tabellone_[players_[i].getPos()].getLegenda() <<
-                                std::endl;
                             int owner_id = tabellone_[pos_tmp].getOwner()->getPos();
                             //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
                             int j = -1;
@@ -597,7 +597,7 @@ void Game::play(){
             logger_.addLog(log);
         }
         else{
-            log += "I giocatori ";
+            log = "I giocatori ";
             for (int winner : vincitori) {
                 log += std::to_string(winner + 1) + " ";
             }
