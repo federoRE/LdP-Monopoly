@@ -241,6 +241,9 @@ void Game::play(){
                     " ha tirato i dadi ottenendo un valore di " + 
                     std::to_string(rd_val);
                 logger_.addLog(log);
+                log = "Giocatore " + std::to_string(i+1) + 
+                    "  è arrivato alla casella " + tabellone_[players_[i].getPos()].getLegenda();
+                logger_.addLog(log);
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
@@ -545,9 +548,11 @@ void Game::play(){
                     // FINE BOT
                 }
             }
+            std::string log = "";
+            log = "Giocatore " + std::to_string(i+1) +
+                " ha finito il turno";
+            logger_.addLog(log);
         }
-
-
         no_turns_++;
     }
     // FINE GIOCO
