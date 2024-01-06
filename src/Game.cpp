@@ -242,7 +242,7 @@ void Game::play(){
                     std::to_string(rd_val);
                 logger_.addLog(log);
                 log = "Giocatore " + std::to_string(i+1) + 
-                    "  è arrivato alla casella " + tabellone_[players_[i].getPos()].getLegenda();
+                    " è arrivato alla casella " + tabellone_[players_[i].getPos()].getLegenda();
                 logger_.addLog(log);
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
