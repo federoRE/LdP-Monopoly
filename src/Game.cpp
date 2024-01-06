@@ -516,13 +516,13 @@ void Game::play(){
                                     std::string log = "";
                                     if (payment == 1)
                                     {
-                                        log = "Giocatore " + std::to_string(i+1) + " ha costruito una casa sul terreno " 
+                                        log = "Giocatore " + std::to_string(players_[i].getId()) + " ha costruito una casa sul terreno " 
                                         + tabellone_[pos_tmp].getLegenda();
                                         logger_.addLog(log);
                                     }
                                     if (payment == 2)
                                     {
-                                        log = "Giocatore " + std::to_string(i+1) + " ha migliorato una casa in albergo sul terreno " 
+                                        log = "Giocatore " + std::to_string(players_[i].getId()) + " ha migliorato una casa in albergo sul terreno " 
                                         + tabellone_[pos_tmp].getLegenda();
                                         logger_.addLog(log);
                                     }
@@ -569,7 +569,7 @@ void Game::play(){
             if(!players_[i].getIsLose())
             {
                 std::string log = "";
-                log = "Giocatore " + std::to_string(i+1) + " ha vinto la partita";
+                log = "Giocatore " + std::to_string(players_[i].getId()) + " ha vinto la partita";
                 logger_.addLog(log);
             }
         }
