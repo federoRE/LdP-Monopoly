@@ -22,10 +22,10 @@ Game::Game(bool isBotGame)
     }
 
     players_.push(Player(isBotGame));
-    players_[0].setName("humano");
-    players_[1].setName("Bot1");
-    players_[2].setName("Bot2");
-    players_[3].setName("Bot3");
+    players_[0].setName("tizio");
+    players_[1].setName("caio");
+    players_[2].setName("sempronio");
+    players_[3].setName("fabrizio");
     
 
     // tabellone assegnato ma non ancora inizializzato
@@ -479,10 +479,25 @@ void Game::play(){
                                 std::cout << "Il terreno non e' migliorabile" << std::endl;
                             }
                         }
-
-                        
-                        std::cout << "Il terreno non e' acquistabile" << std::endl;
-
+                        else
+                        {
+                            // se non e' di lui
+                            if(!tabellone_[pos_tmp].isEdge())
+                            {
+                                int owner_id = tabellone_[pos_tmp].getOwner()->getPos();
+                                //payFees(i, owner_id, tabellone_[pos_tmp].getLandValue());
+                                int j = -1;
+                                for (int k = 0; k < NO_PLAYERS; k++){
+                                    if (players_[k].equals(*tabellone_[pos_tmp].getOwner()))
+                                        j = k;
+                                }
+                                payFees(i, j, pos_tmp);
+                            }
+                            else
+                            {
+                                std::cout << "Il terreno non e' acquistabile" << std::endl;
+                            }
+                        }
                         // FINE PROPRIETA' NON LIBERA
                     }
 
