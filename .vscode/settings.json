@@ -55,5 +55,10 @@
         "thread": "cpp",
         "semaphore": "cpp",
         "set": "cpp"
+    },
+    "cmake.debugConfig": {
+        "args":[
+            "human"
+        ]
     }
 }

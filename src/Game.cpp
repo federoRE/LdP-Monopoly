@@ -71,13 +71,13 @@ Game::Game(bool isBotGame)
 
 bool Game::isEOG(){
 
-    int numPlayers = players_.size();
-    int numLosePlayers = 0;
+    int numPlayers = players_.size(); //4
+    int numLosePlayers = 0; //3
 
 
     for (int i = 0; i < numPlayers; i++) {
         if (players_[i].getIsLose()) {
-            numLosePlayers++;
+            numLosePlayers++; 
         }
     }
 
