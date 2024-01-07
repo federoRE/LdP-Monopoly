@@ -9,6 +9,7 @@ int CircularArray<T>::size() const
     return size_;
 }
 
+
 template<class T>
 void CircularArray<T>::push(T value)
 {
@@ -70,6 +71,7 @@ T CircularArray<T>::pop()
     return value;
 }
 
+
 template<class T>
 bool CircularArray<T>::isFull() const
 {
@@ -92,6 +94,7 @@ void CircularArray<T>::shuffle()
     std::shuffle(data_.get(), data_.get() + size_, rng);
 }
 
+
 template<class T>
 void CircularArray<T>::swap(int index1, int index2)
 {
@@ -105,11 +108,13 @@ void CircularArray<T>::swap(int index1, int index2)
     data_[index2] = temp;
 }
 
+
 template<class T>
 T* CircularArray<T>::get() const
 {
     return data_.get();
 }
+
 
 template<class T>
 T* CircularArray<T>::get(int index) const
@@ -138,6 +143,7 @@ CircularArray<T>& CircularArray<T>::operator=(const CircularArray& other)
     return *this;
 }
 
+
 template<class T>
 CircularArray<T>::CircularArray(const CircularArray& other)
 {
@@ -145,6 +151,7 @@ CircularArray<T>::CircularArray(const CircularArray& other)
     front_ = other.front_;
     rear_ = other.rear_;
 }
+
 
 template<class T>
 CircularArray<T>::CircularArray(CircularArray&& other) noexcept
@@ -157,12 +164,12 @@ CircularArray<T>::CircularArray(CircularArray&& other) noexcept
 }
 
 
-
 template<class T>
 CircularArray<T>::~CircularArray()
 {
     data_.reset();
 }
+
 
 template<class T>
 T* CircularArray<T>::begin()
@@ -170,10 +177,12 @@ T* CircularArray<T>::begin()
     return &data_[front_];
 }
 
+
 template<class T>
 T* CircularArray<T>::end()
 {
     return &data_[rear_];
 }
+
 
 #endif // CIRCULAR_ARRAY_HPP
