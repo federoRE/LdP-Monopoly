@@ -31,14 +31,14 @@ int main(int argc, char** argv)
             if(arg == "human")
             {
                 std::cout << 
-                    "Hai scelto di giocare contro un altro giocatore."
+                    "Hai scelto di giocare contro i computer."
                     << std::endl;
                 isBotGame = false;
             }
             else
             {
                 std::cout << 
-                    "Hai scelto di giocare contro il computer."
+                    "Hai scelto una partita tra computer."
                     << std::endl;
                 isBotGame = true;
             }
