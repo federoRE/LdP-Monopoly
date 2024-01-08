@@ -109,6 +109,7 @@ Player& Player::operator=(const Player& other) {
         bot_ = other.bot_;
         isLose_ = other.isLose_;
         name_ = other.name_;
+        id_ = other.id_;
     }
     return *this;
 }
@@ -120,6 +121,7 @@ Player::Player(const Player& other) {
     bot_ = other.bot_;
     isLose_ = other.isLose_;
     name_ = other.name_;
+    id_ = other.id_;
 }
 
 Player::Player(Player&& other) {
@@ -129,6 +131,7 @@ Player::Player(Player&& other) {
     bot_ = other.bot_;
     isLose_ = other.isLose_;
     name_ = other.name_;
+    id_ = other.id_;
 }
 
 Player& Player::operator+(int roll) {
