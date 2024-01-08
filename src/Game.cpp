@@ -27,7 +27,8 @@ Game::Game(bool isBotGame)
     CircularArray<Property> ciotolina(24);
     // Economic
     for(int i=0; i<8; i++){
-        ciotolina.push(Property('E', 6, 3, 3, 2, 4));
+        //ciotolina.push(Property('E', 6, 3, 3, 2, 4));
+        ciotolina.push(Property('E', 6, 3, 3, 2, 40));
     }
     // Standard
     for(int i=0; i<10; i++){
@@ -36,7 +37,8 @@ Game::Game(bool isBotGame)
     // Luxury
     const int numIterations = 6;
     for(int i=0; i<numIterations; i++){
-        ciotolina.push(Property('L', 20, 10, 10, 7, 14));
+        //ciotolina.push(Property('L', 20, 10, 10, 7, 14));
+        ciotolina.push(Property('L', 20, 10, 10, 7, 140));
     }
     ciotolina.shuffle();
 
@@ -244,7 +246,7 @@ void Game::play(){
                                 std::cout << "Fiorini" << std::endl;
                                 for(int i=0; i<NO_PLAYERS; i++)
                                 {
-                                    std::cout << "Giocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
+                                    std::cout << "\tGiocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
                                 }
                             }
                             else if(input == "gscotty")
