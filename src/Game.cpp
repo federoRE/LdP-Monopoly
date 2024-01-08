@@ -616,6 +616,7 @@ void Game::payFees(int payer, int payee, int pos)
     else 
     {
         players_[payer].setIsLose(true);
+        players_[payer].setFiorini(0);
         remOwner(&players_[payer]);
         log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
         logger_.addLog(log);
