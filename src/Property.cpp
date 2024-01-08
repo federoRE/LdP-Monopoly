@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
+
 #include "Property.h"
 
 bool Property::isPropFree() const

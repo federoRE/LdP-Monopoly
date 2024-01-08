@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
+
 #include <queue>
 #include <string>
 #include <ctime>

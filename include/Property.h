@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
+
 #ifndef PROPERTY_H
 #define PROPERTY_H
 

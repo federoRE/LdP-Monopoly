@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
+
 #include "Logger.h"
 #include <iostream>
 #include <fstream>

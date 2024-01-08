@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
