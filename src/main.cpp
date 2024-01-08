@@ -7,7 +7,7 @@
 // main computer
 int main(int argc, char** argv)
 {
-
+    std::cout << "Benvenuto. Sto preparando il gioco." << std::endl;
     bool isBotGame = false;
 
     if (argc != 2)
@@ -46,10 +46,6 @@ int main(int argc, char** argv)
     
     }
 
-
-    std::cout << 
-        "Benvenuto. Sto preparando il gioco."
-        << std::endl;
     Game game = Game(isBotGame);
 
     game.orderPlayers();

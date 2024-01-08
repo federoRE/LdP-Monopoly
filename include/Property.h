@@ -92,33 +92,114 @@ public:
             hotel_rent_ = 0;
             cell_id_legenda_ = " ";
         };
-
+    
+    /**
+     * @brief Check if property is free
+     * @return True if property is free, false otherwise
+    */
     bool isPropFree() const;
-    bool isPropOwned() const;
-    bool isPropOwnedBy(Player* player) const;
-    //bool isPropOwnedBy(int player_id) const;
 
+    /**
+     * @brief Check if property is owned
+     * @return True if property is owned, false otherwise
+    */
+    bool isPropOwned() const;
+
+    /**
+     * @brief Check if property is owned by a specific player
+     * @param player Player to check
+     * @return True if property is owned by player, false otherwise
+    */
+    bool isPropOwnedBy(Player* player) const;
+
+    /**
+     * @brief Check if property is upgradeable
+     * @return True if property is upgradeable, false otherwise
+    */
     bool isUpgradeable() const;
     void reset();
     void upgrade();
 
     // Setters
+    /**
+     * @brief Set property's owner
+     * @param owner Property's owner
+    */
     void setOwner(Player* owner);
+
+    /**
+     * @brief Set property's cell id legenda
+     * @param cell_id_legenda Property's cell id legenda
+    */
     void setLegenda(std::string cell_id_legenda);
+
+    /**
+     * @brief Set if property's edge
+    */
     void setEdge();
 
     // Getters
+    /**
+     * @brief Get property's owner
+     * @return Property's owner
+    */
     Player* getOwner() const;
+
+    /**
+     * @brief Get property's cell id legenda
+     * @return Property's cell id legenda
+    */
     std::string getLegenda() const;
+
+    /**
+     * @brief Get property's class
+     * @return Property's class
+    */
     char getPropClass() const;
+
+    /**
+     * @brief Get property's land value
+     * @return Property's land value
+    */
     int getLandValue() const;
+
+    /**
+     * @brief Get property's house value
+     * @return Property's house value
+    */
     int getHouseValue() const;
+
+    /**
+     * @brief Get property's hotel value
+     * @return Property's hotel value
+    */
     int getHotelValue() const;
+
+    /**
+     * @brief Get property's house rent
+     * @return Property's house rent
+    */
     int getHouseRent() const;
+
+    /**
+     * @brief Get property's hotel rent
+     * @return Property's hotel rent
+    */
     int getHotelRent() const;
+
+    /**
+     * @brief Get property's level
+     * @return Property's level
+    */
     int getLevel() const;
+
+    /**
+     * @brief Check if is edge
+     * @return True if is edge, false otherwise
+    */
     bool isEdge() const;
 
+    // Operators
     Property& operator=(const Property& other);
     bool operator==(const Property& other) const;
     bool operator!=(const Property& other) const;

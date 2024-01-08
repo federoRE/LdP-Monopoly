@@ -138,9 +138,16 @@ public:
      */
     ~CircularArray();
 
-
-    // Test iteratori
+    /**
+     * @brief Get the begin iterator
+     * @return Pointer to the first element
+     */
     T* begin();
+
+    /**
+     * @brief Get the end iterator
+     * @return Pointer to the last element
+     */
     T* end();
 };
 

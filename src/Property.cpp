@@ -5,27 +5,24 @@ bool Property::isPropFree() const
     return (owner_ == nullptr) && !(isEdge_);
 }
 
+
 bool Property::isPropOwned() const
 {
     return (owner_ != nullptr);
 }
+
 
 bool Property::isPropOwnedBy(Player* player) const
 {
     return (owner_ == player);
 }
 
-/*
-bool Property::isPropOwnedBy(int player_id) const
-{
-    return (owner_ != nullptr) && (owner_->getId() == player_id);
-}
-*/
 
 bool Property::isUpgradeable() const
 {
     return (level_ < 2);
 }
+
 
 void Property::upgrade()
 {
@@ -41,70 +38,84 @@ void Property::reset()
     owner_ = nullptr;
 }
 
+
 void Property::setOwner(Player* owner)
 {
     owner_ = owner;
 }
+
 
 void Property::setLegenda(std::string cell_id_legenda)
 {
     cell_id_legenda_ = cell_id_legenda;
 }
 
+
 void Property::setEdge()
 {
     isEdge_ = true;
 }
+
 
 Player* Property::getOwner() const
 {
     return owner_;
 }
 
+
 std::string Property::getLegenda() const
 {
     return cell_id_legenda_;
 }
+
 
 char Property::getPropClass() const
 {
     return prop_class_;
 }
 
+
 int Property::getLandValue() const
 {
     return land_value_;
 }
+
 
 int Property::getHouseValue() const
 {
     return house_value_;
 }
 
+
 int Property::getHotelValue() const
 {
     return hotel_value_;
 }
+
 
 int Property::getHouseRent() const
 {
     return house_rent_;
 }
 
+
 int Property::getHotelRent() const
 {
     return hotel_rent_;
 }
+
 
 int Property::getLevel() const
 {
     return level_;
 }
 
+
 bool Property::isEdge() const
 {
     return isEdge_;
 }
+
 
 std::ostream& operator<<(std::ostream& os, const Property& property)
 {
@@ -120,6 +131,7 @@ std::ostream& operator<<(std::ostream& os, const Property& property)
 
     return os;
 }
+
 
 Property& Property::operator=(const Property& other)
 {
@@ -139,15 +151,18 @@ Property& Property::operator=(const Property& other)
     return *this;
 }
 
+
 bool Property::operator==(const Property& other) const
 {
     return (cell_id_legenda_ == other.cell_id_legenda_);
 }
 
+
 bool Property::operator!=(const Property& other) const
 {
     return !(*this == other);
 }
+
 
 bool Property::operator<(const Property& other) const
 {

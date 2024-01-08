@@ -1,7 +1,5 @@
 # Author JFK
 
-# TODO modificare il file per adattarlo al progetto
-
 cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME LdP-Monopoly)
@@ -26,7 +24,7 @@ set(
     include/Game.h
     )
 
-#SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
+SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
 
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 
@@ -46,6 +44,8 @@ target_link_libraries(
     Monopoly 
     monopoly_lib
     )
+
+
 
 # TESTING EXECUTABLES
 add_executable(

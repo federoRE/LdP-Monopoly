@@ -1,12 +1,6 @@
 #include "Game.h"
 #include <iostream>
-#include <algorithm>
 
-/**
- * TODO: da rivedere il metodo di pagamento
- * TODO: implementare il logger
- * TODO: implementare la logica di gestione della costruzione
-*/
 
 Game::Game(bool isBotGame)
 {
@@ -44,7 +38,6 @@ Game::Game(bool isBotGame)
     for(int i=0; i<numIterations; i++){
         ciotolina.push(Property('L', 20, 10, 10, 7, 14));
     }
-    std::cout << "Ho preparato la ciotolina" << std::endl;
     ciotolina.shuffle();
 
     tabellone_.push(Property('P'));
@@ -55,19 +48,18 @@ Game::Game(bool isBotGame)
         }
     }
 
-    std::cout << "Ho preparato il tabellone" << std::endl;
-
     // Mappa le coordinate
-    cell_ids = new std::string[28];
+    std::string* cell_ids = new std::string[28];
     for(int i = 0; i < 28; i++){
         cell_ids[i] = COORDS.substr(i * 2, 2);
     }
     for(int i = 0; i < 28; i++){
         tabellone_[i].setLegenda(cell_ids[i]);
     }
-    std::cout << "Ho mappato le coordinate" << std::endl;
     
+    std::cout << "Ho preparato il tabellone" << std::endl;
 }
+
 
 bool Game::isEOG(){
 
@@ -89,87 +81,11 @@ bool Game::isEOG(){
     }
 }
 
-bool Game::randomChance()
-{
-    static std::uniform_int_distribution<int> dist(0, 3);
-    int randomNumber = dist(rng);
-
-    // Ritorna vero al 25%
-    return (randomNumber == 0);
-}
-
-void Game::payFees(int payer, int payee, int pos)
-{
-    int newFiorini;
-    int amount;
-    int level;
-    std::string log = "";
-
-    level = tabellone_[pos].getLevel();
-
-    switch (level)
-        {
-        case 0:
-            amount = 0;
-            break;
-        case 1:
-            amount = tabellone_[pos].getHouseRent();
-            break;
-        case 2:
-            amount = tabellone_[pos].getHotelRent();
-            break;
-        }
-
-    if (players_[payer].getFiorini() >= amount) 
-    {
-        newFiorini = players_[payer].getFiorini() - amount;
-        players_[payer].setFiorini(newFiorini);
-        newFiorini = players_[payee].getFiorini() + amount;
-        players_[payee].setFiorini(newFiorini);
-        log = "Giocatore " + std::to_string(payer+1) + " ha pagato " 
-            + std::to_string(amount) + " fiorini a giocatore " + std::to_string(payee+1) + " per pernottamento nella casella "
-            + tabellone_[pos].getLegenda();
-        logger_.addLog(log);
-    } 
-    else 
-    {
-        players_[payer].setIsLose(true);
-        log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
-        logger_.addLog(log);
-    }
-}
-
-int Game::payLand(int payer, int pos){
-    int level = tabellone_[pos].getLevel();
-    int amount;
-
-    switch (level)
-    {
-        case 0:
-            amount = tabellone_[pos].getHouseValue();
-            break;
-        case 1:
-            amount = tabellone_[pos].getHotelValue();
-            break;
-    }
-
-    if (players_[payer].getFiorini() >= amount)
-    {
-        tabellone_[pos].upgrade();
-        players_[payer].setFiorini(players_[payer].getFiorini() - amount);
-        return tabellone_[pos].getLevel();
-    }
-    return -1;
-}
-
-int Game::rollDice(){
-    static std::uniform_int_distribution<int> uid(1,12); 
-    return uid(rng);
-}
 
 void Game::orderPlayers() {
     std::cout << "Ordino i giocatori" << std::endl;
-    std::set<int> rolls; // Use a set to store unique rolls
+    std::vector <int> rolls;
+    // std::set<int> rolls; // Use a set to store unique rolls
 
     for(int i=0; i<NO_PLAYERS; i++){
         int roll = 0;
@@ -177,7 +93,7 @@ void Game::orderPlayers() {
         do{
             roll = rollDice();
 
-            if (rolls.count(roll) > 0) {
+            if (std::find(rolls.begin(), rolls.end(), roll) != rolls.end()) {
                 isok = false;
             }
             else{
@@ -185,7 +101,7 @@ void Game::orderPlayers() {
             }
         }
         while(!isok && i<NO_PLAYERS);
-        rolls.insert(roll); // Insert the unique roll into the set
+        rolls.push_back(roll); // Insert the unique roll into the set
     }
 
     int index = 0;
@@ -208,7 +124,7 @@ void Game::orderPlayers() {
     }
 }
 
-//TODO: implementeare la sezione player umano
+
 void Game::play(){
     for(int i=0; i<NO_PLAYERS; i++){
         std::string log = "";
@@ -216,6 +132,21 @@ void Game::play(){
             " ha tirato i dadi ottenendo un valore di " + 
             std::to_string(players_[i].getRoll());
         logger_.addLog(log);
+    }
+
+    if(!isBotGame_)
+    {
+        int idHuman = 0;
+        int id_vec_h = 0;
+        for(int i=0; i<NO_PLAYERS; i++)
+        {
+            if(!players_[i].isBot())
+            {
+                idHuman = players_[i].getId();
+                id_vec_h = i;
+            }
+        }
+        std::cout << "Il giocatore " << idHuman << " e' l'umano. La posizione di partenza e' " << id_vec_h+1 << std::endl;
     }
 
     for(int i=3; i>0; i--){
@@ -237,18 +168,18 @@ void Game::play(){
                 int rd_val = rollDice(); 
                 players_[i] += rd_val; //tiro i dadi e aggiorno la posizione (22+8=30 -> 2)
                 std::string log = "";
-                log = "Giocatore " + std::to_string(i+1) + 
+                log = "Giocatore " + std::to_string(players_[i].getId()) + 
                     " ha tirato i dadi ottenendo un valore di " + 
                     std::to_string(rd_val);
                 logger_.addLog(log);
-                log = "Giocatore " + std::to_string(i+1) + 
+                log = "Giocatore " + std::to_string(players_[i].getId()) + 
                     " è arrivato alla casella " + tabellone_[players_[i].getPos()].getLegenda();
                 logger_.addLog(log);
                 if(players_[i] < index_tmp){
                     //significa che e' passato dal via
                     players_[i].setFiorini(players_[i].getFiorini() + 20);
                     std::string log = "";
-                    log = "Giocatore " + std::to_string(i+1) + 
+                    log = "Giocatore " + std::to_string(players_[i].getId()) + 
                             " è passato dal via e ha ritirato 20 fiorini";
                     logger_.addLog(log);
                 }
@@ -270,8 +201,8 @@ void Game::play(){
 
                         std::cout <<
                             "[GAME] Lista comandi: " << std::endl <<
-                            " - b: compra il terreno" << std::endl <<
-                            " - p: passa il turno" << std::endl <<
+                            " - S: compra il terreno" << std::endl <<
+                            " - N: passa il turno" << std::endl <<
                             " - show: mostra il tabellone" << std::endl <<
                             " - prop: mostra le caselle possedute dai giocatori" <<
                         std::endl;
@@ -280,7 +211,7 @@ void Game::play(){
                         do{
                             std::cout << "Inserisci comando: ";
                             std::cin >> input;
-                            if(input[0] == 'b')
+                            if(input[0] == 'S' || input[0] == 's')
                             {
                                 if(isAlredyBought)
                                 {
@@ -334,8 +265,8 @@ void Game::play(){
                             {
                                 std::cout <<
                                     "[GAME] Lista comandi: " << std::endl <<
-                                    (isAlredyBought ? "" : " - b: compra il terreno") << std::endl <<
-                                    " - p: passa il turno" << std::endl <<
+                                    (isAlredyBought ? "" : " - S: compra il terreno") << std::endl <<
+                                    " - N: passa il turno" << std::endl <<
                                     " - show: mostra il tabellone" << std::endl <<
                                     " - prop: mostra le caselle possedute dai giocatori" <<
                                 std::endl;
@@ -349,7 +280,7 @@ void Game::play(){
                                 std::cout << "Comando non riconosciuto" << std::endl;
                             }
                         }
-                        while(input != "end" && input != "p");
+                        while(input != "end" && input != "N" && input != "n");
 
 
                         // FINE PROPRIETA' LIBERA
@@ -372,10 +303,10 @@ void Game::play(){
 
                                 std::cout <<
                                     "[GAME] Lista comandi: " << std::endl <<
-                                    " - p: passa il turno" << std::endl <<
+                                    " - S: upgrade casella" << std::endl <<
+                                    " - N: passa il turno" << std::endl <<
                                     " - show: mostra il tabellone" << std::endl <<
                                     " - prop: mostra le caselle possedute dai giocatori" << std::endl <<
-                                    " - up: upgrade casella" <<
                                 std::endl;
                                 std::string input= "";
                                 bool isAlredyBought = false;
@@ -629,7 +560,88 @@ void Game::play(){
 }
 
 
-// TODO: inserire info secondarie, come player,case,hotel 
+bool Game::randomChance()
+{
+    static std::uniform_int_distribution<int> dist(0, 3);
+    int randomNumber = dist(rng);
+
+    // Ritorna vero al 25%
+    return (randomNumber == 0);
+}
+
+
+void Game::payFees(int payer, int payee, int pos)
+{
+    int newFiorini;
+    int amount;
+    int level;
+    std::string log = "";
+
+    level = tabellone_[pos].getLevel();
+
+    switch (level)
+        {
+        case 0:
+            amount = 0;
+            break;
+        case 1:
+            amount = tabellone_[pos].getHouseRent();
+            break;
+        case 2:
+            amount = tabellone_[pos].getHotelRent();
+            break;
+        }
+
+    if (players_[payer].getFiorini() >= amount) 
+    {
+        newFiorini = players_[payer].getFiorini() - amount;
+        players_[payer].setFiorini(newFiorini);
+        newFiorini = players_[payee].getFiorini() + amount;
+        players_[payee].setFiorini(newFiorini);
+        log = "Giocatore " + std::to_string(payer+1) + " ha pagato " 
+            + std::to_string(amount) + " fiorini a giocatore " + std::to_string(payee+1) + " per pernottamento nella casella "
+            + tabellone_[pos].getLegenda();
+        logger_.addLog(log);
+    } 
+    else 
+    {
+        players_[payer].setIsLose(true);
+        log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
+        logger_.addLog(log);
+    }
+}
+
+
+int Game::payLand(int payer, int pos){
+    int level = tabellone_[pos].getLevel();
+    int amount;
+
+    switch (level)
+    {
+        case 0:
+            amount = tabellone_[pos].getHouseValue();
+            break;
+        case 1:
+            amount = tabellone_[pos].getHotelValue();
+            break;
+    }
+
+    if (players_[payer].getFiorini() >= amount)
+    {
+        tabellone_[pos].upgrade();
+        players_[payer].setFiorini(players_[payer].getFiorini() - amount);
+        return tabellone_[pos].getLevel();
+    }
+    return -1;
+}
+
+
+int Game::rollDice(){
+    static std::uniform_int_distribution<int> uid(1,12); 
+    return uid(rng);
+}
+
+
 void Game::printBoard(){
     std::cout << "" <<
         "\t" << " 1" << "\t" << " 2" << "\t" << " 3" << "\t" << " 4" << "\t" << " 5" << "\t" << " 6" << "\t" << " 7" << "\t" << " 8" << "\t" <<
@@ -824,6 +836,7 @@ void Game::printBoard(){
         }
     std::cout << std::endl;
 }
+
 
 void Game::printProps()
 {
