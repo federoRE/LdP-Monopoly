@@ -24,7 +24,7 @@ void Logger::saveFile(){
     // Aggiungi il timestamp al nome del file di log
     std::time_t now = std::time(nullptr);
     char timestamp[20];
-    std::strftime(timestamp, sizeof(timestamp), "%Y%m%d%H%M%S", std::localtime(&now));
+    std::strftime(timestamp, sizeof(timestamp), "%d%m%Y%H%M%S", std::localtime(&now));
     std::string log_filename = log_pre + "_" + timestamp + log_ext;
 
     file.open(log_filename, std::ios::out | std::ios::trunc);
