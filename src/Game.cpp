@@ -317,7 +317,7 @@ void Game::play(){
                                     {
                                         if(isAlredyBought)
                                         {
-                                            std::cout << "Hai gia' acquistato il terreno" << std::endl;
+                                            std::cout << "Hai gia' migliorato il terreno" << std::endl;
                                             continue;
                                         }
                                         else
@@ -357,7 +357,7 @@ void Game::play(){
                                         std::cout << "Fiorini" << std::endl;
                                         for(int i=0; i<NO_PLAYERS; i++)
                                         {
-                                            std::cout << "Giocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
+                                            std::cout << "\tGiocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
                                         }
                                     }
                                     else if(input == "gscotty")
@@ -846,6 +846,7 @@ void Game::printBoard(){
             std::cout << "|" << "\t";
         }
     std::cout << std::endl;
+    std::cout << std::endl;
 }
 
 
@@ -854,7 +855,7 @@ void Game::printProps()
     std::cout << "Caselle possedute dai giocatori: " << std::endl;
     for(int i=0; i<NO_PLAYERS; i++)
     {
-        std::cout << "Giocatore " << i+1 << ": ";
+        std::cout << "\tGiocatore " << i+1 << ": ";
         for(int j=0; j<28; j++)
         {
             if(tabellone_[j].getOwner() == &players_[i])
