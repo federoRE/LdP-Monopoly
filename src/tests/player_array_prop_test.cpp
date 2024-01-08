@@ -1,3 +1,7 @@
+/**
+ * @author Jaime Juan Claudio
+ * @author JFK
+*/
 #include "CircularArray.h"
 #include "Property.h"
 

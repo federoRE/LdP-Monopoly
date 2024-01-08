@@ -1,3 +1,8 @@
+/**
+ * @author Anastasia Jevremova
+ * @author JFK
+*/
+
 #include <iostream>
 #include "Logger.h"
 

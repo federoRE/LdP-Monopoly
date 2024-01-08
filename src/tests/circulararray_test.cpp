@@ -1,3 +1,7 @@
+/**
+ * @author Federico Borsati
+ * @author JFK
+*/
 #include "CircularArray.h"
 #include <iostream>
 
