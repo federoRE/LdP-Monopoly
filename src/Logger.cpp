@@ -10,7 +10,6 @@ void Logger::addLog(std::string log){
     logs_.push(log);
 }
 
-// integrabile in saveFile
 std::string Logger::remLog(){
     std::string log = logs_.front();
     logs_.pop();
@@ -19,7 +18,16 @@ std::string Logger::remLog(){
 
 void Logger::saveFile(){
     std::ofstream file;
-    file.open("log.txt");
+    std::string log_pre = "log";
+    std::string log_ext = ".txt";
+
+    // Aggiungi il timestamp al nome del file di log
+    std::time_t now = std::time(nullptr);
+    char timestamp[20];
+    std::strftime(timestamp, sizeof(timestamp), "%Y%m%d%H%M%S", std::localtime(&now));
+    std::string log_filename = log_pre + "_" + timestamp + log_ext;
+
+    file.open(log_filename, std::ios::out | std::ios::trunc);
     while(!logs_.empty()){
         file << logs_.front() << std::endl; 
         logs_.pop();

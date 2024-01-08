@@ -1,5 +1,6 @@
 #include <queue>
 #include <string>
+#include <ctime>
 
 class Logger{
     public:
