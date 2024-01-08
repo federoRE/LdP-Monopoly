@@ -35,6 +35,12 @@ void Property::upgrade()
     }
 }
 
+void Property::reset() 
+{
+    level_ = 0;
+    owner_ = nullptr;
+}
+
 void Property::setOwner(Player* owner)
 {
     owner_ = owner;

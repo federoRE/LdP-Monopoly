@@ -99,7 +99,7 @@ public:
     //bool isPropOwnedBy(int player_id) const;
 
     bool isUpgradeable() const;
-
+    void reset();
     void upgrade();
 
     // Setters
