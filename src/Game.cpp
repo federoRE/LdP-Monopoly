@@ -378,8 +378,8 @@ void Game::play(){
                                     {
                                         std::cout <<
                                             "[GAME] Lista comandi: " << std::endl <<
-                                            (isAlredyBought ? "" : " - b: compra il terreno") << std::endl <<
-                                            " - p: passa il turno" << std::endl <<
+                                            (isAlredyBought ? "" : " - S: upgrade casella") << std::endl <<
+                                            " - N: passa il turno" << std::endl <<
                                             " - show: mostra il tabellone" << std::endl <<
                                             " - prop: mostra le caselle possedute dai giocatori" <<
                                         std::endl;
@@ -392,10 +392,10 @@ void Game::play(){
                                     {
                                         std::cout <<
                                             "[GAME] Lista comandi: " << std::endl <<
-                                            " - p: passa il turno" << std::endl <<
+                                            (isAlredyBought ? "" : " - S: upgrade casella") << std::endl <<
+                                            " - N: passa il turno" << std::endl <<
                                             " - show: mostra il tabellone" << std::endl <<
-                                            " - prop: mostra le caselle possedute dai giocatori" << std::endl <<
-                                            (isAlredyBought ? "" : " - up: upgrade casella") <<
+                                            " - prop: mostra le caselle possedute dai giocatori" << 
                                         std::endl;
                                     }
                                     else
