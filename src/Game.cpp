@@ -244,7 +244,7 @@ void Game::play(){
                                 std::cout << "Fiorini" << std::endl;
                                 for(int i=0; i<NO_PLAYERS; i++)
                                 {
-                                    std::cout << "Giocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
+                                    std::cout << "\tGiocatore " << players_[i].getId() << ": " << players_[i].getFiorini() << std::endl;
                                 }
                             }
                             else if(input == "gscotty")
