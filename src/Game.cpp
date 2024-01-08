@@ -211,7 +211,7 @@ void Game::play(){
                         do{
                             std::cout << "Inserisci comando: ";
                             std::cin >> input;
-                            if(input[0] == 'S' || input[0] == 's')
+                            if((input[0] == 'S' || input[0] == 's') && input.length() == 1)
                             {
                                 if(isAlredyBought)
                                 {
@@ -313,7 +313,7 @@ void Game::play(){
                                 do{
                                     std::cout << "Inserisci comando: ";
                                     std::cin >> input;
-                                    if(input == "S" || input == "s")
+                                    if((input == "S" || input == "s") && input.length() == 1)
                                     {
                                         if(isAlredyBought)
                                         {
