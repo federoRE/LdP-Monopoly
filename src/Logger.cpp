@@ -6,7 +6,13 @@ Logger::Logger() {
 }
 
 void Logger::addLog(std::string log){
-    std::cout<<log<<std::endl;
+    if(log.find("eliminato") != std::string::npos)
+    {
+        std::cout << RED << log << RESET << std::endl;
+    }
+    else{
+        std::cout<<log<<std::endl;
+    }
     logs_.push(log);
 }
 

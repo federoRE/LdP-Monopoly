@@ -2,6 +2,9 @@
 #include <string>
 #include <ctime>
 
+#define RED     "\033[31m"      /* Red */
+#define RESET   "\033[0m"
+
 class Logger{
     public:
         Logger();

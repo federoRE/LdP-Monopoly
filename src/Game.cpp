@@ -226,7 +226,7 @@ void Game::play(){
                                     {
                                         tabellone_[pos_tmp].setOwner(&players_[i]);
                                         players_[i].setFiorini(players_[i].getFiorini() - tabellone_[pos_tmp].getLandValue());
-                                        log = "Giocatore " + std::to_string(i+1) +
+                                        log = "Giocatore " + std::to_string(players_[i].getId()) +
                                             " ha acquistato il terreno " +
                                             tabellone_[players_[i].getPos()].getLegenda();
                                         logger_.addLog(log);
@@ -332,13 +332,13 @@ void Game::play(){
                                                     std::string log = "";
                                                     if (payment == 1)
                                                     {
-                                                        log = "Giocatore " + std::to_string(i+1) + " ha costruito una casa sul terreno " 
+                                                        log = "Giocatore " + std::to_string(players_[i].getId()) + " ha costruito una casa sul terreno " 
                                                         + tabellone_[pos_tmp].getLegenda();
                                                         logger_.addLog(log);
                                                     }
                                                     if (payment == 2)
                                                     {
-                                                        log = "Giocatore " + std::to_string(i+1) + " ha migliorato una casa in albergo sul terreno " 
+                                                        log = "Giocatore " + std::to_string(players_[i].getId()) + " ha migliorato una casa in albergo sul terreno " 
                                                         + tabellone_[pos_tmp].getLegenda();
                                                         logger_.addLog(log);
                                                     }
@@ -495,7 +495,7 @@ void Game::play(){
                 }
             }
             std::string log = "";
-            log = "Giocatore " + std::to_string(i+1) +
+            log = "Giocatore " + std::to_string(players_[i].getId()) +
                 " ha finito il turno";
             logger_.addLog(log);
         }
@@ -618,7 +618,7 @@ void Game::payFees(int payer, int payee, int pos)
         players_[payer].setIsLose(true);
         players_[payer].setFiorini(0);
         remOwner(&players_[payer]);
-        log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
+        log = "Giocatore " + std::to_string(players_[payer].getId()) + " è stato eliminato";
         logger_.addLog(log);
     }
 }
