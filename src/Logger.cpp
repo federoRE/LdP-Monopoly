@@ -8,6 +8,7 @@ Logger::Logger() {
 void Logger::addLog(std::string log){
     if(log.find("eliminato") != std::string::npos)
     {
+        std::cout << std::endl;
         std::cout << RED << log << RESET << std::endl;
     }
     else{
