@@ -569,6 +569,16 @@ bool Game::randomChance()
     return (randomNumber == 0);
 }
 
+void Game::remOwner(Player *player)
+{
+    for(int j=0; j<28; j++)
+    {
+        if(tabellone_[j].getOwner() == player)
+        {
+            tabellone_[j].reset();
+        }
+    }
+}
 
 void Game::payFees(int payer, int payee, int pos)
 {
@@ -606,6 +616,7 @@ void Game::payFees(int payer, int payee, int pos)
     else 
     {
         players_[payer].setIsLose(true);
+        remOwner(&players_[payer]);
         log = "Giocatore " + std::to_string(payer+1) + " è stato eliminato";
         logger_.addLog(log);
     }

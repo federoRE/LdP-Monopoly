@@ -93,7 +93,7 @@ class Game{
          * @param amount The amount of money to pay
         */
         void payFees(int payer, int payee, int pos);
-
+        void remOwner(Player *player);
 };
 
 #endif
