@@ -1,10 +1,11 @@
+/**
+ * @author Anastasia Jevremova
+ * @author JFK
+*/
 #include <iostream>
 #include <string>
 #include "Game.h"
 
-// TODO: implementare il parsing degli argomenti
-// main human
-// main computer
 int main(int argc, char** argv)
 {
     std::cout << "Benvenuto. Sto preparando il gioco." << std::endl;

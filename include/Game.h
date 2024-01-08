@@ -1,3 +1,8 @@
+/**
+ * @author Federico Borsati
+ * @author JFK
+*/
+
 #ifndef GAME_H
 #define GAME_H
 

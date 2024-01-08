@@ -1,3 +1,8 @@
+/**
+ * @author Federico Borsati
+ * @author JFK
+*/
+
 #include "Game.h"
 #include <iostream>
 

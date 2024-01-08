@@ -1,3 +1,8 @@
+/**
+ * @author Federico Borsati
+ * @author JFK
+*/
+
 #ifndef CIRCULAR_ARRAY_H
 #define CIRCULAR_ARRAY_H
 
