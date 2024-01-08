@@ -313,7 +313,7 @@ void Game::play(){
                                 do{
                                     std::cout << "Inserisci comando: ";
                                     std::cin >> input;
-                                    if(input == "up")
+                                    if(input == "S" || input == "s")
                                     {
                                         if(isAlredyBought)
                                         {
@@ -403,7 +403,7 @@ void Game::play(){
                                         std::cout << "Comando non riconosciuto" << std::endl;
                                     }
                                 }
-                                while(input != "end" && input != "p");
+                                while(input != "end" && input != "N" && input != "n");
                             }
                             else
                             {
