@@ -97,13 +97,7 @@ void Game::orderPlayers() {
         bool isok = true;
         do{
             roll = rollDice();
-
-            if (std::find(rolls.begin(), rolls.end(), roll) != rolls.end()) {
-                isok = false;
-            }
-            else{
-                isok = true;
-            }
+            isok = std::find(rolls.begin(), rolls.end(), roll) == rolls.end()
         }
         while(!isok && i<NO_PLAYERS);
         rolls.push_back(roll); // Insert the unique roll into the set
